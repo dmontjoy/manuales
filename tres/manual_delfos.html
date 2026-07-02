@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual del Usuario — Sistema Delfos</title>
+<style>
+  :root{
+    --primary:#1a4fa0; --primary-dark:#0f3270; --primary-light:#e8f0fd;
+    --accent:#f59e0b; --success:#16a34a; --warning:#d97706; --danger:#dc2626;
+    --text:#1e293b; --text-muted:#64748b; --border:#e2e8f0; --bg:#f8fafc; --sidebar-w:288px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);background:var(--bg);line-height:1.65;}
+
+  /* TOP BAR */
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--primary);color:#fff;height:56px;display:flex;align-items:center;padding:0 24px;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.25);}
+  .topbar .logo{font-size:1.3rem;font-weight:700;}
+  .topbar .subtitle{font-size:.8rem;opacity:.75;}
+  .topbar .menu-toggle{display:none;background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;}
+  .topbar input[type=search]{margin-left:auto;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;color:#fff;padding:7px 14px;width:260px;font-size:.88rem;outline:none;}
+  .topbar input[type=search]::placeholder{color:rgba(255,255,255,.6);}
+  .topbar input[type=search]:focus{background:rgba(255,255,255,.25);}
+
+  /* SIDEBAR */
+  .sidebar{position:fixed;top:56px;left:0;bottom:0;width:var(--sidebar-w);background:#fff;border-right:1px solid var(--border);overflow-y:auto;padding:16px 0 40px;z-index:90;}
+  .sidebar-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);padding:14px 22px 4px;}
+  .sidebar a{display:flex;align-items:center;gap:10px;padding:8px 22px;color:var(--text);text-decoration:none;font-size:.88rem;border-left:3px solid transparent;transition:background .15s,color .15s;}
+  .sidebar a:hover{background:var(--primary-light);color:var(--primary);}
+  .sidebar a.active{background:var(--primary-light);color:var(--primary);border-left-color:var(--primary);font-weight:600;}
+  .sidebar a .icon{font-size:1.05rem;width:22px;text-align:center;}
+  .sidebar-sep{height:1px;background:var(--border);margin:8px 18px;}
+
+  /* MAIN */
+  .main{margin-left:var(--sidebar-w);margin-top:56px;padding:44px 52px;max-width:1000px;}
+
+  /* SECTIONS */
+  .section{margin-bottom:76px;scroll-margin-top:72px;}
+  .section-header{display:flex;align-items:center;gap:15px;margin-bottom:22px;padding-bottom:16px;border-bottom:2px solid var(--border);}
+  .section-icon{width:50px;height:50px;border-radius:13px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+  .section-icon.green{background:#16a34a;} .section-icon.orange{background:#d97706;}
+  .section-icon.red{background:#dc2626;} .section-icon.purple{background:#7c3aed;}
+  .section-icon.teal{background:#0891b2;} .section-icon.pink{background:#db2777;}
+  .section-icon.gray{background:#475569;} .section-icon.gold{background:#b45309;}
+  h2.section-title{font-size:1.4rem;font-weight:700;}
+  .section-sub{margin:0;color:var(--text-muted);font-size:.9rem;}
+  h3{font-size:1.08rem;font-weight:600;margin:26px 0 10px;color:var(--primary-dark);}
+  h4{font-size:.95rem;font-weight:600;margin:18px 0 8px;color:var(--text);}
+  p{margin-bottom:12px;}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border-radius:18px;padding:44px 50px;margin-bottom:44px;}
+  .hero h1{font-size:2.3rem;font-weight:800;margin-bottom:12px;}
+  .hero p{color:rgba(255,255,255,.88);font-size:1.08rem;margin-bottom:0;max-width:720px;}
+  .hero .tags{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap;}
+  .hero .tag{display:inline-block;background:rgba(255,255,255,.18);border-radius:20px;padding:4px 14px;font-size:.8rem;}
+
+  /* PURPOSE BOX (¿Para qué sirve?) */
+  .purpose{background:#fff;border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:10px;padding:16px 20px;margin:18px 0;}
+  .purpose .p-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--primary);margin-bottom:4px;}
+  .purpose p{margin:0;font-size:.95rem;}
+
+  /* "QUÉ PUEDES HACER" list */
+  .can-do{list-style:none;margin:14px 0;display:grid;grid-template-columns:1fr;gap:2px;}
+  .can-do li{padding:10px 14px;font-size:.92rem;display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;}
+  .can-do li .cd-icon{flex-shrink:0;font-size:1.1rem;margin-top:1px;}
+
+  /* SCREENSHOT */
+  .shot{margin:22px 0 30px;}
+  .shot figcaption{font-size:.8rem;color:var(--text-muted);margin-top:10px;text-align:center;font-style:italic;}
+  .shot img{width:100%;border:1px solid var(--border);border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.13);cursor:zoom-in;display:block;}
+  .shot img:hover{box-shadow:0 10px 36px rgba(0,0,0,.2);}
+  .annotated{position:relative;display:block;}
+  .ann{position:absolute;background:#ef4444;color:#fff;border-radius:50%;width:27px;height:27px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid #fff;}
+  .ann-legend{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+  .ann-legend-item{display:flex;gap:11px;align-items:flex-start;font-size:.88rem;}
+  .ann-legend-num{background:#ef4444;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+
+  /* CALLOUT */
+  .callout{border-radius:10px;padding:14px 18px;margin:16px 0;display:flex;gap:12px;font-size:.9rem;}
+  .callout-icon{font-size:1.2rem;flex-shrink:0;}
+  .callout-info{background:#eff6ff;border:1px solid #bfdbfe;}
+  .callout-tip{background:#f0fdf4;border:1px solid #bbf7d0;}
+  .callout-warn{background:#fffbeb;border:1px solid #fde68a;}
+
+  /* TABLES */
+  table{width:100%;border-collapse:collapse;margin:16px 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+  th{background:var(--primary);color:#fff;padding:11px 16px;text-align:left;font-size:.85rem;}
+  td{padding:10px 16px;border-bottom:1px solid var(--border);font-size:.88rem;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:var(--primary-light);}
+
+  /* STEP CARDS (tareas) */
+  .task-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin:20px 0;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+  .task-card h3{margin-top:0;display:flex;align-items:center;gap:10px;}
+  .task-card h3 .t-badge{background:var(--primary-light);color:var(--primary);font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;}
+  .steps{list-style:none;margin:14px 0 4px;counter-reset:step;}
+  .steps li{display:flex;gap:14px;margin-bottom:13px;align-items:flex-start;}
+  .step-num{width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .step-text{font-size:.92rem;padding-top:2px;}
+
+  /* BADGES */
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.76rem;font-weight:600;}
+  .badge-blue{background:#dbeafe;color:#1e40af;} .badge-green{background:#dcfce7;color:#15803d;}
+  .badge-orange{background:#fef3c7;color:#b45309;} .badge-red{background:#fee2e2;color:#b91c1c;}
+  .badge-purple{background:#ede9fe;color:#6d28d9;} .badge-gray{background:#f1f5f9;color:#475569;}
+
+  /* CONCEPT CARDS */
+  .concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:20px 0;}
+  .concept-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .2s,transform .2s;}
+  .concept-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);transform:translateY(-2px);}
+  .concept-card .cc-icon{font-size:1.9rem;margin-bottom:8px;}
+  .concept-card .cc-title{font-weight:700;font-size:1rem;margin-bottom:5px;}
+  .concept-card .cc-desc{font-size:.85rem;color:var(--text-muted);}
+
+  /* FLOW */
+  .flow{display:flex;align-items:center;flex-wrap:wrap;margin:20px 0;overflow-x:auto;padding:12px 0;}
+  .flow-step{background:#fff;border:2px solid var(--primary);border-radius:8px;padding:9px 15px;font-size:.8rem;font-weight:600;color:var(--primary);white-space:nowrap;text-align:center;min-width:90px;}
+  .flow-step.active{background:var(--primary);color:#fff;}
+  .flow-arrow{color:var(--text-muted);font-size:1.2rem;padding:0 5px;}
+
+  code{font-family:monospace;background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.84rem;color:#be185d;}
+  pre{background:#1e293b;color:#e2e8f0;border-radius:10px;padding:18px;overflow-x:auto;font-size:.85rem;margin:14px 0;font-family:monospace;}
+
+  /* NAV CHIP (buscar en menú) */
+  .navchip{display:inline-flex;align-items:center;gap:6px;background:var(--primary-light);color:var(--primary);border-radius:6px;padding:2px 9px;font-size:.85rem;font-weight:600;white-space:nowrap;}
+
+  /* TOC on welcome */
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:20px 0;}
+  .toc-card{display:block;text-decoration:none;color:var(--text);background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;transition:.2s;}
+  .toc-card:hover{border-color:var(--primary);box-shadow:0 4px 14px rgba(26,79,160,.15);transform:translateY(-2px);}
+  .toc-card .tc-icon{font-size:1.5rem;}
+  .toc-card .tc-title{font-weight:700;font-size:.95rem;margin:6px 0 2px;color:var(--primary);}
+  .toc-card .tc-desc{font-size:.8rem;color:var(--text-muted);}
+
+  /* LIGHTBOX */
+  .lb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;padding:20px;}
+  .lb-overlay.open{display:flex;}
+  .lb-overlay img{max-width:94vw;max-height:90vh;border-radius:8px;box-shadow:0 8px 48px rgba(0,0,0,.5);}
+  .lb-close{position:absolute;top:18px;right:28px;color:#fff;font-size:2rem;cursor:pointer;line-height:1;}
+
+  mark.hl{background:#fde047;border-radius:3px;padding:0 1px;}
+  ::-webkit-scrollbar{width:7px;} ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px;}
+
+  .back-top{position:fixed;bottom:28px;right:28px;background:var(--primary);color:#fff;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.25);text-decoration:none;}
+  .back-top:hover{background:var(--primary-dark);}
+
+  @media(max-width:860px){
+    .sidebar{transform:translateX(-100%);transition:transform .25s;}
+    .sidebar.open{transform:translateX(0);}
+    .main{margin-left:0;padding:24px 18px;}
+    .topbar .menu-toggle{display:block;}
+    .topbar input[type=search]{width:150px;}
+  }
+  @media print{.topbar,.sidebar,.back-top{display:none;}.main{margin:0;padding:0;}.shot img{box-shadow:none;}}
+</style>
+</head>
+<body>
+
+<div class="lb-overlay" id="lb" onclick="closeLb()"><span class="lb-close">✕</span><img id="lb-img" src="" alt=""></div>
+
+<header class="topbar">
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <div class="logo">📋 Delfos</div>
+  <div class="subtitle">Manual del Usuario</div>
+  <input type="search" id="searchInput" placeholder="Buscar en el manual…" oninput="doSearch(this.value)">
+</header>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-label">Empezar</div>
+  <a href="#bienvenida" class="active"><span class="icon">👋</span> Bienvenida</a>
+  <a href="#ingresar"><span class="icon">🔐</span> Ingresar al sistema</a>
+  <a href="#pantalla"><span class="icon">🧭</span> Conocer la pantalla</a>
+  <a href="#conceptos"><span class="icon">💡</span> Conceptos clave</a>
+  <div class="sidebar-sep"></div>
+  <div class="sidebar-label">Módulos</div>
+  <a href="#inicio"><span class="icon">📊</span> Inicio</a>
+  <a href="#stakeholders"><span class="icon">👥</span> Stakeholders</a>
+  <a href="#interacciones"><span class="icon">💬</span> Interacciones</a>
+  <a href="#reclamos"><span class="icon">📣</span> Reclamos</a>
+  <a href="#solicitudes"><span class="icon">📝</span> Solicitudes</a>
+  <a href="#compromisos"><span class="icon">🤝</span> Compromisos</a>
+  <div class="sidebar-sep"></div>
+  <div class="sidebar-label">Tareas frecuentes</div>
+  <a href="#tareas"><span class="icon">✅</span> Cómo hacer…</a>
+  <div class="sidebar-sep"></div>
+  <div class="sidebar-label">Herramientas</div>
+  <a href="#reportes"><span class="icon">📈</span> Reportes</a>
+  <a href="#exportar"><span class="icon">⬇️</span> Exportar a Excel</a>
+  <a href="#delfos-ia"><span class="icon">🤖</span> Delfos IA</a>
+  <a href="#configuracion"><span class="icon">⚙️</span> Configuración</a>
+  <div class="sidebar-sep"></div>
+  <div class="sidebar-label">Referencia</div>
+  <a href="#roles"><span class="icon">🛡️</span> Roles de usuario</a>
+  <a href="#glosario"><span class="icon">📖</span> Glosario</a>
+</nav>
+
+<main class="main" id="mainContent">
+
+  <!-- ══ BIENVENIDA ══ -->
+  <div class="hero">
+    <h1>Bienvenido a Delfos</h1>
+    <p>Esta guía te acompañará en tus primeros pasos con Delfos, el sistema para gestionar la relación de tu proyecto con la comunidad y sus grupos de interés. No necesitas conocimientos técnicos: aquí aprenderás <strong>qué hace cada parte del sistema</strong> y <strong>cómo realizar las tareas del día a día</strong>.</p>
+    <div class="tags"><span class="tag">Guía para nuevos usuarios</span><span class="tag">Versión 2026</span><span class="tag">Español</span></div>
+  </div>
+
+  <section class="section" id="bienvenida">
+    <div class="section-header">
+      <div class="section-icon">👋</div>
+      <div><h2 class="section-title">¿Qué es Delfos y para qué lo usarás?</h2><p class="section-sub">Empieza aquí si es tu primera vez</p></div>
+    </div>
+    <p>Delfos es una plataforma web donde tu equipo registra y da seguimiento a todo lo que ocurre con los <strong>stakeholders</strong> del proyecto: las personas, familias, negocios e instituciones del entorno. Cada conversación, queja, pedido y acuerdo queda guardado en un solo lugar, ordenado y disponible para todo el equipo.</p>
+
+    <p>Con Delfos podrás, principalmente:</p>
+    <ul class="can-do">
+      <li><span class="cd-icon">👥</span><div>Mantener un <strong>directorio de stakeholders</strong> con toda su información y su historia.</div></li>
+      <li><span class="cd-icon">💬</span><div>Registrar las <strong>interacciones</strong> (visitas, llamadas, correos) que tienes con ellos.</div></li>
+      <li><span class="cd-icon">📣</span><div>Atender <strong>reclamos</strong> y <strong>solicitudes</strong> con un flujo claro de principio a fin.</div></li>
+      <li><span class="cd-icon">🤝</span><div>Llevar el control de los <strong>compromisos</strong> acordados con la comunidad.</div></li>
+      <li><span class="cd-icon">📈</span><div>Ver <strong>reportes</strong> y hacer <strong>consultas con IA</strong> para tomar mejores decisiones.</div></li>
+    </ul>
+
+    <h3>Recorrido rápido de esta guía</h3>
+    <div class="toc-grid">
+      <a class="toc-card" href="#ingresar"><div class="tc-icon">🔐</div><div class="tc-title">Ingresar al sistema</div><div class="tc-desc">Cómo iniciar sesión por primera vez</div></a>
+      <a class="toc-card" href="#pantalla"><div class="tc-icon">🧭</div><div class="tc-title">Conocer la pantalla</div><div class="tc-desc">Dónde está cada cosa</div></a>
+      <a class="toc-card" href="#conceptos"><div class="tc-icon">💡</div><div class="tc-title">Conceptos clave</div><div class="tc-desc">El vocabulario de Delfos</div></a>
+      <a class="toc-card" href="#tareas"><div class="tc-icon">✅</div><div class="tc-title">Tareas frecuentes</div><div class="tc-desc">Cómo hacer lo del día a día</div></a>
+    </div>
+  </section>
+
+  <!-- ══ INGRESAR ══ -->
+  <section class="section" id="ingresar">
+    <div class="section-header">
+      <div class="section-icon">🔐</div>
+      <div><h2 class="section-title">Ingresar al sistema</h2><p class="section-sub">Tu primer paso cada día</p></div>
+    </div>
+
+    <div class="purpose"><div class="p-label">Para qué sirve esta pantalla</div><p>Es la puerta de entrada a Delfos. Aquí confirmas tu identidad para acceder a la información de tu proyecto de forma segura.</p></div>
+
+    <figure class="shot">
+      <div class="annotated">
+        <img src="manual-assets/01-login.png" alt="Pantalla para ingresar" onclick="openLb(this.src)">
+        <span class="ann" style="top:33%;left:12%;">1</span>
+        <span class="ann" style="top:50%;left:12%;">2</span>
+        <span class="ann" style="top:62%;left:12%;">3</span>
+        <span class="ann" style="top:78%;left:12%;">4</span>
+      </div>
+      <div class="ann-legend">
+        <div class="ann-legend-item"><span class="ann-legend-num">1</span><span>Escribe tu <strong>usuario</strong>.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">2</span><span>Escribe tu <strong>contraseña</strong>. El ícono del ojo te permite verla mientras la escribes.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">3</span><span>Presiona <strong>Iniciar Sesión</strong> para entrar.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">4</span><span>También puedes entrar con tu cuenta de <strong>Outlook</strong> o <strong>Google</strong>, si tu proyecto lo permite.</span></div>
+      </div>
+      <figcaption>Figura 1 — Pantalla de inicio de sesión</figcaption>
+    </figure>
+
+    <div class="task-card">
+      <h3><span class="t-badge">Paso a paso</span> Iniciar sesión</h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text">Abre en tu navegador el enlace que te entregó el administrador de tu proyecto.</span></li>
+        <li><span class="step-num">2</span><span class="step-text">Escribe tu <strong>usuario</strong> y tu <strong>contraseña</strong>.</span></li>
+        <li><span class="step-num">3</span><span class="step-text">Haz clic en <strong>Iniciar Sesión</strong>. Entrarás directamente a la pantalla de Inicio.</span></li>
+      </ol>
+    </div>
+
+    <div class="callout callout-tip"><span class="callout-icon">💡</span><div><strong>¿Olvidaste tu contraseña?</strong> Usa el enlace <em>“Recuperar contraseña”</em> debajo del botón de acceso y sigue las instrucciones que llegarán a tu correo.</div></div>
+    <div class="callout callout-warn"><span class="callout-icon">🔒</span><div>No compartas tu usuario ni tu contraseña. Cada persona debe tener su propio acceso para que el historial de acciones sea confiable.</div></div>
+  </section>
+
+  <!-- ══ PANTALLA ══ -->
+  <section class="section" id="pantalla">
+    <div class="section-header">
+      <div class="section-icon gray">🧭</div>
+      <div><h2 class="section-title">Conocer la pantalla</h2><p class="section-sub">Aprende a moverte por Delfos</p></div>
+    </div>
+    <p>Toda pantalla de Delfos tiene la misma estructura. Una vez que la reconoces, sabrás moverte por cualquier módulo.</p>
+
+    <figure class="shot">
+      <div class="annotated">
+        <img src="manual-assets/02-inicio.png" alt="Estructura general de la pantalla" onclick="openLb(this.src)">
+        <span class="ann" style="top:2%;left:1.5%;">1</span>
+        <span class="ann" style="top:2%;left:52%;">2</span>
+        <span class="ann" style="top:2%;left:95%;">3</span>
+        <span class="ann" style="top:40%;left:8%;">4</span>
+        <span class="ann" style="top:40%;left:55%;">5</span>
+      </div>
+      <div class="ann-legend">
+        <div class="ann-legend-item"><span class="ann-legend-num">1</span><span><strong>Menú lateral</strong> — desde aquí entras a cada módulo. Está siempre a la izquierda.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">2</span><span><strong>Buscador de stakeholders</strong> — encuentra rápidamente a cualquier persona o entidad desde cualquier pantalla.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">3</span><span><strong>Tu usuario</strong> — abre tu perfil y la opción de cerrar sesión.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">4</span><span><strong>Área de trabajo</strong> — el contenido del módulo en el que estás.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">5</span><span><strong>Actividades pendientes</strong> — lo que requiere tu atención (varía según el módulo).</span></div>
+      </div>
+      <figcaption>Figura 2 — Partes de la pantalla, iguales en todo el sistema</figcaption>
+    </figure>
+
+    <h3>El menú lateral</h3>
+    <p>Es tu punto de partida para todo. Estos son los módulos que encontrarás:</p>
+    <table>
+      <tr><th>Menú</th><th>Lo usas para…</th></tr>
+      <tr><td><span class="navchip">🏠 Inicio</span></td><td>Ver un resumen del proyecto y tus pendientes.</td></tr>
+      <tr><td><span class="navchip">💬 Interacciones</span></td><td>Registrar y consultar contactos con stakeholders.</td></tr>
+      <tr><td><span class="navchip">📣 Reclamos</span></td><td>Atender quejas de la comunidad.</td></tr>
+      <tr><td><span class="navchip">📝 Solicitudes</span></td><td>Gestionar pedidos y requerimientos.</td></tr>
+      <tr><td><span class="navchip">🤝 Compromisos</span></td><td>Dar seguimiento a los acuerdos.</td></tr>
+      <tr><td><span class="navchip">👥 Stakeholders</span></td><td>Consultar el directorio de grupos de interés.</td></tr>
+      <tr><td><span class="navchip">📈 Reportes</span></td><td>Ver gráficos y estadísticas.</td></tr>
+      <tr><td><span class="navchip">⚙️ Configuración</span></td><td>Administrar el sistema (solo administradores).</td></tr>
+      <tr><td><span class="navchip">🤖 Delfos IA</span></td><td>Hacer preguntas al asistente inteligente.</td></tr>
+    </table>
+
+    <div class="callout callout-tip"><span class="callout-icon">💡</span><div>Casi todos los listados del sistema funcionan igual: tienen <strong>filtros por fecha</strong> arriba, la <strong>lista de resultados</strong> al centro y la <strong>paginación</strong> (por ejemplo <em>“1 - 20 / 338”</em>) para avanzar entre páginas. Aprender uno es aprenderlos todos.</div></div>
+  </section>
+
+  <!-- ══ CONCEPTOS ══ -->
+  <section class="section" id="conceptos">
+    <div class="section-header">
+      <div class="section-icon gold">💡</div>
+      <div><h2 class="section-title">Conceptos clave</h2><p class="section-sub">El vocabulario que se repite en todo Delfos</p></div>
+    </div>
+    <p>Todo en Delfos gira en torno al <strong>stakeholder</strong>. A partir de él se registran cuatro tipos de gestiones. Entender estos cinco conceptos es entender el sistema completo.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card"><div class="cc-icon">👥</div><div class="cc-title">Stakeholder</div><div class="cc-desc">Persona, familia, negocio o institución del entorno del proyecto. Es el centro de todo.</div></div>
+      <div class="concept-card"><div class="cc-icon">💬</div><div class="cc-title">Interacción</div><div class="cc-desc">Cualquier contacto con un stakeholder: una visita, una llamada, un correo.</div></div>
+      <div class="concept-card"><div class="cc-icon">📣</div><div class="cc-title">Reclamo</div><div class="cc-desc">Una queja formal por una afectación real o percibida. Se atiende hasta cerrarla.</div></div>
+      <div class="concept-card"><div class="cc-icon">📝</div><div class="cc-title">Solicitud</div><div class="cc-desc">Un pedido o requerimiento que no es una queja (información, permisos, etc.).</div></div>
+      <div class="concept-card"><div class="cc-icon">🤝</div><div class="cc-title">Compromiso</div><div class="cc-desc">Un acuerdo formal con la comunidad, con acciones y fechas por cumplir.</div></div>
+    </div>
+
+    <div class="callout callout-info"><span class="callout-icon">🔗</span><div><strong>Todo se conecta al stakeholder.</strong> Cuando registras una interacción, un reclamo, una solicitud o un compromiso, siempre lo asocias a un stakeholder. Así, al abrir su ficha, ves toda su historia en un solo lugar.</div></div>
+  </section>
+
+  <!-- ══ INICIO ══ -->
+  <section class="section" id="inicio">
+    <div class="section-header">
+      <div class="section-icon">📊</div>
+      <div><h2 class="section-title">Módulo Inicio</h2><p class="section-sub">Tu punto de partida cada día</p></div>
+    </div>
+    <div class="purpose"><div class="p-label">Para qué sirve</div><p>Te da una foto rápida del estado del proyecto y te muestra qué tienes pendiente, para que sepas por dónde empezar.</p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/02-inicio.png" alt="Pantalla de Inicio" onclick="openLb(this.src)">
+      <figcaption>Figura 3 — Pantalla de Inicio con el resumen y los pendientes</figcaption>
+    </figure>
+
+    <h4>¿Qué puedes hacer aquí?</h4>
+    <ul class="can-do">
+      <li><span class="cd-icon">🔢</span><div>Ver de un vistazo <strong>cuántos reclamos, solicitudes y compromisos están abiertos</strong>.</div></li>
+      <li><span class="cd-icon">🕑</span><div>Saber cuál fue tu <strong>última interacción</strong> y tu <strong>última evaluación</strong> de stakeholder.</div></li>
+      <li><span class="cd-icon">📅</span><div>Revisar el <strong>listado de actividades pendientes</strong>, ordenado por fecha.</div></li>
+      <li><span class="cd-icon">➡️</span><div><strong>Saltar directamente</strong> a un reclamo o a la ficha de un stakeholder haciendo clic en su nombre.</div></li>
+    </ul>
+
+    <div class="callout callout-tip"><span class="callout-icon">💡</span><div>Empieza tu jornada revisando esta pantalla: los pendientes que aparecen aquí son los que necesitan tu atención.</div></div>
+  </section>
+
+  <!-- ══ STAKEHOLDERS ══ -->
+  <section class="section" id="stakeholders">
+    <div class="section-header">
+      <div class="section-icon teal">👥</div>
+      <div><h2 class="section-title">Módulo Stakeholders</h2><p class="section-sub">El directorio y la historia de cada grupo de interés</p></div>
+    </div>
+    <div class="purpose"><div class="p-label">Para qué sirve</div><p>Es el corazón de Delfos. Aquí encuentras a cualquier stakeholder y, al abrir su ficha, ves absolutamente todo lo que se ha hecho con él.</p></div>
+
+    <figure class="shot">
+      <div class="annotated">
+        <img src="manual-assets/03-stakeholders-lista.png" alt="Lista de Stakeholders" onclick="openLb(this.src)">
+        <span class="ann" style="top:15%;left:20%;">1</span>
+        <span class="ann" style="top:15%;left:88%;">2</span>
+        <span class="ann" style="top:9%;left:52%;">3</span>
+        <span class="ann" style="top:34%;left:20%;">4</span>
+      </div>
+      <div class="ann-legend">
+        <div class="ann-legend-item"><span class="ann-legend-num">1</span><span><strong>Filtros</strong> — acota la lista por fecha u otros criterios para encontrar más rápido.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">2</span><span><strong>Exportar y crear</strong> — descarga la lista a Excel o registra un nuevo stakeholder.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">3</span><span><strong>Paginación</strong> — cuántos hay en total y cómo avanzar entre páginas.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">4</span><span><strong>Tarjeta del stakeholder</strong> — haz clic para abrir su ficha completa.</span></div>
+      </div>
+      <figcaption>Figura 4 — Lista de Stakeholders</figcaption>
+    </figure>
+
+    <h3>La ficha del stakeholder</h3>
+    <p>Al hacer clic en un stakeholder abres su <strong>ficha</strong>: el lugar donde se concentra toda su información e historia, organizada en pestañas.</p>
+
+    <figure class="shot">
+      <div class="annotated">
+        <img src="manual-assets/04-stakeholder-ficha.png" alt="Ficha del stakeholder" onclick="openLb(this.src)">
+        <span class="ann" style="top:30%;left:20%;">1</span>
+        <span class="ann" style="top:30%;left:55%;">2</span>
+      </div>
+      <div class="ann-legend">
+        <div class="ann-legend-item"><span class="ann-legend-num">1</span><span><strong>Datos del stakeholder</strong> — quién es, cómo contactarlo y su posición frente al proyecto.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">2</span><span><strong>Pestañas</strong> — <em>Interacción</em>, <em>Reclamos</em>, <em>Compromiso</em>, <em>Solicitudes</em>, <em>Editar</em> y <em>Combinar</em>. El número indica cuántos registros tiene en cada una.</span></div>
+      </div>
+      <figcaption>Figura 5 — Ficha del stakeholder con sus pestañas de historial</figcaption>
+    </figure>
+
+    <h4>¿Qué puedes hacer aquí?</h4>
+    <ul class="can-do">
+      <li><span class="cd-icon">🔎</span><div><strong>Buscar</strong> a cualquier stakeholder por nombre o etiqueta.</div></li>
+      <li><span class="cd-icon">📇</span><div><strong>Consultar toda su historia</strong>: interacciones, reclamos, solicitudes y compromisos, en las pestañas de su ficha.</div></li>
+      <li><span class="cd-icon">✏️</span><div><strong>Editar sus datos</strong> desde la pestaña <em>Editar</em>.</div></li>
+      <li><span class="cd-icon">🔗</span><div><strong>Combinar</strong> dos fichas cuando un mismo stakeholder fue registrado dos veces por error.</div></li>
+      <li><span class="cd-icon">➕</span><div><strong>Registrar un nuevo</strong> stakeholder cuando aparece un actor que aún no está en el sistema.</div></li>
+    </ul>
+  </section>
+
+  <!-- ══ INTERACCIONES ══ -->
+  <section class="section" id="interacciones">
+    <div class="section-header">
+      <div class="section-icon purple">💬</div>
+      <div><h2 class="section-title">Módulo Interacciones</h2><p class="section-sub">El registro de todo contacto con la comunidad</p></div>
+    </div>
+    <div class="purpose"><div class="p-label">Para qué sirve</div><p>Guarda cada contacto que el equipo tiene con un stakeholder. Así queda constancia de qué se conversó, cuándo y con quién.</p></div>
+
+    <figure class="shot">
+      <div class="annotated">
+        <img src="manual-assets/05-interacciones.png" alt="Lista de Interacciones" onclick="openLb(this.src)">
+        <span class="ann" style="top:15%;left:20%;">1</span>
+        <span class="ann" style="top:15%;left:88%;">2</span>
+        <span class="ann" style="top:30%;left:30%;">3</span>
+      </div>
+      <div class="ann-legend">
+        <div class="ann-legend-item"><span class="ann-legend-num">1</span><span><strong>Filtros</strong> — busca interacciones por fecha, canal, responsable, etc.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">2</span><span><strong>Exportar y crear</strong> — descarga la lista o registra una nueva interacción.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">3</span><span><strong>Interacción registrada</strong> — cada tarjeta resume lo conversado y con quién.</span></div>
+      </div>
+      <figcaption>Figura 6 — Lista de Interacciones</figcaption>
+    </figure>
+
+    <h4>¿Qué puedes hacer aquí?</h4>
+    <ul class="can-do">
+      <li><span class="cd-icon">➕</span><div><strong>Registrar una interacción</strong> nueva (una visita, llamada, correo o mensaje).</div></li>
+      <li><span class="cd-icon">🔎</span><div><strong>Buscar</strong> interacciones pasadas para consultar qué se dijo.</div></li>
+      <li><span class="cd-icon">📎</span><div><strong>Adjuntar evidencias</strong> como fotos o actas a cada interacción.</div></li>
+      <li><span class="cd-icon">⬇️</span><div><strong>Exportar</strong> las interacciones a Excel para informes.</div></li>
+    </ul>
+
+    <div class="callout callout-info"><span class="callout-icon">ℹ️</span><div>Una interacción siempre está asociada a un stakeholder. Por eso también puedes registrarla desde la ficha del stakeholder, en su pestaña <em>Interacción</em>.</div></div>
+  </section>
+
+  <!-- ══ RECLAMOS ══ -->
+  <section class="section" id="reclamos">
+    <div class="section-header">
+      <div class="section-icon red">📣</div>
+      <div><h2 class="section-title">Módulo Reclamos</h2><p class="section-sub">Atención de quejas de principio a fin</p></div>
+    </div>
+    <div class="purpose"><div class="p-label">Para qué sirve</div><p>Te ayuda a atender las quejas de la comunidad siguiendo un proceso ordenado, sin que nada quede sin respuesta. Cada reclamo tiene un código único (por ejemplo <code>C-1698</code>) para identificarlo.</p></div>
+
+    <figure class="shot">
+      <div class="annotated">
+        <img src="manual-assets/06-reclamos.png" alt="Lista de Reclamos" onclick="openLb(this.src)">
+        <span class="ann" style="top:15%;left:20%;">1</span>
+        <span class="ann" style="top:15%;left:63%;">2</span>
+        <span class="ann" style="top:15%;left:88%;">3</span>
+      </div>
+      <div class="ann-legend">
+        <div class="ann-legend-item"><span class="ann-legend-num">1</span><span><strong>Filtros por fecha y stakeholder</strong> — encuentra reclamos de una persona o período.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">2</span><span><strong>Buscar por código</strong> — si conoces el código (C-XXXX), llega directo al reclamo.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">3</span><span><strong>Exportar y crear</strong> — descarga la lista o registra un nuevo reclamo.</span></div>
+      </div>
+      <figcaption>Figura 7 — Lista de Reclamos</figcaption>
+    </figure>
+
+    <h3>El camino de un reclamo</h3>
+    <p>Todo reclamo avanza por estas etapas hasta cerrarse:</p>
+    <div class="flow">
+      <div class="flow-step active">Recepción</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Evaluación</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Propuesta</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Respuesta</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Apelación</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Cierre</div>
+    </div>
+
+    <h4>¿Qué puedes hacer aquí?</h4>
+    <ul class="can-do">
+      <li><span class="cd-icon">➕</span><div><strong>Registrar</strong> un reclamo nuevo cuando alguien presenta una queja.</div></li>
+      <li><span class="cd-icon">▶️</span><div><strong>Hacer avanzar</strong> el reclamo por sus etapas: evaluarlo, proponer una solución y responder.</div></li>
+      <li><span class="cd-icon">🔁</span><div><strong>Gestionar una apelación</strong> si el stakeholder no queda conforme.</div></li>
+      <li><span class="cd-icon">✅</span><div><strong>Cerrar</strong> el reclamo cuando queda resuelto.</div></li>
+    </ul>
+
+    <table>
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td><span class="badge badge-blue">Abierto</span></td><td>Recibido y en atención.</td></tr>
+      <tr><td><span class="badge badge-orange">En evaluación</span></td><td>Se está analizando si procede.</td></tr>
+      <tr><td><span class="badge badge-purple">Con propuesta</span></td><td>Ya hay una solución propuesta.</td></tr>
+      <tr><td><span class="badge badge-orange">En apelación</span></td><td>El stakeholder pidió revisar la respuesta.</td></tr>
+      <tr><td><span class="badge badge-green">Cerrado</span></td><td>Resuelto y finalizado.</td></tr>
+    </table>
+  </section>
+
+  <!-- ══ SOLICITUDES ══ -->
+  <section class="section" id="solicitudes">
+    <div class="section-header">
+      <div class="section-icon orange">📝</div>
+      <div><h2 class="section-title">Módulo Solicitudes</h2><p class="section-sub">Pedidos y requerimientos de la comunidad</p></div>
+    </div>
+    <div class="purpose"><div class="p-label">Para qué sirve</div><p>Gestiona los pedidos que hacen los stakeholders y que no son quejas: pedir información, un permiso, acceso a una zona, etc.</p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/07-solicitudes.png" alt="Lista de Solicitudes" onclick="openLb(this.src)">
+      <figcaption>Figura 8 — Lista de Solicitudes</figcaption>
+    </figure>
+
+    <div class="flow">
+      <div class="flow-step active">Recepción</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Evaluación</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Atención</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Cierre</div>
+    </div>
+
+    <h4>¿Cuándo uso Solicitud y cuándo Reclamo?</h4>
+    <table>
+      <tr><th></th><th>📣 Reclamo</th><th>📝 Solicitud</th></tr>
+      <tr><td>Es…</td><td>Una <strong>queja</strong> por una afectación.</td><td>Un <strong>pedido</strong> o requerimiento.</td></tr>
+      <tr><td>Ejemplo</td><td>“Se agrietó mi pared por la obra.”</td><td>“Quiero visitar la estación.”</td></tr>
+    </table>
+  </section>
+
+  <!-- ══ COMPROMISOS ══ -->
+  <section class="section" id="compromisos">
+    <div class="section-header">
+      <div class="section-icon green">🤝</div>
+      <div><h2 class="section-title">Módulo Compromisos</h2><p class="section-sub">Seguimiento de los acuerdos con la comunidad</p></div>
+    </div>
+    <div class="purpose"><div class="p-label">Para qué sirve</div><p>Lleva el control de los acuerdos que el proyecto asume con los stakeholders y de las acciones concretas (entregables) que hay que cumplir.</p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/08-compromisos.png" alt="Lista de Compromisos" onclick="openLb(this.src)">
+      <figcaption>Figura 9 — Lista de Compromisos</figcaption>
+    </figure>
+
+    <div class="flow">
+      <div class="flow-step active">Registro</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Entregables</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Implementación</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Cumplimiento</div><div class="flow-arrow">→</div>
+      <div class="flow-step">Cierre</div>
+    </div>
+
+    <h4>¿Qué puedes hacer aquí?</h4>
+    <ul class="can-do">
+      <li><span class="cd-icon">➕</span><div><strong>Registrar</strong> un compromiso acordado con un stakeholder.</div></li>
+      <li><span class="cd-icon">📋</span><div><strong>Definir sus entregables</strong>: las acciones concretas, con su fecha y responsable.</div></li>
+      <li><span class="cd-icon">📈</span><div><strong>Dar seguimiento</strong> al avance y marcar lo que se va cumpliendo.</div></li>
+      <li><span class="cd-icon">✅</span><div><strong>Cerrar</strong> el compromiso cuando todo se completó.</div></li>
+    </ul>
+  </section>
+
+  <!-- ══ TAREAS FRECUENTES ══ -->
+  <section class="section" id="tareas">
+    <div class="section-header">
+      <div class="section-icon pink">✅</div>
+      <div><h2 class="section-title">Tareas frecuentes — Cómo hacer…</h2><p class="section-sub">Las acciones del día a día, paso a paso</p></div>
+    </div>
+
+    <div class="task-card">
+      <h3><span class="t-badge">Tarea</span> Buscar un stakeholder</h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text">En la barra superior, haz clic en el buscador <span class="navchip">Stakeholders / Etiquetas</span>.</span></li>
+        <li><span class="step-num">2</span><span class="step-text">Escribe el nombre (o una etiqueta) y selecciónalo de la lista que aparece.</span></li>
+        <li><span class="step-num">3</span><span class="step-text">Se abrirá su <strong>ficha</strong> con toda su información.</span></li>
+      </ol>
+    </div>
+
+    <div class="task-card">
+      <h3><span class="t-badge">Tarea</span> Consultar el historial de un stakeholder</h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text">Abre la ficha del stakeholder (búscalo o entra desde <span class="navchip">👥 Stakeholders</span>).</span></li>
+        <li><span class="step-num">2</span><span class="step-text">Usa las <strong>pestañas</strong> de la ficha: <em>Interacción</em>, <em>Reclamos</em>, <em>Compromiso</em> o <em>Solicitudes</em>.</span></li>
+        <li><span class="step-num">3</span><span class="step-text">El número junto a cada pestaña te dice cuántos registros hay. Haz clic para verlos.</span></li>
+      </ol>
+    </div>
+
+    <div class="task-card">
+      <h3><span class="t-badge">Tarea</span> Registrar una interacción</h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text">Entra a <span class="navchip">💬 Interacciones</span> (o abre la ficha del stakeholder y su pestaña <em>Interacción</em>).</span></li>
+        <li><span class="step-num">2</span><span class="step-text">Haz clic en el botón de <strong>nueva interacción</strong>.</span></li>
+        <li><span class="step-num">3</span><span class="step-text">Indica <strong>con quién</strong> fue el contacto, <strong>cómo</strong> fue (visita, llamada, correo…) y <strong>cuándo</strong>.</span></li>
+        <li><span class="step-num">4</span><span class="step-text">Escribe <strong>qué se conversó</strong> y adjunta evidencias si las tienes.</span></li>
+        <li><span class="step-num">5</span><span class="step-text">Guarda. La interacción queda registrada en el historial del stakeholder.</span></li>
+      </ol>
+    </div>
+
+    <div class="task-card">
+      <h3><span class="t-badge">Tarea</span> Dar seguimiento a un reclamo</h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text">Entra a <span class="navchip">📣 Reclamos</span>.</span></li>
+        <li><span class="step-num">2</span><span class="step-text">Busca el reclamo por su <strong>código</strong>, por el <strong>stakeholder</strong> o por <strong>fecha</strong>.</span></li>
+        <li><span class="step-num">3</span><span class="step-text">Ábrelo y realiza la acción que corresponda a su etapa: evaluar, proponer, responder o cerrar.</span></li>
+      </ol>
+      <div class="callout callout-tip" style="margin-top:8px"><span class="callout-icon">💡</span><div>Los reclamos próximos a vencer aparecen en la pantalla de <strong>Inicio</strong> entre tus pendientes.</div></div>
+    </div>
+
+    <div class="task-card">
+      <h3><span class="t-badge">Tarea</span> Exportar información a Excel</h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text">En cualquier módulo, aplica primero los <strong>filtros</strong> para quedarte solo con lo que necesitas.</span></li>
+        <li><span class="step-num">2</span><span class="step-text">Haz clic en el botón de <strong>descarga</strong> ⬇️.</span></li>
+        <li><span class="step-num">3</span><span class="step-text">Elige qué descargar (<strong>Datos</strong> o <strong>Evidencias</strong>) y confirma.</span></li>
+        <li><span class="step-num">4</span><span class="step-text">El archivo se prepara y se descarga solo. Puedes seguir trabajando mientras tanto.</span></li>
+      </ol>
+    </div>
+
+    <div class="task-card">
+      <h3><span class="t-badge">Tarea</span> Cerrar sesión</h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text">Haz clic en tu <strong>usuario</strong>, arriba a la derecha.</span></li>
+        <li><span class="step-num">2</span><span class="step-text">Elige <strong>Cerrar sesión</strong>. Hazlo siempre si usas una computadora compartida.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══ REPORTES ══ -->
+  <section class="section" id="reportes">
+    <div class="section-header">
+      <div class="section-icon gold">📈</div>
+      <div><h2 class="section-title">Reportes</h2><p class="section-sub">Gráficos y estadísticas para entender el proyecto</p></div>
+    </div>
+    <div class="purpose"><div class="p-label">Para qué sirve</div><p>Convierte la información registrada en gráficos fáciles de leer. Te ayuda a ver tendencias y preparar informes sin hacer cálculos a mano.</p></div>
+
+    <p>En <span class="navchip">📈 Reportes</span> encontrarás un panel para cada módulo. Estos son algunos:</p>
+
+    <figure class="shot">
+      <img src="manual-assets/09-reporte-interaccion.png" alt="Reporte de Interacciones" onclick="openLb(this.src)">
+      <figcaption>Figura 10 — Reporte de Interacciones</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="manual-assets/10-reporte-reclamo.png" alt="Reporte de Reclamos" onclick="openLb(this.src)">
+      <figcaption>Figura 11 — Reporte de Reclamos</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="manual-assets/11-reporte-stakeholder.png" alt="Reporte de Stakeholders" onclick="openLb(this.src)">
+      <figcaption>Figura 12 — Reporte de Stakeholders</figcaption>
+    </figure>
+
+    <h4>¿Qué puedes hacer aquí?</h4>
+    <ul class="can-do">
+      <li><span class="cd-icon">📊</span><div><strong>Ver gráficos</strong> del avance de interacciones, reclamos, solicitudes, compromisos y stakeholders.</div></li>
+      <li><span class="cd-icon">🎯</span><div><strong>Filtrar por período</strong> para analizar un rango de fechas específico.</div></li>
+      <li><span class="cd-icon">⬇️</span><div><strong>Exportar</strong> la información para tus presentaciones e informes.</div></li>
+    </ul>
+  </section>
+
+  <!-- ══ EXPORTAR ══ -->
+  <section class="section" id="exportar">
+    <div class="section-header">
+      <div class="section-icon gray">⬇️</div>
+      <div><h2 class="section-title">Exportar a Excel</h2><p class="section-sub">Llevarte la información fuera del sistema</p></div>
+    </div>
+    <div class="purpose"><div class="p-label">Para qué sirve</div><p>Te permite descargar en un archivo Excel la información que ves en pantalla, para compartirla o trabajarla fuera de Delfos.</p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/15-descarga-modal.png" alt="Ventana de opciones de descarga" onclick="openLb(this.src)">
+      <figcaption>Figura 13 — Ventana de opciones de descarga: <em>Datos</em> o <em>Evidencias</em></figcaption>
+    </figure>
+
+    <ul class="can-do">
+      <li><span class="cd-icon">📄</span><div><strong>Datos</strong> — descarga la información en una hoja de Excel.</div></li>
+      <li><span class="cd-icon">🗂️</span><div><strong>Evidencias</strong> — descarga los archivos adjuntos (fotos, actas, documentos).</div></li>
+    </ul>
+
+    <div class="callout callout-info"><span class="callout-icon">⏳</span><div>La descarga se prepara <strong>en segundo plano</strong>. No cierres el sistema: cuando esté lista, el archivo se descargará automáticamente y podrás seguir usando Delfos mientras tanto.</div></div>
+  </section>
+
+  <!-- ══ DELFOS IA ══ -->
+  <section class="section" id="delfos-ia">
+    <div class="section-header">
+      <div class="section-icon purple">🤖</div>
+      <div><h2 class="section-title">Delfos IA</h2><p class="section-sub">Pregúntale al sistema en tus propias palabras</p></div>
+    </div>
+    <div class="purpose"><div class="p-label">Para qué sirve</div><p>Es un asistente que responde preguntas sobre la información del proyecto. En lugar de buscar entre listados, simplemente le preguntas.</p></div>
+
+    <figure class="shot">
+      <div class="annotated">
+        <img src="manual-assets/12-delfos-ia.png" alt="Asistente Delfos IA" onclick="openLb(this.src)">
+        <span class="ann" style="top:6%;left:12%;">1</span>
+        <span class="ann" style="top:40%;left:12%;">2</span>
+        <span class="ann" style="top:90%;left:55%;">3</span>
+      </div>
+      <div class="ann-legend">
+        <div class="ann-legend-item"><span class="ann-legend-num">1</span><span><strong>Nueva conversación</strong> y <strong>preguntas frecuentes</strong> listas para usar.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">2</span><span><strong>Tus conversaciones anteriores</strong>, guardadas para retomarlas.</span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">3</span><span><strong>Escribe tu pregunta</strong> aquí y presiona enviar.</span></div>
+      </div>
+      <figcaption>Figura 14 — El asistente Delfos IA</figcaption>
+    </figure>
+
+    <div class="task-card">
+      <h3><span class="t-badge">Paso a paso</span> Hacer una pregunta</h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text">Entra a <span class="navchip">🤖 Delfos IA</span>.</span></li>
+        <li><span class="step-num">2</span><span class="step-text">Escribe tu pregunta en palabras normales, incluyendo alguna palabra clave del sistema (interacción, reclamo, stakeholder…).</span></li>
+        <li><span class="step-num">3</span><span class="step-text">Presiona <strong>Enviar</strong> y lee la respuesta. Puedes seguir preguntando en la misma conversación.</span></li>
+      </ol>
+    </div>
+
+    <h4>Ejemplos de preguntas</h4>
+    <table>
+      <tr><th>Puedes preguntar cosas como…</th></tr>
+      <tr><td>¿Cuántos reclamos abiertos están por vencer en los próximos 7 días?</td></tr>
+      <tr><td>¿Qué stakeholders tuvieron más interacciones en junio?</td></tr>
+      <tr><td>¿Cuántas interacciones se registraron el mes pasado?</td></tr>
+      <tr><td>¿Cuáles son los canales de comunicación más usados?</td></tr>
+    </table>
+
+    <div class="callout callout-warn"><span class="callout-icon">⚠️</span><div>Delfos IA es una ayuda y <strong>puede equivocarse</strong>. Para decisiones importantes, confirma siempre el dato en el módulo correspondiente.</div></div>
+  </section>
+
+  <!-- ══ CONFIGURACIÓN ══ -->
+  <section class="section" id="configuracion">
+    <div class="section-header">
+      <div class="section-icon gray">⚙️</div>
+      <div><h2 class="section-title">Configuración</h2><p class="section-sub">Solo para administradores</p></div>
+    </div>
+    <div class="purpose"><div class="p-label">Para qué sirve</div><p>Permite ajustar el sistema al proyecto: crear etiquetas, definir ubicaciones, gestionar usuarios y otros parámetros. Solo está disponible si tienes rol de administrador.</p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/13-configuracion.png" alt="Configuración de etiquetas" onclick="openLb(this.src)">
+      <figcaption>Figura 15 — Configuración de etiquetas</figcaption>
+    </figure>
+
+    <table>
+      <tr><th>Sección</th><th>Te permite…</th></tr>
+      <tr><td>🏷️ Etiquetas</td><td>Crear las categorías con que se clasifican stakeholders, interacciones y reclamos.</td></tr>
+      <tr><td>📍 Locaciones</td><td>Definir la estructura geográfica del proyecto (regiones, distritos, zonas).</td></tr>
+      <tr><td>⚙️ General</td><td>Ajustar parámetros generales como idioma, logo y notificaciones.</td></tr>
+      <tr><td>👤 Usuarios</td><td>Crear cuentas, asignar roles y activar o desactivar accesos.</td></tr>
+    </table>
+
+    <div class="callout callout-warn"><span class="callout-icon">⚠️</span><div>Los cambios aquí afectan a todo el equipo. Realízalos con cuidado y coordínalos con los demás usuarios.</div></div>
+  </section>
+
+  <!-- ══ ROLES ══ -->
+  <section class="section" id="roles">
+    <div class="section-header">
+      <div class="section-icon">🛡️</div>
+      <div><h2 class="section-title">Roles de usuario</h2><p class="section-sub">Qué puede hacer cada persona</p></div>
+    </div>
+    <p>Lo que ves y puedes hacer en Delfos depende de tu rol. Si te falta una opción, probablemente tu rol no la incluye: consúltalo con tu administrador.</p>
+    <table>
+      <tr><th>Rol</th><th>Qué puede hacer</th></tr>
+      <tr><td><span class="badge badge-red">Administrador</span></td><td>Todo, incluida la <strong>Configuración</strong> y la gestión de usuarios.</td></tr>
+      <tr><td><span class="badge badge-blue">Relacionista</span></td><td>Registrar y gestionar en todos los módulos, y ver reportes. No accede a Configuración.</td></tr>
+      <tr><td><span class="badge badge-gray">Consulta</span></td><td>Solo ver información. No puede crear ni modificar.</td></tr>
+    </table>
+  </section>
+
+  <!-- ══ GLOSARIO ══ -->
+  <section class="section" id="glosario">
+    <div class="section-header">
+      <div class="section-icon gray">📖</div>
+      <div><h2 class="section-title">Glosario</h2><p class="section-sub">Términos que verás en el sistema</p></div>
+    </div>
+    <table>
+      <tr><th>Término</th><th>Significado</th></tr>
+      <tr><td><strong>Stakeholder</strong></td><td>Persona, familia, negocio o institución del entorno del proyecto.</td></tr>
+      <tr><td><strong>Interacción</strong></td><td>Un contacto con un stakeholder (visita, llamada, correo…).</td></tr>
+      <tr><td><strong>Reclamo</strong></td><td>Una queja formal. Se identifica con un código <code>C-XXXX</code>.</td></tr>
+      <tr><td><strong>Solicitud</strong></td><td>Un pedido o requerimiento que no es una queja.</td></tr>
+      <tr><td><strong>Compromiso</strong></td><td>Un acuerdo del proyecto con la comunidad.</td></tr>
+      <tr><td><strong>Entregable</strong></td><td>Una acción concreta que forma parte de un compromiso.</td></tr>
+      <tr><td><strong>Relacionista</strong></td><td>La persona del equipo que gestiona la relación con los stakeholders.</td></tr>
+      <tr><td><strong>Etiqueta</strong></td><td>Una categoría que se asigna a los registros para clasificarlos y buscarlos.</td></tr>
+      <tr><td><strong>Ficha</strong></td><td>La pantalla que reúne toda la información e historia de un stakeholder.</td></tr>
+      <tr><td><strong>Evaluación</strong></td><td>La valoración de la posición de un stakeholder frente al proyecto.</td></tr>
+    </table>
+
+    <div class="callout callout-tip" style="margin-top:24px"><span class="callout-icon">🎓</span><div><strong>¡Listo!</strong> Ya conoces lo esencial de Delfos. La mejor forma de aprender es explorando: entra a cada módulo y prueba las tareas de la sección <a href="#tareas" style="color:var(--primary);font-weight:600">“Cómo hacer…”</a>.</div></div>
+  </section>
+
+  <div style="height:80px"></div>
+</main>
+
+<a href="#" class="back-top" title="Volver arriba">↑</a>
+
+<script>
+  // Scroll spy
+  const links=[...document.querySelectorAll('.sidebar a')];
+  const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  function onScroll(){
+    let cur=sections[0]?.id;
+    for(const s of sections){ if(window.scrollY>=s.offsetTop-90) cur=s.id; }
+    links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+  }
+  window.addEventListener('scroll',onScroll);
+  // Close mobile menu on link click
+  links.forEach(a=>a.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open')));
+
+  // Lightbox
+  function openLb(src){document.getElementById('lb-img').src=src;document.getElementById('lb').classList.add('open');}
+  function closeLb(){document.getElementById('lb').classList.remove('open');}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+
+  // Search + highlight
+  function doSearch(term){
+    document.querySelectorAll('mark.hl').forEach(m=>{const t=document.createTextNode(m.textContent);m.replaceWith(t);});
+    if(!term||term.length<2)return;
+    const re=new RegExp('('+term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    const walk=document.createTreeWalker(document.getElementById('mainContent'),NodeFilter.SHOW_TEXT,{
+      acceptNode:n=>['SCRIPT','STYLE','INPUT'].includes(n.parentElement.tagName)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT
+    });
+    const nodes=[];while(walk.nextNode()){if(re.test(walk.currentNode.textContent))nodes.push(walk.currentNode);}
+    nodes.forEach(n=>{const span=document.createElement('span');span.innerHTML=n.textContent.replace(re,'<mark class="hl">$1</mark>');n.replaceWith(span);});
+    const first=document.querySelector('mark.hl');if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+</script>
+</body>
+</html>

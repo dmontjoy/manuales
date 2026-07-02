@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario - Sistema Delfos</title>
+    <style>
+        :root {
+            --primary-color: #003366; /* Azul primario sobrio */
+            --secondary-color: #00509e;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --sidebar-width: 260px;
+            --sidebar-bg: #fff;
+            --border-color: #e0e0e0;
+            --highlight-bg: #ffff99;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+        }
+
+        /* Navbar & Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+        
+        .sidebar h2 {
+            padding: 0 20px;
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li a {
+            display: block;
+            padding: 10px 20px;
+            color: #555;
+            text-decoration: none;
+            font-weight: 500;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .sidebar li a:hover, .sidebar li a.active {
+            background: #f0f4f8;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+
+        /* Buscador */
+        .search-container {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        /* Contenido Principal */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            max-width: 900px;
+            background: #fff;
+            min-height: 100vh;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+
+        h1 { font-size: 2.2rem; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-top:0; }
+        h2 { font-size: 1.6rem; margin-top: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
+        h3 { font-size: 1.2rem; margin-top: 25px; }
+
+        section {
+            margin-bottom: 50px;
+            padding-top: 20px; /* Para scroll-spy offset */
+        }
+
+        /* Imágenes y Lightbox */
+        .image-container {
+            margin: 30px 0;
+            position: relative;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: zoom-in;
+            transition: transform 0.2s;
+        }
+        
+        .image-container img:hover {
+            transform: scale(1.02);
+        }
+
+        .img-legend {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px;
+            text-align: left;
+            background: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 4px;
+        }
+
+        .img-legend ol { margin-top: 5px; margin-bottom: 0; padding-left: 20px;}
+        .img-legend li { margin-bottom: 5px; }
+
+        /* Marcadores sobre imágenes */
+        .marker {
+            position: absolute;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            pointer-events: none;
+            border: 2px solid #fff;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Lightbox CSS */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.85);
+        }
+
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Flujos de Proceso */
+        .flowchart {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f0f4f8;
+            border-radius: 8px;
+        }
+
+        .flow-step {
+            background: #fff;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .flow-arrow {
+            color: #999;
+            font-weight: bold;
+        }
+
+        /* Destacado de búsqueda */
+        .highlight {
+            background-color: var(--highlight-bg);
+            padding: 2px;
+            border-radius: 3px;
+        }
+
+        /* Responsividad */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 200;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 60px 20px 20px;
+            }
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Impresión */
+        @media print {
+            .sidebar, .menu-toggle, .search-container {
+                display: none !important;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 0;
+                box-shadow: none;
+            }
+            .image-container img {
+                border: 1px solid #ccc;
+            }
+            .marker { display: none; } /* Ocultamos los marcadores en impresión por simplicidad */
+            body { background: #fff; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="menu-toggle" onclick="toggleMenu()">☰ Menú</button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Buscar en el manual..." onkeyup="searchContent()">
+        </div>
+        <h2>Delfos</h2>
+        <ul id="nav-list">
+            <li><a href="#empezar">1. Empezar</a></li>
+            <li><a href="#modulos">2. Módulos</a></li>
+            <li><a href="#tareas">3. Tareas Frecuentes</a></li>
+            <li><a href="#herramientas">4. Herramientas</a></li>
+            <li><a href="#referencia">5. Referencia</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="content-area">
+        <h1>Manual de Usuario - Sistema Delfos</h1>
+        <p>Bienvenido al manual de usuario del sistema <strong>Delfos</strong>. Este documento te guiará paso a paso para que puedas utilizar todas las funciones del sistema de forma eficiente. El sistema de ejemplo utilizado es el proyecto <em>"Línea 2 del Metro de Lima y Callao"</em>.</p>
+
+        <!-- SECCIÓN 1 -->
+        <section id="empezar">
+            <h2>1. Empezar</h2>
+            
+            <h3>Bienvenida e Ingreso al Sistema</h3>
+            <p>Para ingresar al sistema, necesitas tus credenciales proporcionadas por el administrador.</p>
+            <ol>
+                <li>Abre tu navegador y dirígete a la URL de acceso de Delfos.</li>
+                <li>Ingresa tu <strong>Usuario</strong> y <strong>Contraseña</strong>.</li>
+                <li>Haz clic en el botón <strong>Iniciar Sesión</strong>.</li>
+            </ol>
+            
+            <div class="image-container">
+                <img src="manual-assets/01-login.png" alt="Pantalla de Login" onclick="openLightbox(this)">
+                <!-- Marcadores hipotéticos: se ajustarán al centro-izquierda aprox -->
+                <div class="marker" style="top: 45%; left: 50%;">1</div>
+                <div class="marker" style="top: 55%; left: 50%;">2</div>
+                <div class="img-legend">
+                    <strong>Acciones clave en Login:</strong>
+                    <ol>
+                        <li>Ingresa tu nombre de usuario.</li>
+                        <li>Ingresa tu contraseña y presiona "Iniciar Sesión".</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h3>Conceptos Clave</h3>
+            <p>Antes de empezar a usar Delfos, familiarízate con estos términos importantes:</p>
+            <ul>
+                <li><strong>Stakeholder:</strong> Es un grupo de interés, persona u organización que tiene relación con el proyecto (ej. vecinos, autoridades, instituciones).</li>
+                <li><strong>Relacionista:</strong> Es el miembro de tu equipo encargado de gestionar la comunicación con los stakeholders.</li>
+                <li><strong>Ficha:</strong> La pantalla principal de un stakeholder, que agrupa toda su historia (interacciones, reclamos, compromisos).</li>
+                <li><strong>Etiqueta / Tag:</strong> Categorías que puedes asignar para agrupar y filtrar la información fácilmente.</li>
+                <li><strong>Evaluación:</strong> Es la postura del stakeholder frente al proyecto (ej. a favor, neutral, en contra).</li>
+                <li><strong>Entregable:</strong> Es una acción específica o hito necesario para cumplir un compromiso adquirido.</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 2 -->
+        <section id="modulos">
+            <h2>2. Módulos del Sistema</h2>
+            <p>El menú principal (barra lateral izquierda) te permite acceder a los distintos módulos de Delfos.</p>
+
+            <h3 id="modulo-inicio">Inicio / Dashboard</h3>
+            <p><strong>¿Para qué sirve?</strong> Es tu panel de control principal. Aquí tienes una visión general del proyecto, con indicadores clave (KPIs) y tus actividades pendientes.</p>
+            <p><strong>¿Qué puedes hacer aquí?</strong> Revisar de un vistazo cuántas tareas, reclamos o interacciones tienes pendientes por atender el día de hoy.</p>
+            <div class="image-container">
+                <img src="manual-assets/02-inicio.png" alt="Pantalla de Inicio" onclick="openLightbox(this)">
+            </div>
+
+            <h3 id="modulo-stakeholders">Stakeholders</h3>
+            <p><strong>¿Para qué sirve?</strong> Es el directorio central de todos los grupos de interés del proyecto.</p>
+            <p><strong>¿Qué puedes hacer aquí?</strong> Buscar un stakeholder, registrar uno nuevo, exportar el directorio, o hacer clic en uno para ver su <em>Ficha</em> completa.</p>
+            <div class="image-container">
+                <img src="manual-assets/03-stakeholders-lista.png" alt="Lista de Stakeholders" onclick="openLightbox(this)">
+                <div class="marker" style="top: 15%; left: 85%;">1</div>
+                <div class="marker" style="top: 35%; left: 10%;">2</div>
+                <div class="img-legend">
+                    <strong>Acciones en Stakeholders:</strong>
+                    <ol>
+                        <li>Usar los botones de arriba a la derecha para <strong>Nuevo</strong> o <strong>Exportar</strong>.</li>
+                        <li>Hacer clic en un registro de la tabla para abrir la ficha del stakeholder.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <p>Al ingresar a un stakeholder, verás su <strong>Ficha</strong> con diferentes pestañas:</p>
+            <ul>
+                <li><strong>Interacción:</strong> Historial de reuniones, llamadas o contactos.</li>
+                <li><strong>Reclamos:</strong> Quejas formales asociadas a esta persona.</li>
+                <li><strong>Compromiso:</strong> Acuerdos a los que se ha llegado.</li>
+                <li><strong>Solicitudes:</strong> Pedidos o requerimientos específicos.</li>
+                <li><strong>Editar / Combinar:</strong> Para actualizar sus datos o fusionar registros duplicados.</li>
+            </ul>
+            <div class="image-container">
+                <img src="manual-assets/04-stakeholder-ficha.png" alt="Ficha de Stakeholder" onclick="openLightbox(this)">
+            </div>
+
+            <h3 id="modulo-interacciones">Interacciones</h3>
+            <p><strong>¿Para qué sirve?</strong> Es la bitácora de todo contacto (reunión, oficio, llamada) que tu equipo mantiene con cualquier stakeholder.</p>
+            <p><strong>¿Qué puedes hacer aquí?</strong> Registrar nuevas interacciones y hacerles seguimiento, o buscar interacciones pasadas filtrando por fechas.</p>
+            <div class="image-container">
+                <img src="manual-assets/05-interacciones.png" alt="Interacciones" onclick="openLightbox(this)">
+            </div>
+
+            <h3 id="modulo-reclamos">Reclamos</h3>
+            <p><strong>¿Para qué sirve?</strong> Para gestionar formalmente las quejas de los stakeholders. Cada reclamo recibe un código único (ej. <code>C-XXXX</code>).</p>
+            <p><strong>¿Qué puedes hacer aquí?</strong> Registrar, evaluar, responder y dar cierre a los reclamos siguiendo el proceso oficial.</p>
+            
+            <p><strong>Flujo del Proceso de Reclamo:</strong></p>
+            <div class="flowchart">
+                <div class="flow-step">Recepción</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Evaluación</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Propuesta</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Respuesta</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Apelación</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Cierre</div>
+            </div>
+            
+            <div class="image-container">
+                <img src="manual-assets/06-reclamos.png" alt="Reclamos" onclick="openLightbox(this)">
+            </div>
+
+            <h3 id="modulo-solicitudes">Solicitudes</h3>
+            <p><strong>¿Para qué sirve?</strong> Para hacer seguimiento a requerimientos o pedidos de los grupos de interés que no constituyen una queja formal ni un compromiso oficial.</p>
+            <p><strong>¿Qué puedes hacer aquí?</strong> Documentar el requerimiento, asignarlo para atención y cerrarlo una vez resuelto.</p>
+
+            <p><strong>Flujo del Proceso de Solicitud:</strong></p>
+            <div class="flowchart">
+                <div class="flow-step">Recepción</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Evaluación</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Atención</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Cierre</div>
+            </div>
+
+            <div class="image-container">
+                <img src="manual-assets/07-solicitudes.png" alt="Solicitudes" onclick="openLightbox(this)">
+            </div>
+
+            <h3 id="modulo-compromisos">Compromisos</h3>
+            <p><strong>¿Para qué sirve?</strong> Administra los acuerdos formales asumidos con los stakeholders, asegurando su cumplimiento a través de entregables.</p>
+            <p><strong>¿Qué puedes hacer aquí?</strong> Registrar un nuevo acuerdo, subdividirlo en entregables con fechas límite y adjuntar evidencia del cumplimiento.</p>
+
+            <p><strong>Flujo del Proceso de Compromiso:</strong></p>
+            <div class="flowchart">
+                <div class="flow-step">Registro</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Entregables</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Implementación</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Cumplimiento</div><div class="flow-arrow">→</div>
+                <div class="flow-step">Cierre</div>
+            </div>
+
+            <div class="image-container">
+                <img src="manual-assets/08-compromisos.png" alt="Compromisos" onclick="openLightbox(this)">
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3 -->
+        <section id="tareas">
+            <h2>3. Tareas Frecuentes ("Cómo hacer...")</h2>
+
+            <h3>A. Cómo buscar un stakeholder y consultar su historial</h3>
+            <ol>
+                <li>Ve al menú lateral izquierdo y haz clic en <strong>Stakeholders</strong>.</li>
+                <li>Utiliza la barra de búsqueda o los filtros superiores (si aplica) para buscar el nombre.</li>
+                <li>Haz clic sobre el registro en la tabla de resultados.</li>
+                <li>Se abrirá la <strong>Ficha del Stakeholder</strong>. Allí, navega entre las pestañas <em>Interacción</em>, <em>Reclamos</em>, o <em>Compromiso</em> para ver toda su historia con el proyecto.</li>
+            </ol>
+
+            <h3>B. Cómo registrar una interacción</h3>
+            <ol>
+                <li>Ve al menú <strong>Interacciones</strong>.</li>
+                <li>Haz clic en el botón superior derecho <strong>Nuevo</strong> (o el botón con ícono de suma).</li>
+                <li>Rellena el formulario indicando con qué stakeholder te contactaste, el tipo de contacto, fecha y descripción.</li>
+                <li>Guarda los cambios.</li>
+            </ol>
+
+            <h3>C. Cómo exportar información a Excel</h3>
+            <p>Todos los listados del sistema permiten descargar la información:</p>
+            <ol>
+                <li>En cualquier módulo (ej. Reclamos), haz clic en el botón <strong>Exportar / Descargar</strong> (icono de descarga en la parte superior derecha de la tabla).</li>
+                <li>Aparecerá un modal con las opciones de descarga.</li>
+                <li>Selecciona la pestaña <strong>Datos</strong> (para la tabla base) o <strong>Evidencias</strong> (para anexos) según lo que necesites.</li>
+                <li>Confirma la descarga. El archivo se generará y se guardará en tu computadora.</li>
+            </ol>
+
+            <h3>D. Cómo cerrar sesión</h3>
+            <ol>
+                <li>En la barra superior, busca tu nombre de usuario o icono de perfil (generalmente arriba a la derecha).</li>
+                <li>Haz clic y selecciona <strong>Cerrar sesión</strong>.</li>
+                <li>Serás devuelto a la pantalla de Login y tu sesión de forma segura habrá finalizado.</li>
+            </ol>
+        </section>
+
+        <!-- SECCIÓN 4 -->
+        <section id="herramientas">
+            <h2>4. Herramientas del Sistema</h2>
+
+            <h3>Reportes</h3>
+            <p>Encontrarás opciones de reportería analítica (Dashboards) para analizar la información ingresada.</p>
+            <ul>
+                <li><strong>Reporte de Interacción:</strong> Análisis de frecuencias y tipos de contactos.</li>
+                <li><strong>Reporte de Reclamo:</strong> Tiempos de atención y estados.</li>
+                <li><strong>Reporte de Solicitud y Compromiso:</strong> Cumplimiento de plazos.</li>
+                <li><strong>Reporte de Stakeholder:</strong> Estadísticas sobre los grupos de interés.</li>
+            </ul>
+            <div class="image-container">
+                <img src="manual-assets/09-reporte-interaccion.png" alt="Reporte de Interacción" onclick="openLightbox(this)">
+            </div>
+
+            <h3>Delfos IA</h3>
+            <p><strong>¿Qué es?</strong> Un asistente inteligente integrado.</p>
+            <p><strong>¿Para qué sirve?</strong> Te permite hacer preguntas en lenguaje natural sobre la información del sistema. Puedes buscar documentos o consultar por políticas y procedimientos rápidamente sin tener que navegar por múltiples menús.</p>
+            <div class="image-container">
+                <img src="manual-assets/10-delfos-ia.png" alt="Delfos IA" onclick="openLightbox(this)">
+            </div>
+
+            <h3>Configuración</h3>
+            <p><em>(Solo disponible para Administradores)</em></p>
+            <p>Aquí se manejan los aspectos técnicos de la plataforma:</p>
+            <ul>
+                <li><strong>Gestión de Etiquetas (Tags):</strong> Crear o eliminar categorías globales.</li>
+                <li><strong>Ubigeo:</strong> Administrar ubicaciones geográficas.</li>
+                <li><strong>Usuarios:</strong> Dar de alta a nuevos miembros del equipo o asignar roles.</li>
+                <li><strong>General:</strong> Parámetros básicos del proyecto activo.</li>
+            </ul>
+            <div class="image-container">
+                <img src="manual-assets/11-configuracion-tag.png" alt="Configuración de Tags" onclick="openLightbox(this)">
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5 -->
+        <section id="referencia">
+            <h2>5. Referencia</h2>
+
+            <h3>Roles de Usuario</h3>
+            <p>Delfos cuenta con tres niveles de permisos, cada uno diseñado para las funciones específicas de los miembros del equipo:</p>
+            <ul>
+                <li><strong>Administrador:</strong> Tiene acceso total. Puede ver, crear, editar, eliminar y además acceder al módulo de <em>Configuración</em> para gestionar usuarios y parámetros del sistema.</li>
+                <li><strong>Relacionista:</strong> Es el usuario operativo principal. Gestiona todos los módulos de día a día (Stakeholders, Interacciones, Reclamos, etc.) y puede ver los Reportes. No tiene acceso a Configuración.</li>
+                <li><strong>Consulta:</strong> Es un rol de auditoría o supervisión. Solo puede ver la información y generar reportes, pero no puede crear, modificar ni eliminar registros.</li>
+            </ul>
+        </section>
+
+        <p style="text-align: center; color: #888; font-size: 0.9em; margin-top: 50px;">Fin del Manual.</p>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+
+    <script>
+        // Funcionalidad Menú Móvil
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Funcionalidad Lightbox
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+
+        function openLightbox(imgElement) {
+            lightbox.style.display = "block";
+            lightboxImg.src = imgElement.src;
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = "none";
+        }
+
+        // Cerrar lightbox con la tecla ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeLightbox();
+            }
+        });
+
+        // Funcionalidad Scroll-Spy
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".sidebar ul li a");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href").includes(current) && current !== "") {
+                    link.classList.add("active");
+                }
+            });
+        });
+
+        // Funcionalidad Buscador
+        function searchContent() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const contentArea = document.getElementById('content-area');
+            
+            // Si hay un script previo de resalte, podríamos limpiarlo
+            // Para mantenerlo simple, usamos un enfoque básico ocultando elementos
+            // En un caso real se usaría mark.js para resaltar texto sin romper HTML
+            
+            // Para el alcance de este manual autocontenido sin dependencias,
+            // buscaremos en los elementos de texto (p, li, h2, h3) y los mostraremos/ocultaremos.
+            
+            if(input.length < 3) {
+                // Restaurar visibilidad
+                const elements = contentArea.querySelectorAll('p, li, h2, h3, .image-container');
+                elements.forEach(el => el.style.display = '');
+                return;
+            }
+
+            const sections = contentArea.querySelectorAll('section');
+            sections.forEach(section => {
+                let sectionHasMatch = false;
+                const elements = section.querySelectorAll('p, li, h3, .image-container');
+                
+                elements.forEach(el => {
+                    // Ignoramos las imágenes en la búsqueda de texto, pero las mostramos si su sección coincide
+                    if(!el.classList.contains('image-container')) {
+                        const text = el.innerText.toLowerCase();
+                        if(text.includes(input)) {
+                            el.style.display = '';
+                            sectionHasMatch = true;
+                        } else {
+                            el.style.display = 'none';
+                        }
+                    }
+                });
+
+                // Si la sección tiene coincidencias, mostramos las imágenes de esa sección
+                if(sectionHasMatch) {
+                    section.querySelectorAll('.image-container').forEach(img => img.style.display = '');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
