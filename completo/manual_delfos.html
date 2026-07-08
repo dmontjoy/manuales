@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual del Usuario — Sistema Delfos / User Manual</title>
+<style>
+  :root{
+    --primary:#1a4fa0; --primary-dark:#0f3270; --primary-light:#e8f0fd;
+    --accent:#f59e0b; --success:#16a34a; --warning:#d97706; --danger:#dc2626;
+    --text:#1e293b; --text-muted:#64748b; --border:#e2e8f0; --bg:#f8fafc; --sidebar-w:300px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);background:var(--bg);line-height:1.65;}
+
+  /* BILINGUAL */
+  body.lang-en .es{display:none;}
+  body.lang-es .en{display:none;}
+
+  /* TOP BAR */
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--primary);color:#fff;height:56px;display:flex;align-items:center;padding:0 24px;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.25);}
+  .topbar .logo{font-size:1.3rem;font-weight:700;}
+  .topbar .subtitle{font-size:.8rem;opacity:.75;}
+  .topbar .menu-toggle{display:none;background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;}
+  .topbar input[type=search]{margin-left:auto;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;color:#fff;padding:7px 14px;width:230px;font-size:.88rem;outline:none;}
+  .topbar input[type=search]::placeholder{color:rgba(255,255,255,.6);}
+  .topbar input[type=search]:focus{background:rgba(255,255,255,.25);}
+  .lang-switch{display:flex;background:rgba(255,255,255,.15);border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.3);}
+  .lang-switch button{background:none;border:none;color:rgba(255,255,255,.7);padding:6px 12px;font-size:.82rem;font-weight:600;cursor:pointer;}
+  .lang-switch button.active{background:#fff;color:var(--primary);}
+
+  /* SIDEBAR */
+  .sidebar{position:fixed;top:56px;left:0;bottom:0;width:var(--sidebar-w);background:#fff;border-right:1px solid var(--border);overflow-y:auto;padding:16px 0 40px;z-index:90;}
+  .sidebar-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);padding:14px 22px 4px;}
+  .sidebar a{display:flex;align-items:center;gap:10px;padding:8px 22px;color:var(--text);text-decoration:none;font-size:.88rem;border-left:3px solid transparent;transition:background .15s,color .15s;}
+  .sidebar a:hover{background:var(--primary-light);color:var(--primary);}
+  .sidebar a.active{background:var(--primary-light);color:var(--primary);border-left-color:var(--primary);font-weight:600;}
+  .sidebar a .icon{font-size:1.05rem;width:22px;text-align:center;}
+  .sidebar-sep{height:1px;background:var(--border);margin:8px 18px;}
+
+  /* MAIN */
+  .main{margin-left:var(--sidebar-w);margin-top:56px;padding:44px 52px;max-width:1020px;}
+
+  /* SECTIONS */
+  .section{margin-bottom:76px;scroll-margin-top:72px;}
+  .section-header{display:flex;align-items:center;gap:15px;margin-bottom:22px;padding-bottom:16px;border-bottom:2px solid var(--border);}
+  .section-icon{width:50px;height:50px;border-radius:13px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+  .section-icon.green{background:#16a34a;} .section-icon.orange{background:#d97706;}
+  .section-icon.red{background:#dc2626;} .section-icon.purple{background:#7c3aed;}
+  .section-icon.teal{background:#0891b2;} .section-icon.pink{background:#db2777;}
+  .section-icon.gray{background:#475569;} .section-icon.gold{background:#b45309;}
+  h2.section-title{font-size:1.4rem;font-weight:700;}
+  .section-sub{margin:0;color:var(--text-muted);font-size:.9rem;}
+  h3{font-size:1.08rem;font-weight:600;margin:26px 0 10px;color:var(--primary-dark);}
+  h4{font-size:.95rem;font-weight:600;margin:18px 0 8px;color:var(--text);}
+  p{margin-bottom:12px;}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border-radius:18px;padding:44px 50px;margin-bottom:44px;}
+  .hero h1{font-size:2.3rem;font-weight:800;margin-bottom:12px;}
+  .hero p{color:rgba(255,255,255,.88);font-size:1.08rem;margin-bottom:0;max-width:760px;}
+  .hero .tags{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap;}
+  .hero .tag{display:inline-block;background:rgba(255,255,255,.18);border-radius:20px;padding:4px 14px;font-size:.8rem;}
+
+  /* PURPOSE BOX */
+  .purpose{background:#fff;border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:10px;padding:16px 20px;margin:18px 0;}
+  .purpose .p-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--primary);margin-bottom:4px;}
+  .purpose p{margin:0;font-size:.95rem;}
+
+  /* CAN-DO list */
+  .can-do{list-style:none;margin:14px 0;}
+  .can-do li{padding:10px 14px;font-size:.92rem;display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;}
+  .can-do li .cd-icon{flex-shrink:0;font-size:1.1rem;margin-top:1px;}
+
+  /* SCREENSHOT */
+  .shot{margin:22px 0 30px;}
+  .shot figcaption{font-size:.8rem;color:var(--text-muted);margin-top:10px;text-align:center;font-style:italic;}
+  .shot img{width:100%;border:1px solid var(--border);border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.13);cursor:zoom-in;display:block;}
+  .shot img:hover{box-shadow:0 10px 36px rgba(0,0,0,.2);}
+  .annotated{position:relative;display:block;}
+  .ann{position:absolute;background:#ef4444;color:#fff;border-radius:50%;width:27px;height:27px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid #fff;}
+  .ann-legend{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+  .ann-legend-item{display:flex;gap:11px;align-items:flex-start;font-size:.88rem;}
+  .ann-legend-num{background:#ef4444;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+  .shot-ph{width:100%;min-height:150px;border:2px dashed var(--border);border-radius:12px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text-muted);font-size:.85rem;padding:26px;text-align:center;gap:6px;}
+  .shot-ph .ph-ic{font-size:1.8rem;}
+
+  /* CALLOUT */
+  .callout{border-radius:10px;padding:14px 18px;margin:16px 0;display:flex;gap:12px;font-size:.9rem;}
+  .callout-icon{font-size:1.2rem;flex-shrink:0;}
+  .callout-info{background:#eff6ff;border:1px solid #bfdbfe;}
+  .callout-tip{background:#f0fdf4;border:1px solid #bbf7d0;}
+  .callout-warn{background:#fffbeb;border:1px solid #fde68a;}
+  .callout-danger{background:#fef2f2;border:1px solid #fecaca;}
+
+  /* TABLES */
+  table{width:100%;border-collapse:collapse;margin:16px 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+  th{background:var(--primary);color:#fff;padding:11px 16px;text-align:left;font-size:.85rem;}
+  td{padding:10px 16px;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:var(--primary-light);}
+
+  /* STEP CARDS */
+  .task-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin:20px 0;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+  .task-card h3{margin-top:0;display:flex;align-items:center;gap:10px;}
+  .task-card h3 .t-badge{background:var(--primary-light);color:var(--primary);font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;}
+  .steps{list-style:none;margin:14px 0 4px;}
+  .steps li{display:flex;gap:14px;margin-bottom:13px;align-items:flex-start;}
+  .step-num{width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .step-text{font-size:.92rem;padding-top:2px;}
+
+  /* BADGES */
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.76rem;font-weight:600;}
+  .badge-blue{background:#dbeafe;color:#1e40af;} .badge-green{background:#dcfce7;color:#15803d;}
+  .badge-orange{background:#fef3c7;color:#b45309;} .badge-red{background:#fee2e2;color:#b91c1c;}
+  .badge-purple{background:#ede9fe;color:#6d28d9;} .badge-gray{background:#f1f5f9;color:#475569;}
+
+  /* CONCEPT CARDS */
+  .concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin:20px 0;}
+  .concept-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .2s,transform .2s;}
+  .concept-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);transform:translateY(-2px);}
+  .concept-card .cc-icon{font-size:1.9rem;margin-bottom:8px;}
+  .concept-card .cc-title{font-weight:700;font-size:1rem;margin-bottom:5px;}
+  .concept-card .cc-desc{font-size:.85rem;color:var(--text-muted);}
+
+  /* FLOW */
+  .flow{display:flex;align-items:center;flex-wrap:wrap;margin:20px 0;overflow-x:auto;padding:12px 0;gap:2px;}
+  .flow-step{background:#fff;border:2px solid var(--primary);border-radius:8px;padding:9px 15px;font-size:.8rem;font-weight:600;color:var(--primary);white-space:nowrap;text-align:center;min-width:88px;}
+  .flow-step.active{background:var(--primary);color:#fff;}
+  .flow-arrow{color:var(--text-muted);font-size:1.2rem;padding:0 5px;}
+
+  code{font-family:monospace;background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.84rem;color:#be185d;}
+
+  .navchip{display:inline-flex;align-items:center;gap:6px;background:var(--primary-light);color:var(--primary);border-radius:6px;padding:2px 9px;font-size:.85rem;font-weight:600;white-space:nowrap;}
+
+  /* TOC on welcome */
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:20px 0;}
+  .toc-card{display:block;text-decoration:none;color:var(--text);background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;transition:.2s;}
+  .toc-card:hover{border-color:var(--primary);box-shadow:0 4px 14px rgba(26,79,160,.15);transform:translateY(-2px);}
+  .toc-card .tc-icon{font-size:1.5rem;}
+  .toc-card .tc-title{font-weight:700;font-size:.95rem;margin:6px 0 2px;color:var(--primary);}
+  .toc-card .tc-desc{font-size:.8rem;color:var(--text-muted);}
+
+  /* LIGHTBOX */
+  .lb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;padding:20px;}
+  .lb-overlay.open{display:flex;}
+  .lb-overlay img{max-width:94vw;max-height:90vh;border-radius:8px;box-shadow:0 8px 48px rgba(0,0,0,.5);}
+  .lb-close{position:absolute;top:18px;right:28px;color:#fff;font-size:2rem;cursor:pointer;line-height:1;}
+
+  mark.hl{background:#fde047;border-radius:3px;padding:0 1px;}
+  ::-webkit-scrollbar{width:7px;} ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px;}
+
+  .back-top{position:fixed;bottom:28px;right:28px;background:var(--primary);color:#fff;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.25);text-decoration:none;}
+  .back-top:hover{background:var(--primary-dark);}
+
+  @media(max-width:900px){
+    .sidebar{transform:translateX(-100%);transition:transform .25s;}
+    .sidebar.open{transform:translateX(0);}
+    .main{margin-left:0;padding:24px 18px;}
+    .topbar .menu-toggle{display:block;}
+    .topbar input[type=search]{width:130px;}
+  }
+  @media print{.topbar,.sidebar,.back-top{display:none;}.main{margin:0;padding:0;}.shot img{box-shadow:none;}}
+</style>
+</head>
+<body class="lang-es">
+
+<div class="lb-overlay" id="lb" onclick="closeLb()"><span class="lb-close">✕</span><img id="lb-img" src="" alt=""></div>
+
+<header class="topbar">
+  <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <div class="logo">📋 Delfos</div>
+  <div class="subtitle"><span class="es">Manual del Usuario</span><span class="en">User Manual</span></div>
+  <div class="lang-switch" style="margin-left:auto">
+    <button id="btn-es" class="active" onclick="setLang('es')">ES</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+  <input type="search" id="searchInput" placeholder="Buscar… / Search…" oninput="doSearch(this.value)">
+</header>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-label"><span class="es">Empezar</span><span class="en">Get started</span></div>
+  <a href="#bienvenida" class="active"><span class="icon">👋</span> <span class="es">Bienvenida</span><span class="en">Welcome</span></a>
+  <a href="#ingresar"><span class="icon">🔐</span> <span class="es">Ingresar al sistema</span><span class="en">Signing in</span></a>
+  <a href="#pantalla"><span class="icon">🧭</span> <span class="es">Conocer la pantalla</span><span class="en">The screen</span></a>
+  <a href="#conceptos"><span class="icon">💡</span> <span class="es">Conceptos clave</span><span class="en">Key concepts</span></a>
+  <a href="#ciclo"><span class="icon">🔄</span> <span class="es">Cómo fluye el trabajo</span><span class="en">How work flows</span></a>
+  <div class="sidebar-sep"></div>
+  <div class="sidebar-label"><span class="es">Módulos</span><span class="en">Modules</span></div>
+  <a href="#inicio"><span class="icon">🏠</span> <span class="es">Inicio</span><span class="en">Home</span></a>
+  <a href="#stakeholders"><span class="icon">👥</span> Stakeholders</a>
+  <a href="#predios"><span class="icon">🏞️</span> <span class="es">Predios</span><span class="en">Land parcels</span></a>
+  <a href="#interacciones"><span class="icon">💬</span> <span class="es">Interacciones</span><span class="en">Interactions</span></a>
+  <a href="#reclamos"><span class="icon">📣</span> <span class="es">Reclamos</span><span class="en">Claims</span></a>
+  <a href="#solicitudes"><span class="icon">📝</span> <span class="es">Solicitudes</span><span class="en">Requests</span></a>
+  <a href="#compromisos"><span class="icon">🤝</span> <span class="es">Compromisos</span><span class="en">Commitments</span></a>
+  <a href="#compromisox"><span class="icon">📌</span> <span class="es">Compromisos externos</span><span class="en">External commitments</span></a>
+  <a href="#mapa"><span class="icon">🗺️</span> <span class="es">Mapa</span><span class="en">Map</span></a>
+  <div class="sidebar-sep"></div>
+  <div class="sidebar-label"><span class="es">Herramientas</span><span class="en">Tools</span></div>
+  <a href="#reportes"><span class="icon">📈</span> <span class="es">Reportes</span><span class="en">Reports</span></a>
+  <a href="#delfos-ia"><span class="icon">🤖</span> Delfos IA</a>
+  <a href="#exportar"><span class="icon">⬇️</span> <span class="es">Exportar</span><span class="en">Exporting</span></a>
+  <a href="#configuracion"><span class="icon">⚙️</span> <span class="es">Configuración</span><span class="en">Configuration</span></a>
+  <a href="#soporte"><span class="icon">🐞</span> <span class="es">Soporte</span><span class="en">Support</span></a>
+  <div class="sidebar-sep"></div>
+  <div class="sidebar-label"><span class="es">Referencia</span><span class="en">Reference</span></div>
+  <a href="#roles"><span class="icon">🛡️</span> <span class="es">Roles</span><span class="en">Roles</span></a>
+  <a href="#glosario"><span class="icon">📖</span> <span class="es">Glosario</span><span class="en">Glossary</span></a>
+</nav>
+
+<main class="main" id="mainContent">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1><span class="es">Bienvenido a Delfos</span><span class="en">Welcome to Delfos</span></h1>
+    <p class="es">Esta guía te acompaña de principio a fin en el uso de Delfos, el sistema para gestionar la relación de tu proyecto con la comunidad y sus grupos de interés. No necesitas conocimientos técnicos: aprenderás <strong>qué hace cada parte del sistema</strong> y <strong>cómo realizar cada tarea</strong>, paso a paso.</p>
+    <p class="en">This guide walks you through Delfos from start to finish — the platform for managing your project's relationship with the community and its stakeholders. No technical knowledge needed: you'll learn <strong>what each part does</strong> and <strong>how to perform every task</strong>, step by step.</p>
+    <div class="tags"><span class="tag es">Guía completa</span><span class="tag en">Complete guide</span><span class="tag">Versión 2026</span><span class="tag">Español / English</span></div>
+  </div>
+
+  <!-- ══ BIENVENIDA ══ -->
+  <section class="section" id="bienvenida">
+    <div class="section-header">
+      <div class="section-icon">👋</div>
+      <div>
+        <h2 class="section-title"><span class="es">¿Qué es Delfos y para qué lo usarás?</span><span class="en">What is Delfos and what will you use it for?</span></h2>
+        <p class="section-sub"><span class="es">Empieza aquí si es tu primera vez</span><span class="en">Start here if it's your first time</span></p>
+      </div>
+    </div>
+    <p class="es">Delfos es una plataforma web donde tu equipo registra y da seguimiento a todo lo que ocurre con los <strong>stakeholders</strong> del proyecto: personas, familias, negocios e instituciones del entorno. Cada conversación, queja, pedido y acuerdo queda guardado en un solo lugar, ordenado y disponible para todo el equipo.</p>
+    <p class="en">Delfos is a web platform where your team records and tracks everything that happens with the project's <strong>stakeholders</strong>: people, families, businesses and institutions around it. Every conversation, complaint, request and agreement is stored in one place — organized and available to the whole team.</p>
+
+    <p class="es">Con Delfos podrás, principalmente:</p>
+    <p class="en">With Delfos you can, mainly:</p>
+    <ul class="can-do">
+      <li><span class="cd-icon">👥</span><div><span class="es">Mantener un <strong>directorio de stakeholders</strong> con toda su información e historia.</span><span class="en">Keep a <strong>stakeholder directory</strong> with all their information and history.</span></div></li>
+      <li><span class="cd-icon">💬</span><div><span class="es">Registrar las <strong>interacciones</strong> (visitas, llamadas, correos) que tienes con ellos.</span><span class="en">Record the <strong>interactions</strong> (visits, calls, emails) you have with them.</span></div></li>
+      <li><span class="cd-icon">📣</span><div><span class="es">Atender <strong>reclamos</strong> y <strong>solicitudes</strong> con un flujo claro de principio a fin.</span><span class="en">Handle <strong>claims</strong> and <strong>requests</strong> with a clear end-to-end workflow.</span></div></li>
+      <li><span class="cd-icon">🤝</span><div><span class="es">Llevar el control de los <strong>compromisos</strong> acordados con la comunidad.</span><span class="en">Track the <strong>commitments</strong> agreed with the community.</span></div></li>
+      <li><span class="cd-icon">🗺️</span><div><span class="es">Ubicar todo en el <strong>mapa</strong> y trabajar con <strong>predios</strong> georreferenciados.</span><span class="en">Locate everything on the <strong>map</strong> and work with georeferenced <strong>land parcels</strong>.</span></div></li>
+      <li><span class="cd-icon">📈</span><div><span class="es">Ver <strong>reportes</strong> y hacer <strong>consultas con IA</strong> para tomar mejores decisiones.</span><span class="en">View <strong>reports</strong> and ask the <strong>AI assistant</strong> to make better decisions.</span></div></li>
+    </ul>
+
+    <h3><span class="es">Recorrido rápido de esta guía</span><span class="en">Quick tour of this guide</span></h3>
+    <div class="toc-grid">
+      <a class="toc-card" href="#ingresar"><div class="tc-icon">🔐</div><div class="tc-title"><span class="es">Ingresar</span><span class="en">Sign in</span></div><div class="tc-desc"><span class="es">Cómo iniciar sesión</span><span class="en">How to log in</span></div></a>
+      <a class="toc-card" href="#pantalla"><div class="tc-icon">🧭</div><div class="tc-title"><span class="es">La pantalla</span><span class="en">The screen</span></div><div class="tc-desc"><span class="es">Dónde está cada cosa</span><span class="en">Where everything is</span></div></a>
+      <a class="toc-card" href="#conceptos"><div class="tc-icon">💡</div><div class="tc-title"><span class="es">Conceptos</span><span class="en">Concepts</span></div><div class="tc-desc"><span class="es">El vocabulario de Delfos</span><span class="en">Delfos vocabulary</span></div></a>
+      <a class="toc-card" href="#ciclo"><div class="tc-icon">🔄</div><div class="tc-title"><span class="es">El flujo</span><span class="en">The flow</span></div><div class="tc-desc"><span class="es">Cómo se encadena todo</span><span class="en">How it all connects</span></div></a>
+    </div>
+  </section>
+
+  <!-- ══ INGRESAR ══ -->
+  <section class="section" id="ingresar">
+    <div class="section-header">
+      <div class="section-icon">🔐</div>
+      <div>
+        <h2 class="section-title"><span class="es">Ingresar al sistema</span><span class="en">Signing in</span></h2>
+        <p class="section-sub"><span class="es">Tu primer paso cada día</span><span class="en">Your first step every day</span></p>
+      </div>
+    </div>
+
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve esta pantalla</span><span class="en">What this screen is for</span></div><p><span class="es">Es la puerta de entrada a Delfos. Aquí confirmas tu identidad para acceder a la información de tu proyecto de forma segura.</span><span class="en">It's the entry point to Delfos. Here you confirm your identity to securely access your project's information.</span></p></div>
+
+    <figure class="shot">
+      <div class="annotated">
+        <img src="manual-assets/01-login.png" alt="Login" onclick="openLb(this.src)">
+        <span class="ann" style="top:33%;left:12%;">1</span>
+        <span class="ann" style="top:50%;left:12%;">2</span>
+        <span class="ann" style="top:62%;left:12%;">3</span>
+        <span class="ann" style="top:78%;left:12%;">4</span>
+      </div>
+      <div class="ann-legend">
+        <div class="ann-legend-item"><span class="ann-legend-num">1</span><span><span class="es">Escribe tu <strong>usuario</strong>.</span><span class="en">Type your <strong>username</strong>.</span></span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">2</span><span><span class="es">Escribe tu <strong>contraseña</strong>. El ícono del ojo te permite verla.</span><span class="en">Type your <strong>password</strong>. The eye icon lets you reveal it.</span></span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">3</span><span><span class="es">Presiona <strong>Iniciar Sesión</strong> para entrar.</span><span class="en">Press <strong>Sign In</strong> to enter.</span></span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">4</span><span><span class="es">También puedes entrar con <strong>Outlook</strong> o <strong>Google</strong>, si tu proyecto lo permite.</span><span class="en">You can also sign in with <strong>Outlook</strong> or <strong>Google</strong>, if your project allows it.</span></span></div>
+      </div>
+      <figcaption><span class="es">Figura 1 — Pantalla de inicio de sesión</span><span class="en">Figure 1 — Sign-in screen</span></figcaption>
+    </figure>
+
+    <div class="task-card">
+      <h3><span class="t-badge"><span class="es">Paso a paso</span><span class="en">Step by step</span></span> <span class="es">Iniciar sesión</span><span class="en">Sign in</span></h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text"><span class="es">Abre en tu navegador el enlace que te entregó el administrador de tu proyecto.</span><span class="en">Open the link your project administrator gave you in your browser.</span></span></li>
+        <li><span class="step-num">2</span><span class="step-text"><span class="es">Escribe tu <strong>usuario</strong> y tu <strong>contraseña</strong>.</span><span class="en">Type your <strong>username</strong> and <strong>password</strong>.</span></span></li>
+        <li><span class="step-num">3</span><span class="step-text"><span class="es">Haz clic en <strong>Iniciar Sesión</strong>. Entrarás a la pantalla de Inicio.</span><span class="en">Click <strong>Sign In</strong>. You'll land on the Home screen.</span></span></li>
+      </ol>
+    </div>
+
+    <div class="callout callout-tip"><span class="callout-icon">💡</span><div><span class="es"><strong>¿Olvidaste tu contraseña?</strong> Usa el enlace <em>“Recuperar contraseña”</em> debajo del botón de acceso: recibirás por correo un enlace temporal para crear una nueva.</span><span class="en"><strong>Forgot your password?</strong> Use the <em>“Recover password”</em> link below the button: you'll get a temporary link by email to set a new one.</span></div></div>
+    <div class="callout callout-warn"><span class="callout-icon">🔒</span><div><span class="es">No compartas tu usuario ni tu contraseña. Cada persona debe tener su propio acceso para que el historial de acciones sea confiable. Tras varios intentos fallidos, el acceso se bloquea temporalmente por seguridad.</span><span class="en">Don't share your username or password. Everyone must have their own account so the action history stays reliable. After several failed attempts, access is temporarily locked for security.</span></div></div>
+  </section>
+
+  <!-- ══ PANTALLA ══ -->
+  <section class="section" id="pantalla">
+    <div class="section-header">
+      <div class="section-icon gray">🧭</div>
+      <div>
+        <h2 class="section-title"><span class="es">Conocer la pantalla</span><span class="en">Getting to know the screen</span></h2>
+        <p class="section-sub"><span class="es">Aprende a moverte por Delfos</span><span class="en">Learn to move around Delfos</span></p>
+      </div>
+    </div>
+    <p class="es">Toda pantalla de Delfos tiene la misma estructura. Una vez que la reconoces, sabrás moverte por cualquier módulo.</p>
+    <p class="en">Every Delfos screen shares the same structure. Once you recognize it, you'll know your way around any module.</p>
+
+    <figure class="shot">
+      <div class="annotated">
+        <img src="manual-assets/02-inicio.png" alt="Pantalla" onclick="openLb(this.src)">
+        <span class="ann" style="top:2%;left:1.5%;">1</span>
+        <span class="ann" style="top:2%;left:52%;">2</span>
+        <span class="ann" style="top:2%;left:95%;">3</span>
+        <span class="ann" style="top:42%;left:8%;">4</span>
+        <span class="ann" style="top:42%;left:55%;">5</span>
+      </div>
+      <div class="ann-legend">
+        <div class="ann-legend-item"><span class="ann-legend-num">1</span><span><span class="es"><strong>Menú lateral</strong> — desde aquí entras a cada módulo. Siempre a la izquierda.</span><span class="en"><strong>Side menu</strong> — enter each module from here. Always on the left.</span></span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">2</span><span><span class="es"><strong>Buscador de stakeholders</strong> — encuentra a cualquier persona o entidad desde cualquier pantalla.</span><span class="en"><strong>Stakeholder search</strong> — find any person or entity from any screen.</span></span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">3</span><span><span class="es"><strong>Tu usuario</strong> — abre tu perfil y la opción de cerrar sesión.</span><span class="en"><strong>Your account</strong> — opens your profile and the sign-out option.</span></span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">4</span><span><span class="es"><strong>Área de trabajo</strong> — el contenido del módulo en el que estás.</span><span class="en"><strong>Work area</strong> — the content of the module you're in.</span></span></div>
+        <div class="ann-legend-item"><span class="ann-legend-num">5</span><span><span class="es"><strong>Pendientes</strong> — lo que requiere tu atención (varía según el módulo).</span><span class="en"><strong>Pending items</strong> — what needs your attention (varies by module).</span></span></div>
+      </div>
+      <figcaption><span class="es">Figura 2 — Partes de la pantalla, iguales en todo el sistema</span><span class="en">Figure 2 — Screen layout, the same across the system</span></figcaption>
+    </figure>
+
+    <h3><span class="es">Cómo funciona cualquier listado</span><span class="en">How any list works</span></h3>
+    <p class="es">Casi todos los módulos muestran una <strong>lista</strong> con la misma lógica. Aprender uno es aprenderlos todos:</p>
+    <p class="en">Almost every module shows a <strong>list</strong> with the same logic. Learn one and you've learned them all:</p>
+    <table>
+      <tr><th><span class="es">Elemento</span><span class="en">Element</span></th><th><span class="es">Para qué sirve</span><span class="en">What it's for</span></th></tr>
+      <tr><td><span class="es">Filtros (arriba)</span><span class="en">Filters (top)</span></td><td><span class="es">Acotar por fecha, tipo, estado, responsable, etc.</span><span class="en">Narrow by date, type, status, owner, etc.</span></td></tr>
+      <tr><td><span class="es">Buscador</span><span class="en">Search box</span></td><td><span class="es">Encontrar por texto (nombre, código…).</span><span class="en">Find by text (name, code…).</span></td></tr>
+      <tr><td><span class="es">Resultados</span><span class="en">Results</span></td><td><span class="es">La tabla con los registros; clic en una fila abre el detalle.</span><span class="en">The table of records; click a row to open the detail.</span></td></tr>
+      <tr><td><span class="es">Paginación</span><span class="en">Pagination</span></td><td><span class="es">Avanzar entre páginas (p. ej. <em>“1 - 20 / 338”</em>).</span><span class="en">Move between pages (e.g. <em>“1 - 20 / 338”</em>).</span></td></tr>
+      <tr><td><span class="es">Botón “+ Nuevo”</span><span class="en">“+ New” button</span></td><td><span class="es">Crear un registro nuevo.</span><span class="en">Create a new record.</span></td></tr>
+      <tr><td><span class="es">Exportar / Mapa</span><span class="en">Export / Map</span></td><td><span class="es">Descargar la lista a Excel o verla en el mapa.</span><span class="en">Download the list to Excel or view it on the map.</span></td></tr>
+    </table>
+    <div class="callout callout-tip"><span class="callout-icon">💡</span><div><span class="es">Los botones de cada fila suelen ser: <strong>Ver</strong> 👁️, <strong>Editar</strong> ✏️ y <strong>Eliminar</strong> 🗑️. Solo verás los que tu rol permite.</span><span class="en">Each row usually offers: <strong>View</strong> 👁️, <strong>Edit</strong> ✏️ and <strong>Delete</strong> 🗑️. You'll only see the ones your role allows.</span></div></div>
+  </section>
+
+  <!-- ══ CONCEPTOS ══ -->
+  <section class="section" id="conceptos">
+    <div class="section-header">
+      <div class="section-icon gold">💡</div>
+      <div>
+        <h2 class="section-title"><span class="es">Conceptos clave</span><span class="en">Key concepts</span></h2>
+        <p class="section-sub"><span class="es">El vocabulario que se repite en todo Delfos</span><span class="en">The vocabulary you'll see everywhere in Delfos</span></p>
+      </div>
+    </div>
+    <p class="es">Todo en Delfos gira en torno al <strong>stakeholder</strong>. A partir de él se registran las gestiones. Entender estos conceptos es entender el sistema completo.</p>
+    <p class="en">Everything in Delfos revolves around the <strong>stakeholder</strong>. Every activity is recorded against one. Understanding these concepts means understanding the whole system.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card"><div class="cc-icon">👥</div><div class="cc-title">Stakeholder</div><div class="cc-desc"><span class="es">Persona, familia, negocio o institución del entorno del proyecto. Es el centro de todo.</span><span class="en">A person, family, business or institution around the project. The center of everything.</span></div></div>
+      <div class="concept-card"><div class="cc-icon">💬</div><div class="cc-title"><span class="es">Interacción</span><span class="en">Interaction</span></div><div class="cc-desc"><span class="es">Cualquier contacto con un stakeholder: una visita, una llamada, un correo.</span><span class="en">Any contact with a stakeholder: a visit, a call, an email.</span></div></div>
+      <div class="concept-card"><div class="cc-icon">📣</div><div class="cc-title"><span class="es">Reclamo</span><span class="en">Claim</span></div><div class="cc-desc"><span class="es">Una queja formal por una afectación real o percibida. Se atiende hasta cerrarla.</span><span class="en">A formal complaint about a real or perceived impact. Handled until closed.</span></div></div>
+      <div class="concept-card"><div class="cc-icon">📝</div><div class="cc-title"><span class="es">Solicitud</span><span class="en">Request</span></div><div class="cc-desc"><span class="es">Un pedido o requerimiento que no es una queja (información, permisos…).</span><span class="en">A request that isn't a complaint (information, permits…).</span></div></div>
+      <div class="concept-card"><div class="cc-icon">🤝</div><div class="cc-title"><span class="es">Compromiso</span><span class="en">Commitment</span></div><div class="cc-desc"><span class="es">Un acuerdo formal con la comunidad, con acciones y fechas por cumplir.</span><span class="en">A formal agreement with the community, with actions and due dates.</span></div></div>
+      <div class="concept-card"><div class="cc-icon">📦</div><div class="cc-title"><span class="es">Entregable</span><span class="en">Deliverable</span></div><div class="cc-desc"><span class="es">Una acción concreta que forma parte de un compromiso.</span><span class="en">A concrete action that is part of a commitment.</span></div></div>
+      <div class="concept-card"><div class="cc-icon">🏞️</div><div class="cc-title"><span class="es">Predio</span><span class="en">Land parcel</span></div><div class="cc-desc"><span class="es">Un terreno del área del proyecto, vinculable a stakeholders.</span><span class="en">A plot of land in the project area, linkable to stakeholders.</span></div></div>
+      <div class="concept-card"><div class="cc-icon">🏷️</div><div class="cc-title"><span class="es">Etiqueta</span><span class="en">Tag</span></div><div class="cc-desc"><span class="es">Una categoría que se asigna a los registros para clasificarlos y buscarlos.</span><span class="en">A category assigned to records to classify and find them.</span></div></div>
+    </div>
+  </section>
+
+  <!-- ══ CICLO ══ -->
+  <section class="section" id="ciclo">
+    <div class="section-header">
+      <div class="section-icon teal">🔄</div>
+      <div>
+        <h2 class="section-title"><span class="es">Cómo fluye el trabajo</span><span class="en">How work flows</span></h2>
+        <p class="section-sub"><span class="es">De un stakeholder a un compromiso cumplido</span><span class="en">From a stakeholder to a fulfilled commitment</span></p>
+      </div>
+    </div>
+    <p class="es">Los módulos no son islas: se encadenan. Un mismo caso puede recorrer varias etapas, y todo queda ligado al stakeholder.</p>
+    <p class="en">Modules aren't islands — they chain together. A single case can move through several stages, all tied back to the stakeholder.</p>
+    <div class="flow">
+      <div class="flow-step active">👥 <span class="es">Stakeholder</span><span class="en">Stakeholder</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">💬 <span class="es">Interacción</span><span class="en">Interaction</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">📣 <span class="es">Reclamo /</span><span class="en">Claim /</span> 📝 <span class="es">Solicitud</span><span class="en">Request</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">🤝 <span class="es">Compromiso</span><span class="en">Commitment</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">📈 <span class="es">Reporte</span><span class="en">Report</span></div>
+    </div>
+    <p class="es">Además, cada reclamo, solicitud o compromiso tiene su <strong>propio ciclo interno</strong> de etapas (por ejemplo: propuesta → respuesta → cierre → evaluación). El módulo <em>Proceso</em> de cada registro muestra esa línea de tiempo.</p>
+    <p class="en">In addition, each claim, request or commitment has its <strong>own internal lifecycle</strong> of stages (for example: proposal → response → closure → evaluation). Each record's <em>Process</em> view shows that timeline.</p>
+  </section>
+
+  <!-- ══ INICIO ══ -->
+  <section class="section" id="inicio">
+    <div class="section-header">
+      <div class="section-icon">🏠</div>
+      <div>
+        <h2 class="section-title"><span class="es">Inicio</span><span class="en">Home</span></h2>
+        <p class="section-sub"><span class="es">Tu panel de resumen</span><span class="en">Your summary dashboard</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Es la primera pantalla al entrar. Resume el estado del proyecto y lo que requiere tu atención.</span><span class="en">It's the first screen you see. It summarizes the project status and what needs your attention.</span></p></div>
+    <ul class="can-do">
+      <li><span class="cd-icon">📊</span><div><span class="es">Ver <strong>indicadores generales</strong> del proyecto de un vistazo.</span><span class="en">See the project's <strong>key indicators</strong> at a glance.</span></div></li>
+      <li><span class="cd-icon">🔔</span><div><span class="es">Revisar tus <strong>pendientes</strong> y avisos (boletín) del proyecto.</span><span class="en">Review your <strong>pending items</strong> and project notices (bulletin).</span></div></li>
+      <li><span class="cd-icon">➡️</span><div><span class="es">Saltar directamente a los módulos con mayor actividad.</span><span class="en">Jump straight to the busiest modules.</span></div></li>
+    </ul>
+    <div class="callout callout-info"><span class="callout-icon">📣</span><div><span class="es">Si hay un <strong>boletín</strong> o aviso nuevo, aparecerá al ingresar. Al marcarlo como visto, no volverá a mostrarse.</span><span class="en">If there's a new <strong>bulletin</strong> or notice, it appears when you sign in. Once you mark it as read, it won't show again.</span></div></div>
+  </section>
+
+  <!-- ══ STAKEHOLDERS ══ -->
+  <section class="section" id="stakeholders">
+    <div class="section-header">
+      <div class="section-icon green">👥</div>
+      <div>
+        <h2 class="section-title">Stakeholders</h2>
+        <p class="section-sub"><span class="es">El directorio central de personas y organizaciones</span><span class="en">The central directory of people and organizations</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Es el corazón de Delfos: el registro de cada persona natural u organización con la que el proyecto se relaciona, con toda su información e historia.</span><span class="en">It's the heart of Delfos: the record of every individual or organization the project engages with, with all their information and history.</span></p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/03-stakeholders-lista.png" alt="Lista de stakeholders" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 3 — Lista de stakeholders con filtros y búsqueda</span><span class="en">Figure 3 — Stakeholder list with filters and search</span></figcaption>
+    </figure>
+
+    <p class="es">Qué puedes hacer aquí:</p>
+    <p class="en">What you can do here:</p>
+    <ul class="can-do">
+      <li><span class="cd-icon">➕</span><div><span class="es"><strong>Crear</strong> un stakeholder (persona natural u organización) y <strong>editarlo</strong>.</span><span class="en"><strong>Create</strong> a stakeholder (individual or organization) and <strong>edit</strong> it.</span></div></li>
+      <li><span class="cd-icon">🪪</span><div><span class="es">Abrir su <strong>Ficha 360°</strong>: datos, historial, interacciones, reclamos, compromisos y evaluaciones.</span><span class="en">Open its <strong>360° Profile</strong>: data, history, interactions, claims, commitments and evaluations.</span></div></li>
+      <li><span class="cd-icon">🏷️</span><div><span class="es">Asignar <strong>etiquetas</strong> para clasificarlo.</span><span class="en">Assign <strong>tags</strong> to classify it.</span></div></li>
+      <li><span class="cd-icon">📊</span><div><span class="es"><strong>Evaluar</strong> su posición frente al proyecto (poder, interés, categoría).</span><span class="en"><strong>Evaluate</strong> its position toward the project (power, interest, category).</span></div></li>
+      <li><span class="cd-icon">🔗</span><div><span class="es"><strong>Fusionar</strong> duplicados y vincularlo a <strong>predios</strong>.</span><span class="en"><strong>Merge</strong> duplicates and link it to <strong>land parcels</strong>.</span></div></li>
+      <li><span class="cd-icon">⬇️</span><div><span class="es"><strong>Importar</strong> muchos stakeholders desde Excel y <strong>exportar</strong> el listado.</span><span class="en"><strong>Import</strong> many stakeholders from Excel and <strong>export</strong> the list.</span></div></li>
+    </ul>
+
+    <figure class="shot">
+      <img src="manual-assets/04-stakeholder-ficha.png" alt="Ficha de stakeholder" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 4 — Ficha 360° de un stakeholder</span><span class="en">Figure 4 — 360° stakeholder profile</span></figcaption>
+    </figure>
+
+    <div class="task-card">
+      <h3><span class="t-badge"><span class="es">Paso a paso</span><span class="en">Step by step</span></span> <span class="es">Crear un stakeholder</span><span class="en">Create a stakeholder</span></h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text"><span class="es">Entra a <span class="navchip">👥 Stakeholders</span> y haz clic en <strong>+ Nuevo</strong>.</span><span class="en">Go to <span class="navchip">👥 Stakeholders</span> and click <strong>+ New</strong>.</span></span></li>
+        <li><span class="step-num">2</span><span class="step-text"><span class="es">Elige el tipo: <strong>persona natural</strong> u <strong>organización</strong>.</span><span class="en">Choose the type: <strong>individual</strong> or <strong>organization</strong>.</span></span></li>
+        <li><span class="step-num">3</span><span class="step-text"><span class="es">Completa nombre/razón social, documento, ubigeo y demás datos.</span><span class="en">Fill in name, ID document, location and the rest of the details.</span></span></li>
+        <li><span class="step-num">4</span><span class="step-text"><span class="es">Si el sistema detecta posibles duplicados, revísalos antes de guardar.</span><span class="en">If the system detects possible duplicates, review them before saving.</span></span></li>
+        <li><span class="step-num">5</span><span class="step-text"><span class="es">Guarda. El stakeholder queda disponible para todo el equipo del proyecto.</span><span class="en">Save. The stakeholder is now available to the whole project team.</span></span></li>
+      </ol>
+    </div>
+
+    <div class="callout callout-info"><span class="callout-icon">🔀</span><div><span class="es"><strong>Importación masiva:</strong> en el módulo de importación descargas la plantilla, la llenas, la subes y el sistema <strong>verifica</strong> errores antes de <strong>ejecutar</strong> la carga.</span><span class="en"><strong>Bulk import:</strong> in the import module you download the template, fill it in, upload it, and the system <strong>verifies</strong> errors before <strong>running</strong> the load.</span></div></div>
+    <div class="callout callout-tip"><span class="callout-icon">👤</span><div><span class="es">En stakeholders, administradores, relacionistas y supervisores pueden crear, editar y eliminar cualquier registro (no está limitado a “solo lo que yo creé”).</span><span class="en">For stakeholders, administrators, relationship officers and supervisors can create, edit and delete any record (it's not limited to “only what I created”).</span></div></div>
+  </section>
+
+  <!-- ══ PREDIOS ══ -->
+  <section class="section" id="predios">
+    <div class="section-header">
+      <div class="section-icon gold">🏞️</div>
+      <div>
+        <h2 class="section-title"><span class="es">Predios</span><span class="en">Land parcels</span></h2>
+        <p class="section-sub"><span class="es">Terrenos del proyecto y sus vínculos</span><span class="en">Project land and its links</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Registra los terrenos del área de influencia, sus códigos, y qué stakeholders se relacionan con cada uno.</span><span class="en">Records the land parcels in the area of influence, their codes, and which stakeholders relate to each one.</span></p></div>
+    <ul class="can-do">
+      <li><span class="cd-icon">➕</span><div><span class="es">Crear, editar y eliminar <strong>predios</strong>; ver su <strong>ficha</strong>.</span><span class="en">Create, edit and delete <strong>parcels</strong>; view their <strong>profile</strong>.</span></div></li>
+      <li><span class="cd-icon">🔢</span><div><span class="es">Asignar y gestionar <strong>códigos</strong> de predio.</span><span class="en">Assign and manage parcel <strong>codes</strong>.</span></div></li>
+      <li><span class="cd-icon">🔗</span><div><span class="es">Vincular <strong>stakeholders</strong> a un predio (con parentesco / condición de propiedad).</span><span class="en">Link <strong>stakeholders</strong> to a parcel (with kinship / ownership condition).</span></div></li>
+      <li><span class="cd-icon">🗺️</span><div><span class="es">Verlos en el <strong>mapa</strong> y <strong>exportar</strong> el listado.</span><span class="en">See them on the <strong>map</strong> and <strong>export</strong> the list.</span></div></li>
+    </ul>
+    <figure class="shot"><div class="shot-ph"><div class="ph-ic">🖼️</div><div><span class="es">Captura sugerida: listado de predios / ficha de predio.</span><span class="en">Suggested screenshot: parcel list / parcel profile.</span></div></div></figure>
+  </section>
+
+  <!-- ══ INTERACCIONES ══ -->
+  <section class="section" id="interacciones">
+    <div class="section-header">
+      <div class="section-icon purple">💬</div>
+      <div>
+        <h2 class="section-title"><span class="es">Interacciones</span><span class="en">Interactions</span></h2>
+        <p class="section-sub"><span class="es">El registro de cada contacto</span><span class="en">The record of every contact</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Guarda cada contacto con un stakeholder (visita, llamada, reunión, correo). Es la memoria viva de la relación.</span><span class="en">Stores every contact with a stakeholder (visit, call, meeting, email). It's the living memory of the relationship.</span></p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/05-interacciones.png" alt="Interacciones" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 5 — Listado de interacciones</span><span class="en">Figure 5 — Interactions list</span></figcaption>
+    </figure>
+
+    <ul class="can-do">
+      <li><span class="cd-icon">➕</span><div><span class="es">Registrar una interacción con tipo, canal, prioridad, fecha y participantes.</span><span class="en">Log an interaction with type, channel, priority, date and participants.</span></div></li>
+      <li><span class="cd-icon">📎</span><div><span class="es">Adjuntar <strong>archivos</strong> (fotos, actas, documentos).</span><span class="en">Attach <strong>files</strong> (photos, minutes, documents).</span></div></li>
+      <li><span class="cd-icon">💭</span><div><span class="es">Agregar <strong>comentarios</strong> de seguimiento.</span><span class="en">Add follow-up <strong>comments</strong>.</span></div></li>
+      <li><span class="cd-icon">🤖</span><div><span class="es">Generar una interacción <strong>asistida por IA</strong> a partir de un texto.</span><span class="en">Generate an <strong>AI-assisted</strong> interaction from a piece of text.</span></div></li>
+      <li><span class="cd-icon">🗺️</span><div><span class="es">Verlas en el mapa y exportarlas (incluidos sus adjuntos).</span><span class="en">See them on the map and export them (including attachments).</span></div></li>
+    </ul>
+
+    <div class="task-card">
+      <h3><span class="t-badge"><span class="es">Paso a paso</span><span class="en">Step by step</span></span> <span class="es">Registrar una interacción</span><span class="en">Log an interaction</span></h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text"><span class="es">Entra a <span class="navchip">💬 Interacciones</span> y haz clic en <strong>+ Nuevo</strong>.</span><span class="en">Go to <span class="navchip">💬 Interactions</span> and click <strong>+ New</strong>.</span></span></li>
+        <li><span class="step-num">2</span><span class="step-text"><span class="es">Selecciona el o los <strong>stakeholders</strong> involucrados.</span><span class="en">Select the <strong>stakeholder(s)</strong> involved.</span></span></li>
+        <li><span class="step-num">3</span><span class="step-text"><span class="es">Indica <strong>tipo</strong>, <strong>canal</strong>, <strong>fecha</strong> y describe lo ocurrido.</span><span class="en">Set the <strong>type</strong>, <strong>channel</strong>, <strong>date</strong> and describe what happened.</span></span></li>
+        <li><span class="step-num">4</span><span class="step-text"><span class="es">Adjunta archivos si corresponde y <strong>guarda</strong>.</span><span class="en">Attach files if needed and <strong>save</strong>.</span></span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══ RECLAMOS ══ -->
+  <section class="section" id="reclamos">
+    <div class="section-header">
+      <div class="section-icon red">📣</div>
+      <div>
+        <h2 class="section-title"><span class="es">Reclamos</span><span class="en">Claims</span></h2>
+        <p class="section-sub"><span class="es">Atención de quejas de principio a fin</span><span class="en">Handling complaints end to end</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Gestiona las quejas formales de la comunidad con un flujo controlado, desde que se registran hasta que se cierran y evalúan.</span><span class="en">Manages the community's formal complaints with a controlled workflow, from logging to closure and evaluation.</span></p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/06-reclamos.png" alt="Reclamos" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 6 — Listado de reclamos</span><span class="en">Figure 6 — Claims list</span></figcaption>
+    </figure>
+
+    <h3><span class="es">El ciclo del reclamo</span><span class="en">The claim lifecycle</span></h3>
+    <div class="flow">
+      <div class="flow-step active"><span class="es">Registro</span><span class="en">Register</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Propuesta</span><span class="en">Proposal</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Respuesta</span><span class="en">Response</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Cierre</span><span class="en">Closure</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Evaluación</span><span class="en">Evaluation</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Apelación*</span><span class="en">Appeal*</span></div>
+    </div>
+    <p style="font-size:.82rem;color:var(--text-muted)"><span class="es">* La apelación solo ocurre si el reclamante no acepta la respuesta.</span><span class="en">* The appeal only happens if the claimant rejects the response.</span></p>
+
+    <table>
+      <tr><th><span class="es">Etapa</span><span class="en">Stage</span></th><th><span class="es">Qué haces</span><span class="en">What you do</span></th></tr>
+      <tr><td><span class="es">Registro</span><span class="en">Register</span></td><td><span class="es">Creas el reclamo con su tipo, canal, stakeholder y descripción. Recibe un código.</span><span class="en">Create the claim with its type, channel, stakeholder and description. It gets a code.</span></td></tr>
+      <tr><td><span class="es">Propuesta</span><span class="en">Proposal</span></td><td><span class="es">Registras la propuesta de solución.</span><span class="en">Record the proposed solution.</span></td></tr>
+      <tr><td><span class="es">Respuesta</span><span class="en">Response</span></td><td><span class="es">Documentas la respuesta formal al reclamante.</span><span class="en">Document the formal response to the claimant.</span></td></tr>
+      <tr><td><span class="es">Cierre</span><span class="en">Closure</span></td><td><span class="es">Cierras el reclamo cuando queda resuelto.</span><span class="en">Close the claim once it's resolved.</span></td></tr>
+      <tr><td><span class="es">Evaluación</span><span class="en">Evaluation</span></td><td><span class="es">Evalúas cómo se resolvió.</span><span class="en">Evaluate how it was resolved.</span></td></tr>
+      <tr><td><span class="es">Apelación</span><span class="en">Appeal</span></td><td><span class="es">Gestionas la apelación si el reclamante no está conforme.</span><span class="en">Handle the appeal if the claimant is not satisfied.</span></td></tr>
+    </table>
+
+    <div class="callout callout-info"><span class="callout-icon">🕓</span><div><span class="es">El botón <strong>Proceso</strong> de cada reclamo muestra su <strong>línea de tiempo</strong>: qué pasó, cuándo y quién lo hizo.</span><span class="en">Each claim's <strong>Process</strong> button shows its <strong>timeline</strong>: what happened, when, and who did it.</span></div></div>
+  </section>
+
+  <!-- ══ SOLICITUDES ══ -->
+  <section class="section" id="solicitudes">
+    <div class="section-header">
+      <div class="section-icon orange">📝</div>
+      <div>
+        <h2 class="section-title"><span class="es">Solicitudes</span><span class="en">Requests</span></h2>
+        <p class="section-sub"><span class="es">Pedidos y requerimientos con seguimiento</span><span class="en">Requests and requirements with tracking</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Gestiona los pedidos que no son quejas (información, permisos, apoyos) con su propio ciclo de aprobación y cierre.</span><span class="en">Manages requests that aren't complaints (information, permits, support) with their own approval and closure cycle.</span></p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/07-solicitudes.png" alt="Solicitudes" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 7 — Listado de solicitudes</span><span class="en">Figure 7 — Requests list</span></figcaption>
+    </figure>
+
+    <h3><span class="es">El ciclo de la solicitud</span><span class="en">The request lifecycle</span></h3>
+    <div class="flow">
+      <div class="flow-step active"><span class="es">Registro</span><span class="en">Register</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Propuesta</span><span class="en">Proposal</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Revisión</span><span class="en">Review</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Aprobación</span><span class="en">Approval</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Cierre</span><span class="en">Closure</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Evaluación</span><span class="en">Evaluation</span></div>
+    </div>
+    <p class="es">Cada etapa tiene su formulario para registrar, editar y consultar. El botón <strong>Proceso</strong> muestra el avance completo.</p>
+    <p class="en">Each stage has its own form to record, edit and review. The <strong>Process</strong> button shows the full progress.</p>
+  </section>
+
+  <!-- ══ COMPROMISOS ══ -->
+  <section class="section" id="compromisos">
+    <div class="section-header">
+      <div class="section-icon">🤝</div>
+      <div>
+        <h2 class="section-title"><span class="es">Compromisos</span><span class="en">Commitments</span></h2>
+        <p class="section-sub"><span class="es">Acuerdos con la comunidad y sus entregables</span><span class="en">Agreements with the community and their deliverables</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Lleva el control de los acuerdos formales del proyecto con la comunidad, y de las acciones (entregables) necesarias para cumplirlos.</span><span class="en">Tracks the project's formal agreements with the community and the actions (deliverables) needed to fulfill them.</span></p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/08-compromisos.png" alt="Compromisos" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 8 — Listado de compromisos</span><span class="en">Figure 8 — Commitments list</span></figcaption>
+    </figure>
+
+    <ul class="can-do">
+      <li><span class="cd-icon">➕</span><div><span class="es">Crear un <strong>compromiso</strong> con su fuente, categoría, responsable y fechas.</span><span class="en">Create a <strong>commitment</strong> with its source, category, owner and dates.</span></div></li>
+      <li><span class="cd-icon">📦</span><div><span class="es">Agregar <strong>entregables</strong> (las acciones concretas).</span><span class="en">Add <strong>deliverables</strong> (the concrete actions).</span></div></li>
+      <li><span class="cd-icon">✅</span><div><span class="es">Registrar el <strong>cumplimiento</strong>, <strong>ajustes</strong>, <strong>implementación</strong> o <strong>cancelación</strong> de cada entregable.</span><span class="en">Record each deliverable's <strong>fulfillment</strong>, <strong>adjustments</strong>, <strong>implementation</strong> or <strong>cancellation</strong>.</span></div></li>
+      <li><span class="cd-icon">📈</span><div><span class="es">Seguir el <strong>avance</strong> en el dashboard de compromisos.</span><span class="en">Track <strong>progress</strong> in the commitments dashboard.</span></div></li>
+    </ul>
+    <div class="callout callout-tip"><span class="callout-icon">📦</span><div><span class="es">Un compromiso se cumple a través de sus <strong>entregables</strong>. Cada entregable tiene su propio avance y su línea de tiempo (<strong>Proceso</strong>).</span><span class="en">A commitment is fulfilled through its <strong>deliverables</strong>. Each deliverable has its own progress and timeline (<strong>Process</strong>).</span></div></div>
+  </section>
+
+  <!-- ══ COMPROMISOX ══ -->
+  <section class="section" id="compromisox">
+    <div class="section-header">
+      <div class="section-icon gray">📌</div>
+      <div>
+        <h2 class="section-title"><span class="es">Compromisos externos</span><span class="en">External commitments</span></h2>
+        <p class="section-sub"><span class="es">Compromisos de otra naturaleza (Compromisox)</span><span class="en">Commitments of a different nature (Compromisox)</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Es una variante de compromisos con su propio ciclo. Se usa cuando el proyecto lo tiene habilitado.</span><span class="en">A variant of commitments with its own lifecycle. Used when the project has it enabled.</span></p></div>
+    <h3><span class="es">Su ciclo</span><span class="en">Its lifecycle</span></h3>
+    <div class="flow">
+      <div class="flow-step active"><span class="es">Registro</span><span class="en">Register</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Implementar</span><span class="en">Implement</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Redefinir</span><span class="en">Redefine</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Completar</span><span class="en">Complete</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Cancelar*</span><span class="en">Cancel*</span></div>
+    </div>
+    <p class="es">Incluye informe propio y dashboard de seguimiento (nuevos, abiertos, cerrados y performance).</p>
+    <p class="en">Includes its own report and a tracking dashboard (new, open, closed and performance).</p>
+  </section>
+
+  <!-- ══ MAPA ══ -->
+  <section class="section" id="mapa">
+    <div class="section-header">
+      <div class="section-icon teal">🗺️</div>
+      <div>
+        <h2 class="section-title"><span class="es">Mapa</span><span class="en">Map</span></h2>
+        <p class="section-sub"><span class="es">Todo tu proyecto, georreferenciado</span><span class="en">Your whole project, georeferenced</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Visualiza stakeholders, predios, interacciones, reclamos, solicitudes y compromisos sobre un mapa, con capas configurables.</span><span class="en">Visualize stakeholders, parcels, interactions, claims, requests and commitments on a map, with configurable layers.</span></p></div>
+    <ul class="can-do">
+      <li><span class="cd-icon">🔍</span><div><span class="es">Buscar por <strong>dirección</strong> o por <strong>coordenadas</strong>.</span><span class="en">Search by <strong>address</strong> or by <strong>coordinates</strong>.</span></div></li>
+      <li><span class="cd-icon">🗂️</span><div><span class="es">Activar/desactivar <strong>capas</strong> (las configura el administrador).</span><span class="en">Turn <strong>layers</strong> on/off (configured by the administrator).</span></div></li>
+      <li><span class="cd-icon">✏️</span><div><span class="es"><strong>Dibujar</strong> polígonos/áreas y guardarlos.</span><span class="en"><strong>Draw</strong> polygons/areas and save them.</span></div></li>
+      <li><span class="cd-icon">⬇️</span><div><span class="es"><strong>Exportar</strong> información geográfica.</span><span class="en"><strong>Export</strong> geographic information.</span></div></li>
+    </ul>
+    <div class="callout callout-tip"><span class="callout-icon">🗺️</span><div><span class="es">En casi todos los listados hay una opción <strong>“Mapa”</strong> que muestra esos mismos registros geolocalizados.</span><span class="en">Most lists include a <strong>“Map”</strong> option that shows those same records geolocated.</span></div></div>
+  </section>
+
+  <!-- ══ REPORTES ══ -->
+  <section class="section" id="reportes">
+    <div class="section-header">
+      <div class="section-icon">📈</div>
+      <div>
+        <h2 class="section-title"><span class="es">Reportes y Dashboards</span><span class="en">Reports & Dashboards</span></h2>
+        <p class="section-sub"><span class="es">Los datos convertidos en decisiones</span><span class="en">Turning data into decisions</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Cada módulo tiene su tablero con indicadores y gráficos. Puedes filtrar por fecha y exportar cada gráfico.</span><span class="en">Each module has its dashboard with indicators and charts. You can filter by date and export each chart.</span></p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/09-reporte-interaccion.png" alt="Reporte de interacciones" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 9 — Dashboard de interacciones</span><span class="en">Figure 9 — Interactions dashboard</span></figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="manual-assets/10-reporte-reclamo.png" alt="Reporte de reclamos" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 10 — Dashboard de reclamos</span><span class="en">Figure 10 — Claims dashboard</span></figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="manual-assets/11-reporte-stakeholder.png" alt="Reporte de stakeholders" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 11 — Dashboard de stakeholders</span><span class="en">Figure 11 — Stakeholders dashboard</span></figcaption>
+    </figure>
+
+    <p class="es">Dashboards disponibles:</p>
+    <p class="en">Available dashboards:</p>
+    <table>
+      <tr><th>Dashboard</th><th><span class="es">Qué muestra</span><span class="en">What it shows</span></th></tr>
+      <tr><td><span class="es">Inicio</span><span class="en">Home</span></td><td><span class="es">Resumen general del proyecto.</span><span class="en">General project summary.</span></td></tr>
+      <tr><td><span class="es">Interacciones</span><span class="en">Interactions</span></td><td><span class="es">Evolución, canal, prioridad, tema, relacionista, tipo/género/categoría de stakeholder, ubigeo.</span><span class="en">Evolution, channel, priority, topic, officer, stakeholder type/gender/category, location.</span></td></tr>
+      <tr><td><span class="es">Reclamos</span><span class="en">Claims</span></td><td><span class="es">Evolución, vigencia por categoría/responsable, stakeholder, ubigeo.</span><span class="en">Evolution, validity by category/owner, stakeholder, location.</span></td></tr>
+      <tr><td><span class="es">Solicitudes</span><span class="en">Requests</span></td><td><span class="es">Misma estructura que reclamos.</span><span class="en">Same structure as claims.</span></td></tr>
+      <tr><td><span class="es">Compromisos / Entregables</span><span class="en">Commitments / Deliverables</span></td><td><span class="es">Avance, vigencia por categoría/fuente/responsable, evolución, ubigeo.</span><span class="en">Progress, validity by category/source/owner, evolution, location.</span></td></tr>
+      <tr><td><span class="es">Compromisos externos</span><span class="en">External commitments</span></td><td><span class="es">Nuevos, abiertos, cerrados y performance.</span><span class="en">New, open, closed and performance.</span></td></tr>
+      <tr><td><span class="es">Stakeholders</span><span class="en">Stakeholders</span></td><td><span class="es">Identificados, organización, sexo, etiquetas, evaluados, ubigeo.</span><span class="en">Identified, organization, gender, tags, evaluated, location.</span></td></tr>
+      <tr><td><span class="es">Evaluación de stakeholders</span><span class="en">Stakeholder evaluation</span></td><td><span class="es">Posición, categoría, evolución y matriz de dimensiones.</span><span class="en">Position, category, evolution and dimensions matrix.</span></td></tr>
+    </table>
+    <div class="callout callout-info"><span class="callout-icon">📊</span><div><span class="es">Si tu proyecto usa <strong>Power BI</strong>, encontrarás además reportes avanzados embebidos dentro de Reportes.</span><span class="en">If your project uses <strong>Power BI</strong>, you'll also find advanced embedded reports inside Reports.</span></div></div>
+  </section>
+
+  <!-- ══ DELFOS IA ══ -->
+  <section class="section" id="delfos-ia">
+    <div class="section-header">
+      <div class="section-icon purple">🤖</div>
+      <div>
+        <h2 class="section-title">Delfos IA</h2>
+        <p class="section-sub"><span class="es">Tu asistente inteligente</span><span class="en">Your intelligent assistant</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Pregunta en lenguaje natural sobre la información de tu proyecto y obtén respuestas al instante.</span><span class="en">Ask questions in plain language about your project's information and get instant answers.</span></p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/12-delfos-ia.png" alt="Delfos IA" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 12 — Asistente Delfos IA</span><span class="en">Figure 12 — Delfos AI assistant</span></figcaption>
+    </figure>
+
+    <ul class="can-do">
+      <li><span class="cd-icon">💬</span><div><span class="es">Hacer <strong>preguntas</strong> y mantener varias <strong>conversaciones</strong>.</span><span class="en">Ask <strong>questions</strong> and keep several <strong>conversations</strong>.</span></div></li>
+      <li><span class="cd-icon">⭐</span><div><span class="es">Usar y guardar <strong>preguntas frecuentes</strong>.</span><span class="en">Use and save <strong>frequently asked questions</strong>.</span></div></li>
+      <li><span class="cd-icon">✏️</span><div><span class="es">Renombrar o eliminar conversaciones.</span><span class="en">Rename or delete conversations.</span></div></li>
+    </ul>
+    <div class="callout callout-tip"><span class="callout-icon">💡</span><div><span class="es">Escribe preguntas concretas, p. ej.: <em>“¿Cuántos reclamos abiertos hay en el distrito X este mes?”</em></span><span class="en">Write specific questions, e.g.: <em>“How many open claims are there in district X this month?”</em></span></div></div>
+  </section>
+
+  <!-- ══ EXPORTAR ══ -->
+  <section class="section" id="exportar">
+    <div class="section-header">
+      <div class="section-icon green">⬇️</div>
+      <div>
+        <h2 class="section-title"><span class="es">Exportar a Excel / archivos</span><span class="en">Exporting to Excel / files</span></h2>
+        <p class="section-sub"><span class="es">Llévate la información fuera del sistema</span><span class="en">Take the information outside the system</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Casi todos los listados y reportes se pueden descargar. Para volúmenes grandes, la exportación se hace en segundo plano.</span><span class="en">Almost every list and report can be downloaded. For large volumes, the export runs in the background.</span></p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/15-descarga-modal.png" alt="Descarga" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 13 — Ventana de generación/descarga de archivo</span><span class="en">Figure 13 — File generation/download window</span></figcaption>
+    </figure>
+
+    <h3><span class="es">Exportación en segundo plano</span><span class="en">Background export</span></h3>
+    <div class="flow">
+      <div class="flow-step active"><span class="es">Iniciar</span><span class="en">Start</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Generando…</span><span class="en">Generating…</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Listo</span><span class="en">Ready</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="es">Descargar</span><span class="en">Download</span></div>
+    </div>
+    <p class="es">Presionas <strong>Exportar</strong>, el sistema prepara el archivo (verás el progreso) y cuando termina lo <strong>descargas</strong>. Puedes seguir trabajando mientras tanto.</p>
+    <p class="en">You press <strong>Export</strong>, the system prepares the file (you'll see the progress), and when it's done you <strong>download</strong> it. You can keep working meanwhile.</p>
+    <div class="callout callout-warn"><span class="callout-icon">🔐</span><div><span class="es">Los archivos generados son privados de tu proyecto: solo se descargan estando con sesión iniciada.</span><span class="en">Generated files are private to your project: they can only be downloaded while you're signed in.</span></div></div>
+  </section>
+
+  <!-- ══ CONFIGURACIÓN ══ -->
+  <section class="section" id="configuracion">
+    <div class="section-header">
+      <div class="section-icon gray">⚙️</div>
+      <div>
+        <h2 class="section-title"><span class="es">Configuración</span><span class="en">Configuration</span></h2>
+        <p class="section-sub"><span class="es">Solo para administradores</span><span class="en">Administrators only</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Es el centro de administración del proyecto: usuarios, permisos, catálogos maestros, mapa, IA y el modelo de evaluación.</span><span class="en">The project's administration center: users, permissions, master catalogs, map, AI and the evaluation model.</span></p></div>
+
+    <figure class="shot">
+      <img src="manual-assets/13-configuracion.png" alt="Configuración" onclick="openLb(this.src)">
+      <figcaption><span class="es">Figura 14 — Panel de configuración</span><span class="en">Figure 14 — Configuration panel</span></figcaption>
+    </figure>
+
+    <table>
+      <tr><th><span class="es">Sección</span><span class="en">Section</span></th><th><span class="es">Qué administras</span><span class="en">What you manage</span></th></tr>
+      <tr><td><span class="es">Usuarios y roles</span><span class="en">Users & roles</span></td><td><span class="es">Crear usuarios, restablecer contraseñas y asignar roles/permisos.</span><span class="en">Create users, reset passwords, assign roles/permissions.</span></td></tr>
+      <tr><td><span class="es">General del proyecto</span><span class="en">Project general</span></td><td><span class="es">Nombre, logo, feriados, rango de fechas por defecto, parámetros.</span><span class="en">Name, logo, holidays, default date range, parameters.</span></td></tr>
+      <tr><td><span class="es">Catálogos maestros</span><span class="en">Master catalogs</span></td><td><span class="es">Tipos, canales, prioridades, categorías, fuentes de cada módulo (crear, editar, reordenar).</span><span class="en">Types, channels, priorities, categories, sources of each module (create, edit, reorder).</span></td></tr>
+      <tr><td>Tags / Ubigeo</td><td><span class="es">Etiquetas (con fusión) y división geográfica.</span><span class="en">Tags (with merge) and geographic divisions.</span></td></tr>
+      <tr><td><span class="es">Mapa</span><span class="en">Map</span></td><td><span class="es">Capas, zoom inicial, coordenada central, buscador.</span><span class="en">Layers, initial zoom, center coordinate, search.</span></td></tr>
+      <tr><td><span class="es">Evaluación de stakeholders</span><span class="en">Stakeholder evaluation</span></td><td><span class="es">Categorías, variables y matriz de categorización.</span><span class="en">Categories, variables and categorization matrix.</span></td></tr>
+      <tr><td>Delfos IA</td><td><span class="es">Prompts del asistente y sus versiones.</span><span class="en">Assistant prompts and their versions.</span></td></tr>
+      <tr><td><span class="es">Duplicados</span><span class="en">Duplicates</span></td><td><span class="es">Revisar y excluir posibles stakeholders duplicados.</span><span class="en">Review and exclude possible duplicate stakeholders.</span></td></tr>
+    </table>
+    <div class="callout callout-warn"><span class="callout-icon">⚠️</span><div><span class="es">Los cambios en Configuración afectan a <strong>todo el proyecto</strong>. Modifícalos con cuidado.</span><span class="en">Changes in Configuration affect the <strong>entire project</strong>. Modify them carefully.</span></div></div>
+  </section>
+
+  <!-- ══ SOPORTE ══ -->
+  <section class="section" id="soporte">
+    <div class="section-header">
+      <div class="section-icon red">🐞</div>
+      <div>
+        <h2 class="section-title"><span class="es">Soporte / Reportar un problema</span><span class="en">Support / Report an issue</span></h2>
+        <p class="section-sub"><span class="es">Cuando algo no funciona</span><span class="en">When something doesn't work</span></p>
+      </div>
+    </div>
+    <div class="purpose"><div class="p-label"><span class="es">Para qué sirve</span><span class="en">What it's for</span></div><p><span class="es">Permite reportar errores o incidencias del sistema para que el equipo de soporte los atienda.</span><span class="en">Lets you report system errors or issues so the support team can address them.</span></p></div>
+    <div class="task-card">
+      <h3><span class="t-badge"><span class="es">Paso a paso</span><span class="en">Step by step</span></span> <span class="es">Reportar un bug</span><span class="en">Report a bug</span></h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><span class="step-text"><span class="es">Entra al módulo de <strong>Soporte / Bugs</strong> y haz clic en <strong>+ Nuevo</strong>.</span><span class="en">Open the <strong>Support / Bugs</strong> module and click <strong>+ New</strong>.</span></span></li>
+        <li><span class="step-num">2</span><span class="step-text"><span class="es">Indica el <strong>módulo</strong> afectado y describe qué pasó.</span><span class="en">Indicate the affected <strong>module</strong> and describe what happened.</span></span></li>
+        <li><span class="step-num">3</span><span class="step-text"><span class="es">Adjunta una <strong>captura</strong> si ayuda a explicarlo, y guarda.</span><span class="en">Attach a <strong>screenshot</strong> if it helps, and save.</span></span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══ ROLES ══ -->
+  <section class="section" id="roles">
+    <div class="section-header">
+      <div class="section-icon gold">🛡️</div>
+      <div>
+        <h2 class="section-title"><span class="es">Roles de usuario</span><span class="en">User roles</span></h2>
+        <p class="section-sub"><span class="es">Qué puede hacer cada quién</span><span class="en">What each person can do</span></p>
+      </div>
+    </div>
+    <p class="es">Lo que ves y puedes hacer depende de tu rol y tus permisos. Si te falta una opción, probablemente tu rol no la incluye: consúltalo con tu administrador.</p>
+    <p class="en">What you see and can do depends on your role and permissions. If an option is missing, your role probably doesn't include it: check with your administrator.</p>
+    <table>
+      <tr><th>Rol / Role</th><th><span class="es">Qué puede hacer</span><span class="en">What they can do</span></th></tr>
+      <tr><td><span class="badge badge-red"><span class="es">Administrador</span><span class="en">Administrator</span></span></td><td><span class="es">Todo, incluida la <strong>Configuración</strong> y la gestión de usuarios.</span><span class="en">Everything, including <strong>Configuration</strong> and user management.</span></td></tr>
+      <tr><td><span class="badge badge-blue"><span class="es">Supervisor</span><span class="en">Supervisor</span></span></td><td><span class="es">Gestiona en todos los módulos, incluidos registros de otros usuarios; ve reportes.</span><span class="en">Manages across all modules, including other users' records; views reports.</span></td></tr>
+      <tr><td><span class="badge badge-green"><span class="es">Relacionista / Usuario</span><span class="en">Officer / User</span></span></td><td><span class="es">Registra y gestiona; en la mayoría de módulos edita/elimina <strong>lo que él creó</strong> o le fue asignado.</span><span class="en">Records and manages; in most modules edits/deletes <strong>what they created</strong> or were assigned.</span></td></tr>
+      <tr><td><span class="badge badge-gray"><span class="es">Consulta</span><span class="en">Read-only</span></span></td><td><span class="es">Solo ver información. No puede crear ni modificar.</span><span class="en">View information only. Cannot create or modify.</span></td></tr>
+    </table>
+    <div class="callout callout-info"><span class="callout-icon">🏷️</span><div><span class="es">Excepción: en <strong>Stakeholders</strong> el relacionista también puede editar/eliminar cualquier registro, no solo el suyo.</span><span class="en">Exception: in <strong>Stakeholders</strong> the officer can also edit/delete any record, not just their own.</span></div></div>
+  </section>
+
+  <!-- ══ GLOSARIO ══ -->
+  <section class="section" id="glosario">
+    <div class="section-header">
+      <div class="section-icon gray">📖</div>
+      <div>
+        <h2 class="section-title"><span class="es">Glosario</span><span class="en">Glossary</span></h2>
+        <p class="section-sub"><span class="es">Términos que verás en el sistema</span><span class="en">Terms you'll see in the system</span></p>
+      </div>
+    </div>
+    <table>
+      <tr><th><span class="es">Término</span><span class="en">Term</span></th><th><span class="es">Significado</span><span class="en">Meaning</span></th></tr>
+      <tr><td><strong>Stakeholder</strong></td><td><span class="es">Persona, familia, negocio o institución del entorno del proyecto.</span><span class="en">A person, family, business or institution around the project.</span></td></tr>
+      <tr><td><strong><span class="es">Interacción</span><span class="en">Interaction</span></strong></td><td><span class="es">Un contacto con un stakeholder (visita, llamada, correo…).</span><span class="en">A contact with a stakeholder (visit, call, email…).</span></td></tr>
+      <tr><td><strong><span class="es">Reclamo</span><span class="en">Claim</span></strong></td><td><span class="es">Una queja formal. Se identifica con un código.</span><span class="en">A formal complaint. Identified by a code.</span></td></tr>
+      <tr><td><strong><span class="es">Solicitud</span><span class="en">Request</span></strong></td><td><span class="es">Un pedido o requerimiento que no es una queja.</span><span class="en">A request that isn't a complaint.</span></td></tr>
+      <tr><td><strong><span class="es">Compromiso</span><span class="en">Commitment</span></strong></td><td><span class="es">Un acuerdo del proyecto con la comunidad.</span><span class="en">An agreement between the project and the community.</span></td></tr>
+      <tr><td><strong><span class="es">Entregable</span><span class="en">Deliverable</span></strong></td><td><span class="es">Una acción concreta que forma parte de un compromiso.</span><span class="en">A concrete action that is part of a commitment.</span></td></tr>
+      <tr><td><strong><span class="es">Predio</span><span class="en">Land parcel</span></strong></td><td><span class="es">Un terreno del área del proyecto.</span><span class="en">A plot of land in the project area.</span></td></tr>
+      <tr><td><strong><span class="es">Relacionista</span><span class="en">Relationship officer</span></strong></td><td><span class="es">La persona del equipo que gestiona la relación con los stakeholders.</span><span class="en">The team member who manages the relationship with stakeholders.</span></td></tr>
+      <tr><td><strong><span class="es">Etiqueta / Tag</span><span class="en">Tag</span></strong></td><td><span class="es">Una categoría que se asigna a los registros para clasificarlos.</span><span class="en">A category assigned to records to classify them.</span></td></tr>
+      <tr><td><strong><span class="es">Ficha</span><span class="en">Profile</span></strong></td><td><span class="es">La pantalla que reúne toda la información e historia de un stakeholder.</span><span class="en">The screen that gathers all a stakeholder's information and history.</span></td></tr>
+      <tr><td><strong><span class="es">Evaluación</span><span class="en">Evaluation</span></strong></td><td><span class="es">La valoración de la posición de un stakeholder frente al proyecto.</span><span class="en">The assessment of a stakeholder's position toward the project.</span></td></tr>
+      <tr><td><strong>Ubigeo</strong></td><td><span class="es">La división geográfica (departamento, provincia, distrito…).</span><span class="en">The geographic division (region, province, district…).</span></td></tr>
+      <tr><td><strong>QC</strong></td><td><span class="es">Control de calidad: marca de revisión sobre un registro.</span><span class="en">Quality Check: a review mark on a record.</span></td></tr>
+    </table>
+
+    <div class="callout callout-tip" style="margin-top:24px"><span class="callout-icon">🎓</span><div><span class="es"><strong>¡Listo!</strong> Ya conoces Delfos de principio a fin. La mejor forma de dominarlo es explorando cada módulo y practicando las tareas paso a paso.</span><span class="en"><strong>You're all set!</strong> You now know Delfos end to end. The best way to master it is by exploring each module and practicing the step-by-step tasks.</span></div></div>
+  </section>
+
+  <div style="height:80px"></div>
+</main>
+
+<a href="#" class="back-top" title="↑">↑</a>
+
+<script>
+  // Language
+  function setLang(l){
+    document.body.classList.remove('lang-es','lang-en');
+    document.body.classList.add('lang-'+l);
+    document.documentElement.lang=l;
+    document.getElementById('btn-es').classList.toggle('active',l==='es');
+    document.getElementById('btn-en').classList.toggle('active',l==='en');
+    try{localStorage.setItem('delfos-manual-lang',l);}catch(e){}
+  }
+  (function(){try{const s=localStorage.getItem('delfos-manual-lang');if(s)setLang(s);}catch(e){}})();
+
+  // Scroll spy
+  const links=[...document.querySelectorAll('.sidebar a')];
+  const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  function onScroll(){
+    let cur=sections[0]?.id;
+    for(const s of sections){ if(window.scrollY>=s.offsetTop-90) cur=s.id; }
+    links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+  }
+  window.addEventListener('scroll',onScroll);
+  links.forEach(a=>a.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open')));
+
+  // Lightbox
+  function openLb(src){document.getElementById('lb-img').src=src;document.getElementById('lb').classList.add('open');}
+  function closeLb(){document.getElementById('lb').classList.remove('open');}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+
+  // Search + highlight (respects visible language)
+  function doSearch(term){
+    document.querySelectorAll('mark.hl').forEach(m=>{const t=document.createTextNode(m.textContent);m.replaceWith(t);m.parentNode&&m.parentNode.normalize();});
+    if(!term||term.length<2)return;
+    const re=new RegExp('('+term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    const walk=document.createTreeWalker(document.getElementById('mainContent'),NodeFilter.SHOW_TEXT,{
+      acceptNode:n=>{
+        if(['SCRIPT','STYLE','INPUT'].includes(n.parentElement.tagName))return NodeFilter.FILTER_REJECT;
+        if(n.parentElement.closest('.en')&&document.body.classList.contains('lang-es'))return NodeFilter.FILTER_REJECT;
+        if(n.parentElement.closest('.es')&&document.body.classList.contains('lang-en'))return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const nodes=[];while(walk.nextNode()){if(re.test(walk.currentNode.textContent))nodes.push(walk.currentNode);}
+    nodes.forEach(n=>{const span=document.createElement('span');span.innerHTML=n.textContent.replace(re,'<mark class="hl">$1</mark>');n.replaceWith(span);});
+    const first=document.querySelector('mark.hl');if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+</script>
+</body>
+</html>
