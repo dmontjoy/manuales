@@ -1,0 +1,711 @@
+TOTAL CONTROLADORES: 82
+TOTAL ENDPOINTS: 544
+
+
+### Auth\AuthController (4)
+  GET    /auth/init                                                              init
+  POST   /auth/login                                                             login
+  GET    /auth/me                                                                me
+  POST   /auth/oauth                                                             oauth
+
+### Auth\RecoverController (2)
+  POST   /recover                                                                solicitar
+  POST   /recover/password                                                       passwordCambiar
+
+### Boletin\BoletinController (2)
+  GET    /boletin/init                                                           boletinInit
+  POST   /boletin/visto                                                          boletinVisto
+
+### Bug\BugController (8)
+  GET    /bug/archivo-exportar                                                   bugArchivoExportar
+  POST   /bug/crear                                                              bugCrear
+  GET    /bug/crear-init                                                         bugCrearInit
+  POST   /bug/editar                                                             bugEditar
+  DELETE /bug/eliminar/{idbug}                                                   bugEliminar
+  GET    /bug/listar                                                             bugListar
+  GET    /bug/listar-init                                                        bugListarInit
+  GET    /bug/ver/{idbug}                                                        bugVer
+
+### Compromiso\CompromisoController (14)
+  GET    /compromiso/archivo-exportar                                            compromisoArchivoExportar
+  POST   /compromiso/crear                                                       compromisoCrear
+  GET    /compromiso/crear-init                                                  compromisoCrearInit
+  POST   /compromiso/editar                                                      compromisoEditar
+  DELETE /compromiso/eliminar/{idcompromiso}                                     compromisoEliminar
+  GET    /compromiso/exportar                                                    compromisoExportar
+  POST   /compromiso/exportar/iniciar                                            compromisoExportarIniciar
+  GET    /compromiso/exportar/{exportId}/download                                compromisoExportarDownload
+  GET    /compromiso/exportar/{exportId}/status                                  compromisoExportarStatus
+  GET    /compromiso/listar                                                      compromisoListar
+  GET    /compromiso/listar-init                                                 compromisoListarInit
+  GET    /compromiso/listar-mapa                                                 compromisoListar
+  POST   /compromiso/qc                                                          compromisoQc
+  GET    /compromiso/ver/{idcompromiso}                                          compromisoVer
+
+### Compromiso\EntregableAjusteController (4)
+  POST   /compromiso/ajuste/crear                                                ajusteCrear
+  POST   /compromiso/ajuste/editar                                               ajusteEditar
+  DELETE /compromiso/ajuste/eliminar/{idajuste}                                  ajusteEliminar
+  GET    /compromiso/ajuste/ver/{idajuste}                                       ajusteVer
+
+### Compromiso\EntregableCanceladoController (4)
+  POST   /compromiso/cancelado/crear                                             canceladoCrear
+  POST   /compromiso/cancelado/editar                                            canceladoEditar
+  DELETE /compromiso/cancelado/eliminar/{idcancelado}                            canceladoEliminar
+  GET    /compromiso/cancelado/ver/{idcancelado}                                 canceladoVer
+
+### Compromiso\EntregableController (9)
+  GET    /compromiso/entregable                                                  entregableCompromiso
+  POST   /compromiso/entregable/crear                                            entregableCrear
+  GET    /compromiso/entregable/crear-init                                       entregableCrearInit
+  POST   /compromiso/entregable/editar                                           entregableEditar
+  DELETE /compromiso/entregable/eliminar/{identregable}                          entregableEliminar
+  GET    /compromiso/entregable/exportar                                         entregableExportar
+  GET    /compromiso/entregable/listar                                           entregableListar
+  GET    /compromiso/entregable/proceso/{identregable}                           entregableProceso
+  GET    /compromiso/entregable/ver/{identregable}                               entregableVer
+
+### Compromiso\EntregableCumplimientoController (5)
+  POST   /compromiso/cumplimiento/crear                                          cumplimientoCrear
+  GET    /compromiso/cumplimiento/crear-init                                     cumplimientoCrearInit
+  POST   /compromiso/cumplimiento/editar                                         cumplimientoEditar
+  DELETE /compromiso/cumplimiento/eliminar/{idcumplimiento}                      cumplimientoEliminar
+  GET    /compromiso/cumplimiento/ver/{idcumplimiento}                           cumplimientoVer
+
+### Compromiso\EntregableImplementacionController (4)
+  POST   /compromiso/implementacion/crear                                        implementacionCrear
+  POST   /compromiso/implementacion/editar                                       implementacionEditar
+  DELETE /compromiso/implementacion/eliminar/{idimplementacion}                  implementacionEliminar
+  GET    /compromiso/implementacion/ver/{idimplementacion}                       implementacionVer
+
+### Compromisox\CompromisoxCancelarController (5)
+  POST   /compromisox/cancelar/crear                                             cancelarCrear
+  GET    /compromisox/cancelar/crear-init                                        cancelarCrearInit
+  POST   /compromisox/cancelar/editar                                            cancelarEditar
+  DELETE /compromisox/cancelar/eliminar/{idcancelar}                             cancelarEliminar
+  GET    /compromisox/cancelar/ver/{idcancelar}                                  cancelarVer
+
+### Compromisox\CompromisoxCompletoController (5)
+  POST   /compromisox/completo/crear                                             completoCrear
+  GET    /compromisox/completo/crear-init                                        completoCrearInit
+  POST   /compromisox/completo/editar                                            completoEditar
+  DELETE /compromisox/completo/eliminar/{idcompleto}                             completoEliminar
+  GET    /compromisox/completo/ver/{idcompleto}                                  completoVer
+
+### Compromisox\CompromisoxController (13)
+  GET    /compromisox/archivo-exportar                                           compromisoArchivoExportar
+  POST   /compromisox/crear                                                      compromisoCrear
+  GET    /compromisox/crear-init                                                 compromisoCrearInit
+  POST   /compromisox/editar                                                     compromisoEditar
+  DELETE /compromisox/eliminar/{idcompromisox}                                   compromisoEliminar
+  GET    /compromisox/exportar                                                   compromisoExportar
+  GET    /compromisox/informe                                                    compromisoInforme
+  GET    /compromisox/listar                                                     compromisoListar
+  GET    /compromisox/listar-init                                                compromisoListarInit
+  GET    /compromisox/listar-mapa                                                compromisoListar
+  GET    /compromisox/proceso/{idcompromisox}                                    compromisoProceso
+  POST   /compromisox/qc                                                         compromisoQc
+  GET    /compromisox/ver/{idcompromisox}                                        compromisoVer
+
+### Compromisox\CompromisoxImplementarController (5)
+  POST   /compromisox/implementar/crear                                          implementarCrear
+  GET    /compromisox/implementar/crear-init                                     implementarCrearInit
+  POST   /compromisox/implementar/editar                                         implementarEditar
+  DELETE /compromisox/implementar/eliminar/{idimplementar}                       implementarEliminar
+  GET    /compromisox/implementar/ver/{idimplementar}                            implementarVer
+
+### Compromisox\CompromisoxRedefinirController (5)
+  POST   /compromisox/redefinir/crear                                            redefinirCrear
+  GET    /compromisox/redefinir/crear-init                                       redefinirCrearInit
+  POST   /compromisox/redefinir/editar                                           redefinirEditar
+  DELETE /compromisox/redefinir/eliminar/{idredefinir}                           redefinirEliminar
+  GET    /compromisox/redefinir/ver/{idredefinir}                                redefinirVer
+
+### GeneradorArchivos\GeneradorArchivosController (2)
+  POST   /generador-archivos/crear                                               solicitudCrear
+  GET    /reportes/reclamo/descargar                                             solicitudDescargar
+
+### General\GeneralController (3)
+  GET    /dropdown/general                                                       busquedaGeneralDropdown
+  GET    /dropdown/moneda                                                        monedaDropdown
+  GET    /proyecto                                                               nombreProyecto
+
+### IaChat\IaChatController (10)
+  GET    /ia-chat/conversacion-listar                                            conversacionListar
+  GET    /ia-chat/conversacion/detalle/{idia_conversacion?}                      conversacionDetalle
+  POST   /ia-chat/crear-conversacion                                             crearConversacion
+  POST   /ia-chat/crear-pregunta-frecuente                                       crearPreguntaFrecuente
+  POST   /ia-chat/editar-conversacion-nombre                                     editarConversacionNombre
+  POST   /ia-chat/editar-pregunta-frecuente                                      editarPreguntaFrecuente
+  DELETE /ia-chat/eliminar-conversacion/{idia_conversacion}                      eliminarConversacion
+  DELETE /ia-chat/eliminar-pregunta-frecuente/{idia_pregunta_frecuente}          eliminarPreguntaFrecuente
+  GET    /ia-chat/pregunta                                                       preguntaIaChat
+  GET    /ia-chat/preguntas-frecuentes                                           preguntasFrecuentes
+
+### Importacion\ImportacionShController (4)
+  POST   /importacion/stakeholder/ejecutar                                       ejecutar
+  GET    /importacion/stakeholder/formato                                        formato
+  GET    /importacion/stakeholder/guia                                           guia
+  POST   /importacion/stakeholder/verificar                                      verificar
+
+### Interaccion\InteraccionComentarioController (5)
+  POST   /interaccion/comentario/crear                                           comentarioCrear
+  POST   /interaccion/comentario/editar                                          comentarioEditar
+  DELETE /interaccion/comentario/eliminar/{idinteraccion_comentario}             comentarioEliminar
+  GET    /interaccion/comentario/listar                                          comentarioListar
+  GET    /interaccion/comentario/ver/{idinteraccion_comentario}                  comentarioVer
+
+### Interaccion\InteraccionController (15)
+  GET    /interaccion/archivo-exportar                                           interaccionArchivoExportar
+  POST   /interaccion/crear                                                      interaccionCrear
+  GET    /interaccion/crear-init                                                 interaccionCrearInit
+  POST   /interaccion/editar                                                     interaccionEditar
+  DELETE /interaccion/eliminar/{idinteraccion}                                   interaccionEliminar
+  GET    /interaccion/exportar                                                   interaccionExportar
+  POST   /interaccion/exportar/iniciar                                           interaccionExportarIniciar
+  GET    /interaccion/exportar/{exportId}/download                               interaccionExportarDownload
+  GET    /interaccion/exportar/{exportId}/status                                 interaccionExportarStatus
+  POST   /interaccion/generar-crear-ia                                           interaccionGenerarCrearIa
+  GET    /interaccion/listar                                                     interaccionListar
+  GET    /interaccion/listar-init                                                interaccionListarInit
+  GET    /interaccion/listar-mapa                                                interaccionListar
+  POST   /interaccion/qc                                                         interaccionQc
+  GET    /interaccion/ver/{idinteraccion}                                        interaccionVer
+
+### Mapa\MapaController (5)
+  GET    /mapa/buscar-coord                                                      mapaBuscarCoord
+  GET    /mapa/buscar-direccion                                                  mapaBuscarDireccion
+  GET    /mapa/capa                                                              mapaInit
+  GET    /mapa/exportar-geo                                                      mapaExportarGeo
+  GET    /mapa/init                                                              mapaInit
+
+### Mapa\MapaDibujoController (5)
+  POST   /mapa/dibujo/crear                                                      dibujoCrear
+  GET    /mapa/dibujo/crear-init                                                 dibujoCrearInit
+  POST   /mapa/dibujo/editar                                                     dibujoEditar
+  DELETE /mapa/dibujo/eliminar/{idsh_shapefile_polygons}                         dibujoEliminar
+  GET    /mapa/dibujo/ver                                                        dibujoVer
+
+### Oauth\OauthController (3)
+  POST   /oauth/conectar                                                         servicioConectar
+  DELETE /oauth/desconectar/{idconexion}                                         servicioDesconectar
+  GET    /oauth/url                                                              servicioUrl
+
+### Perfil\PerfilController (6)
+  GET    /perfil                                                                 init
+  POST   /perfil/actualizar                                                      actualizar
+  GET    /perfil/formulario-init                                                 formularioInit
+  POST   /perfil/logout                                                          logout
+  POST   /perfil/logout-all                                                      logoutTodos
+  POST   /perfil/password-editar                                                 passwordEditar
+
+### Perfil\PerfilNotificacionController (2)
+  POST   /perfil/notificaciones/editar                                           editar
+  GET    /perfil/notificaciones/init                                             init
+
+### Perfil\PerfilSesionController (1)
+  GET    /perfil/sesion/listar                                                   sesionListar
+
+### Predio\PredioCodigoController (3)
+  POST   /predio/codigo/crear                                                    predioCodigoCrear
+  DELETE /predio/codigo/eliminar/{idcodigo}                                      predioCodigoEliminar
+  GET    /predio/codigo/listar                                                   predioCodigoListar
+
+### Predio\PredioController (13)
+  GET    /dropdown/predio                                                        predioDropdown
+  POST   /predio/crear                                                           predioCrear
+  GET    /predio/crear-init                                                      predioCrearInit
+  POST   /predio/editar                                                          predioEditar
+  DELETE /predio/eliminar/{idpredio}                                             predioEliminar
+  GET    /predio/exportar                                                        predioExportar
+  GET    /predio/ficha/{idpredio}                                                predioFicha
+  GET    /predio/listar                                                          predioListar
+  GET    /predio/listar-init                                                     predioListarInit
+  GET    /predio/listar-mapa                                                     predioListar
+  GET    /predio/stakeholders                                                    predioStakeholders
+  GET    /predio/ver-codigo/{codigo}                                             predioVerCodigo
+  GET    /predio/ver/{idpredio}                                                  predioVer
+
+### Predio\PredioStakeholderController (3)
+  POST   /predio/stakeholder/crear                                               shPredioCrear
+  POST   /predio/stakeholder/editar                                              shPredioEditar
+  DELETE /predio/stakeholder/eliminar/{idpersona_predio}                         shPredioEliminar
+
+### Reclamo\ReclamoApelacionController (4)
+  POST   /reclamo/apelacion/crear                                                apelacionCrear
+  POST   /reclamo/apelacion/editar                                               apelacionEditar
+  DELETE /reclamo/apelacion/eliminar/{idapelacion}                               apelacionEliminar
+  GET    /reclamo/apelacion/ver/{idapelacion}                                    apelacionVer
+
+### Reclamo\ReclamoCerradoController (5)
+  POST   /reclamo/cerrado/crear                                                  cerradoCrear
+  GET    /reclamo/cerrado/crear-init                                             cerradoCrearInit
+  POST   /reclamo/cerrado/editar                                                 cerradoEditar
+  DELETE /reclamo/cerrado/eliminar/{idcerrado}                                   cerradoEliminar
+  GET    /reclamo/cerrado/ver/{idcerrado}                                        cerradoVer
+
+### Reclamo\ReclamoController (16)
+  GET    /reclamo/archivo-exportar                                               reclamoArchivoExportar
+  POST   /reclamo/crear                                                          reclamoCrear
+  GET    /reclamo/crear-init                                                     reclamoCrearInit
+  POST   /reclamo/editar                                                         reclamoEditar
+  DELETE /reclamo/eliminar/{idreclamo}                                           reclamoEliminar
+  GET    /reclamo/exportar                                                       reclamoExportar
+  POST   /reclamo/exportar/iniciar                                               reclamoExportarIniciar
+  GET    /reclamo/exportar/{exportId}/download                                   reclamoExportarDownload
+  GET    /reclamo/exportar/{exportId}/status                                     reclamoExportarStatus
+  GET    /reclamo/informe                                                        reclamoInforme
+  GET    /reclamo/listar                                                         reclamoListar
+  GET    /reclamo/listar-init                                                    reclamoListarInit
+  GET    /reclamo/listar-mapa                                                    reclamoListar
+  GET    /reclamo/proceso/{idreclamo}                                            reclamoProceso
+  POST   /reclamo/qc                                                             reclamoQc
+  GET    /reclamo/ver/{idreclamo}                                                reclamoVer
+
+### Reclamo\ReclamoEvaluacionController (4)
+  POST   /reclamo/evaluacion/crear                                               evaluacionCrear
+  POST   /reclamo/evaluacion/editar                                              evaluacionEditar
+  DELETE /reclamo/evaluacion/eliminar/{idevaluacion}                             evaluacionEliminar
+  GET    /reclamo/evaluacion/ver/{idevaluacion}                                  evaluacionVer
+
+### Reclamo\ReclamoPropuestaController (4)
+  POST   /reclamo/propuesta/crear                                                propuestaCrear
+  POST   /reclamo/propuesta/editar                                               propuestaEditar
+  DELETE /reclamo/propuesta/eliminar/{idpropuesta}                               propuestaEliminar
+  GET    /reclamo/propuesta/ver/{idpropuesta}                                    propuestaVer
+
+### Reclamo\ReclamoRespuestaController (5)
+  POST   /reclamo/respuesta/crear                                                respuestaCrear
+  GET    /reclamo/respuesta/crear-init                                           respuestaCrearInit
+  POST   /reclamo/respuesta/editar                                               respuestaEditar
+  DELETE /reclamo/respuesta/eliminar/{idrespuesta}                               respuestaEliminar
+  GET    /reclamo/respuesta/ver/{idrespuesta}                                    respuestaVer
+
+### Relacionista\RelacionistaController (1)
+  GET    /dropdown/relacionista                                                  relacionistaDropdown
+
+### Reportes\DashboardCompromisoController (10)
+  GET    /reportes/compromiso/avance                                             graficoAvance
+  GET    /reportes/compromiso/categoria-avance                                   graficoCategoriaAvance
+  GET    /reportes/compromiso/evolucion                                          graficoEvolucion
+  GET    /reportes/compromiso/exportar-avance                                    exportarAvance
+  GET    /reportes/compromiso/exportar-categoria-avance                          exportarCategoriaAvance
+  GET    /reportes/compromiso/exportar-evolucion                                 exportarEvolucion
+  GET    /reportes/compromiso/exportar-fuente-avance                             exportarFuenteAvance
+  GET    /reportes/compromiso/fuente-avance                                      graficoFuenteAvance
+  GET    /reportes/compromiso/init-dashboard                                     dashboardInit
+  GET    /reportes/compromiso/ubigeo                                             graficoUbigeo
+
+### Reportes\DashboardCompromisoEntregableController (12)
+  GET    /reportes/compromiso/entregable/avance                                  graficoAvance
+  GET    /reportes/compromiso/entregable/categoria-vigencia                      graficoCategoriaVigencia
+  GET    /reportes/compromiso/entregable/evolucion                               graficoEvolucion
+  GET    /reportes/compromiso/entregable/exportar-avance                         exportarAvance
+  GET    /reportes/compromiso/entregable/exportar-categoria-vigencia             exportarCategoriaVigencia
+  GET    /reportes/compromiso/entregable/exportar-evolucion                      exportarEvolucion
+  GET    /reportes/compromiso/entregable/exportar-fuente-vigencia                exportarFuenteVigencia
+  GET    /reportes/compromiso/entregable/exportar-responsable-vigencia           exportarResponsableVigencia
+  GET    /reportes/compromiso/entregable/fuente-vigencia                         graficoFuenteVigencia
+  GET    /reportes/compromiso/entregable/init-dashboard                          dashboardInit
+  GET    /reportes/compromiso/entregable/responsable-vigencia                    graficoResponsableVigencia
+  GET    /reportes/compromiso/entregable/ubigeo                                  graficoUbigeo
+
+### Reportes\DashboardCompromisoxController (6)
+  GET    /reportes/compromisox/abierto                                           graficoAbiertos
+  GET    /reportes/compromisox/cerrado                                           graficoCerrados
+  GET    /reportes/compromisox/dashboard                                         dashboard
+  GET    /reportes/compromisox/init-dashboard                                    dashboardInit
+  GET    /reportes/compromisox/nuevo                                             graficoNuevos
+  GET    /reportes/compromisox/performance                                       dashboardPerformance
+
+### Reportes\DashboardInicioController (1)
+  GET    /reportes/inicio/init-dashboard                                         dashboardInit
+
+### Reportes\DashboardInteraccionController (18)
+  GET    /reportes/interaccion/canal-evolucion                                   graficoCanalEvolucion
+  GET    /reportes/interaccion/evolucion                                         graficoEvolucion
+  GET    /reportes/interaccion/exportar-canal-evolucion                          exportarCanalEvolucion
+  GET    /reportes/interaccion/exportar-evolucion                                exportarEvolucion
+  GET    /reportes/interaccion/exportar-prioridad                                exportarPrioridad
+  GET    /reportes/interaccion/exportar-relacionista                             exportarRelacionistasActivos
+  GET    /reportes/interaccion/exportar-tema                                     exportarTemas
+  GET    /reportes/interaccion/init-dashboard                                    dashboardInit
+  GET    /reportes/interaccion/organizacion-tipo                                 graficoOrganizacionTipo
+  GET    /reportes/interaccion/prioridad                                         graficoPrioridad
+  GET    /reportes/interaccion/relacionista                                      graficoRelacionistasActivos
+  GET    /reportes/interaccion/stakeholder-categoria                             dashboardStakeholderCategorias
+  GET    /reportes/interaccion/stakeholder-evaluado                              graficoStakeholderEvaluado
+  GET    /reportes/interaccion/stakeholder-genero                                graficoStakeholderGenero
+  GET    /reportes/interaccion/stakeholder-tipo                                  graficoStakeholderTipo
+  GET    /reportes/interaccion/tema                                              graficoTemas
+  GET    /reportes/interaccion/total                                             dashboardTotales
+  GET    /reportes/interaccion/ubigeo                                            graficoUbigeo
+
+### Reportes\DashboardReclamoController (11)
+  GET    /reportes/reclamo/categoria-vigencia                                    graficoCategoriaVigencia
+  GET    /reportes/reclamo/evolucion                                             graficoEvolucion
+  GET    /reportes/reclamo/exportar-categoria-vigencia                           exportarCategoriaVigencia
+  GET    /reportes/reclamo/exportar-evolucion                                    exportarEvolucion
+  GET    /reportes/reclamo/exportar-responsable-vigencia                         exportarResponsableVigencia
+  GET    /reportes/reclamo/init-dashboard                                        dashboardInit
+  GET    /reportes/reclamo/responsable-vigencia                                  graficoResponsableVigencia
+  GET    /reportes/reclamo/stakeholder-categoria                                 dashboardStakeholderCategorias
+  GET    /reportes/reclamo/stakeholder-evaluado                                  graficoStakeholderEvaluado
+  GET    /reportes/reclamo/total                                                 dashboardTotales
+  GET    /reportes/reclamo/ubigeo                                                graficoUbigeo
+
+### Reportes\DashboardSolicitudController (11)
+  GET    /reportes/solicitud/categoria-vigencia                                  graficoCategoriaVigencia
+  GET    /reportes/solicitud/evolucion                                           graficoEvolucion
+  GET    /reportes/solicitud/exportar-categoria-vigencia                         exportarCategoriaVigencia
+  GET    /reportes/solicitud/exportar-evolucion                                  exportarEvolucion
+  GET    /reportes/solicitud/exportar-responsable-vigencia                       exportarResponsableVigencia
+  GET    /reportes/solicitud/init-dashboard                                      dashboardInit
+  GET    /reportes/solicitud/responsable-vigencia                                graficoResponsableVigencia
+  GET    /reportes/solicitud/stakeholder-categoria                               dashboardStakeholderCategoria
+  GET    /reportes/solicitud/stakeholder-evaluado                                graficoStakeholderEvaluado
+  GET    /reportes/solicitud/total                                               dashboardTotales
+  GET    /reportes/solicitud/ubigeo                                              graficoUbigeo
+
+### Reportes\DashboardStakeholderController (12)
+  GET    /reportes/stakeholder/evaluado                                          dashboardEvaluados
+  GET    /reportes/stakeholder/exportar-identificado                             exportarIdentificados
+  GET    /reportes/stakeholder/exportar-organizacion                             exportarOrganizacion
+  GET    /reportes/stakeholder/exportar-sexo                                     exportarSexo
+  GET    /reportes/stakeholder/exportar-tag                                      exportarTag
+  GET    /reportes/stakeholder/identificado                                      graficoIdentificados
+  GET    /reportes/stakeholder/init-dashboard                                    dashboardInit
+  GET    /reportes/stakeholder/organizacion                                      graficoOrganizacion
+  GET    /reportes/stakeholder/sexo                                              graficoSexo
+  GET    /reportes/stakeholder/tag                                               graficoTag
+  GET    /reportes/stakeholder/total                                             dashboardTotales
+  GET    /reportes/stakeholder/ubigeo                                            graficoUbigeo
+
+### Reportes\DashboardStakeholderDescripcionController (7)
+  GET    /reportes/stakeholder/descripcion/etiqueta                              dashboardEtiquetas
+  GET    /reportes/stakeholder/descripcion/importancia                           graficoPosicionImportancia
+  GET    /reportes/stakeholder/descripcion/init-dashboard                        descripcionDashboardInit
+  GET    /reportes/stakeholder/descripcion/poder-interes                         graficoPoderInteres
+  GET    /reportes/stakeholder/descripcion/relacionista                          dashboardRelacionistas
+  GET    /reportes/stakeholder/descripcion/total                                 dashboardTotales
+  GET    /reportes/stakeholder/descripcion/ubigeo                                dashboardUbigeo
+
+### Reportes\DashboardStakeholderEvaluacionController (9)
+  GET    /reportes/stakeholder/evaluacion/exportar-matriz-dimensiones            exportarMatrizDimensiones
+  GET    /reportes/stakeholder/evaluacion/exportar-posicion                      exportarPosicion
+  GET    /reportes/stakeholder/evaluacion/exportar-posicion-categoria            exportarPosicionCategoria
+  GET    /reportes/stakeholder/evaluacion/exportar-posicion-evolucion            exportarEvolucionPosicion
+  GET    /reportes/stakeholder/evaluacion/init-dashboard                         dashboardInit
+  GET    /reportes/stakeholder/evaluacion/matriz-dimensiones                     graficoMatrizDimensiones
+  GET    /reportes/stakeholder/evaluacion/posicion                               graficoPosicion
+  GET    /reportes/stakeholder/evaluacion/posicion-categoria                     graficoPosicionCategoria
+  GET    /reportes/stakeholder/evaluacion/posicion-evolucion                     graficoEvolucionPosicion
+
+### Reportes\ReporteController (2)
+  GET    /reportes/init                                                          init
+  GET    /reportes/power-bi                                                      powerBiObtener
+
+### Setup\General\CompromisoEntregable\CategoriaCompromisoController (6)
+  POST   /setup/general/compromiso-entregable/categoria-compromiso/crear         categoriaCompromisoCrear
+  POST   /setup/general/compromiso-entregable/categoria-compromiso/editar        categoriaCompromisoEditar
+  DELETE /setup/general/compromiso-entregable/categoria-compromiso/eliminar/{idcompromiso_categoria} categoriaCompromisoEliminar
+  GET    /setup/general/compromiso-entregable/categoria-compromiso/listar        categoriaCompromisoListar
+  POST   /setup/general/compromiso-entregable/categoria-compromiso/reordenar     categoriaCompromisoReordenar
+  GET    /setup/general/compromiso-entregable/categoria-compromiso/ver/{idcompromiso_categoria} categoriaCompromisoVer
+
+### Setup\General\CompromisoEntregable\FuenteController (6)
+  POST   /setup/general/compromiso-entregable/fuente/crear                       fuenteCrear
+  POST   /setup/general/compromiso-entregable/fuente/editar                      fuenteEditar
+  DELETE /setup/general/compromiso-entregable/fuente/eliminar/{idcompromiso_fuente} fuenteEliminar
+  GET    /setup/general/compromiso-entregable/fuente/listar                      fuenteListar
+  POST   /setup/general/compromiso-entregable/fuente/reordenar                   fuenteReordenar
+  GET    /setup/general/compromiso-entregable/fuente/ver/{idcompromiso_fuente}   fuenteVer
+
+### Setup\General\Compromiso\CategoriaCompromisoController (6)
+  POST   /setup/general/compromiso/categoria-compromiso/crear                    categoriaCompromisoCrear
+  POST   /setup/general/compromiso/categoria-compromiso/editar                   categoriaCompromisoEditar
+  DELETE /setup/general/compromiso/categoria-compromiso/eliminar/{idcompromisox_categoriax} categoriaCompromisoEliminar
+  GET    /setup/general/compromiso/categoria-compromiso/listar                   categoriaCompromisoListar
+  POST   /setup/general/compromiso/categoria-compromiso/reordenar                categoriaCompromisoReordenar
+  GET    /setup/general/compromiso/categoria-compromiso/ver/{idcompromisox_categoriax} categoriaCompromisoVer
+
+### Setup\General\Compromiso\FuenteController (5)
+  POST   /setup/general/compromiso/fuente/crear                                  fuenteCrear
+  POST   /setup/general/compromiso/fuente/editar                                 fuenteEditar
+  DELETE /setup/general/compromiso/fuente/eliminar/{idcompromisox_fuentex}       fuenteEliminar
+  GET    /setup/general/compromiso/fuente/listar                                 fuenteListar
+  POST   /setup/general/compromiso/fuente/reordenar                              fuenteReordenar
+
+### Setup\General\GeneralController (12)
+  GET    /setup/general/archivo-configuracion                                    configuracionArchivoVer
+  POST   /setup/general/archivo-configuracion/editar                             configuracionArchivoEditar
+  GET    /setup/general/configuracion                                            configuracionListar
+  POST   /setup/general/configuracion/editar                                     configuracionEditar
+  POST   /setup/general/feriado/crear                                            feriadoCrear
+  POST   /setup/general/feriado/editar                                           feriadoEditar
+  DELETE /setup/general/feriado/eliminar/{idferiado}                             feriadoEliminar
+  GET    /setup/general/feriado/listar                                           feriadoListar
+  GET    /setup/general/init                                                     init
+  POST   /setup/general/logo-proyecto-editar                                     logoProyectoEditar
+  POST   /setup/general/nombre-proyecto-editar                                   nombreProyectoEditar
+  POST   /setup/general/rango-predeterminado-editar                              rangoPredeterminadoEditar
+
+### Setup\General\Interaccion\DuracionController (6)
+  POST   /setup/general/interaccion/duracion/crear                               duracionCrear
+  POST   /setup/general/interaccion/duracion/editar                              duracionEditar
+  DELETE /setup/general/interaccion/duracion/eliminar/{idduracion}               duracionEliminar
+  GET    /setup/general/interaccion/duracion/listar                              duracionListar
+  POST   /setup/general/interaccion/duracion/reordenar                           duracionReordenar
+  GET    /setup/general/interaccion/duracion/ver/{idduracion}                    duracionVer
+
+### Setup\General\Interaccion\PrioridadController (6)
+  POST   /setup/general/interaccion/prioridad/crear                              prioridadCrear
+  POST   /setup/general/interaccion/prioridad/editar                             prioridadEditar
+  DELETE /setup/general/interaccion/prioridad/eliminar/{idprioridad}             prioridadEliminar
+  GET    /setup/general/interaccion/prioridad/listar                             prioridadListar
+  POST   /setup/general/interaccion/prioridad/reordenar                          prioridadReordenar
+  GET    /setup/general/interaccion/prioridad/ver/{idprioridad}                  prioridadVer
+
+### Setup\General\Interaccion\TipoInteraccionController (6)
+  POST   /setup/general/interaccion/tipo-interaccion/crear                       tipoInteraccionCrear
+  POST   /setup/general/interaccion/tipo-interaccion/editar                      tipoInteraccionEditar
+  DELETE /setup/general/interaccion/tipo-interaccion/eliminar/{idinteraccion_tipo} tipoInteraccionEliminar
+  GET    /setup/general/interaccion/tipo-interaccion/listar                      tipoInteraccionListar
+  POST   /setup/general/interaccion/tipo-interaccion/reordenar                   tipoInteraccionReordenar
+  GET    /setup/general/interaccion/tipo-interaccion/ver/{idinteraccion_tipo}    tipoInteraccionVer
+
+### Setup\General\Mapa\MapaController (11)
+  GET    /dropdown/mapa-capa                                                     capaDropdown
+  POST   /setup/general/mapa/buscador-editar                                     mapaBuscadorEditar
+  POST   /setup/general/mapa/capa/crear                                          capaCrear
+  POST   /setup/general/mapa/capa/editar                                         capaEditar
+  DELETE /setup/general/mapa/capa/eliminar/{idshapefile_metadata}                capaEliminar
+  GET    /setup/general/mapa/capa/listar                                         capaListar
+  POST   /setup/general/mapa/capa/reordenar                                      capaReordenar
+  POST   /setup/general/mapa/capa/toggle                                         capaToggle
+  POST   /setup/general/mapa/coordenada-editar                                   mapaCoordenadaEditar
+  POST   /setup/general/mapa/zoom-init                                           mapaZoomInitEditar
+  POST   /setup/general/mapa/zoom-snap                                           mapaZoomSnapEditar
+
+### Setup\General\ModuloController (2)
+  POST   /setup/general/modulo/editar                                            moduloEditar
+  GET    /setup/general/modulo/listar                                            moduloListar
+
+### Setup\General\Predio\CondicionPropiedadController (5)
+  POST   /setup/general/predio/condicion-propiedad/crear                         condicionPropiedadCrear
+  POST   /setup/general/predio/condicion-propiedad/editar                        condicionPropiedadEditar
+  DELETE /setup/general/predio/condicion-propiedad/eliminar/{idcondicion}        condicionPropiedadEliminar
+  GET    /setup/general/predio/condicion-propiedad/listar                        condicionPropiedadListar
+  POST   /setup/general/predio/condicion-propiedad/reordenar                     condicionPropiedadReordenar
+
+### Setup\General\Predio\ParentescoController (5)
+  POST   /setup/general/predio/parentesco/crear                                  parentescoCrear
+  POST   /setup/general/predio/parentesco/editar                                 parentescoEditar
+  DELETE /setup/general/predio/parentesco/eliminar/{idparentesco}                parentescoEliminar
+  GET    /setup/general/predio/parentesco/listar                                 parentescoListar
+  POST   /setup/general/predio/parentesco/reordenar                              parentescoReordenar
+
+### Setup\General\Predio\UsoPredioController (5)
+  POST   /setup/general/predio/uso-predio/crear                                  usoPredioCrear
+  POST   /setup/general/predio/uso-predio/editar                                 usoPredioEditar
+  DELETE /setup/general/predio/uso-predio/eliminar/{iduso}                       usoPredioEliminar
+  GET    /setup/general/predio/uso-predio/listar                                 usoPredioListar
+  POST   /setup/general/predio/uso-predio/reordenar                              usoPredioReordenar
+
+### Setup\General\PromptDelfosIa\PromptDelfosIaController (7)
+  POST   /setup/general/delfos-ia/activar/{idprompt_detalle}                     activarVersion
+  POST   /setup/general/delfos-ia/crear                                          promptVersionCrear
+  POST   /setup/general/delfos-ia/editar                                         promptVersionEditar
+  DELETE /setup/general/delfos-ia/eliminar/{idprompt}                            promptVersionEliminar
+  GET    /setup/general/delfos-ia/listar                                         promptListar
+  GET    /setup/general/delfos-ia/modulos                                        obtenerModulos
+  GET    /setup/general/delfos-ia/ver/{idprompt}                                 promptVersionVer
+
+### Setup\General\Reclamo\ReclamoCanalController (5)
+  POST   /setup/general/reclamo/canal/crear                                      reclamoCanalCrear
+  POST   /setup/general/reclamo/canal/editar                                     reclamoCanalEditar
+  DELETE /setup/general/reclamo/canal/eliminar/{idreclamo_canal}                 reclamoCanalEliminar
+  GET    /setup/general/reclamo/canal/listar                                     reclamoCanalListar
+  POST   /setup/general/reclamo/canal/reordenar                                  reclamoCanalReordenar
+
+### Setup\General\Reclamo\TipoReclamoController (6)
+  POST   /setup/general/reclamo/tipo-reclamo/crear                               tipoReclamoCrear
+  POST   /setup/general/reclamo/tipo-reclamo/editar                              tipoReclamoEditar
+  DELETE /setup/general/reclamo/tipo-reclamo/eliminar/{idreclamo_tipo}           tipoReclamoEliminar
+  GET    /setup/general/reclamo/tipo-reclamo/listar                              tipoReclamoListar
+  POST   /setup/general/reclamo/tipo-reclamo/reordenar                           tipoReclamoReordenar
+  GET    /setup/general/reclamo/tipo-reclamo/ver/{idreclamo_tipo}                tipoReclamoVer
+
+### Setup\General\Solicitud\MonitoreoCanalController (6)
+  POST   /setup/general/solicitud/canal/crear                                    monitoreoCanalCrear
+  POST   /setup/general/solicitud/canal/editar                                   monitoreoCanalEditar
+  DELETE /setup/general/solicitud/canal/eliminar/{idmonitoreo_canal}             monitoreoCanalEliminar
+  GET    /setup/general/solicitud/canal/listar                                   monitoreoCanalListar
+  POST   /setup/general/solicitud/canal/reordenar                                monitoreoCanalReordenar
+  GET    /setup/general/solicitud/canal/ver/{idmonitoreo_canal}                  monitoreoCanalVer
+
+### Setup\General\Solicitud\TipoSolicitudController (6)
+  POST   /setup/general/solicitud/tipo-solicitud/crear                           tipoSolicitudCrear
+  POST   /setup/general/solicitud/tipo-solicitud/editar                          tipoSolicitudEditar
+  DELETE /setup/general/solicitud/tipo-solicitud/eliminar/{idmonitoreo_tipo}     tipoSolicitudEliminar
+  GET    /setup/general/solicitud/tipo-solicitud/listar                          tipoSolicitudListar
+  POST   /setup/general/solicitud/tipo-solicitud/reordenar                       tipoSolicitudReordenar
+  GET    /setup/general/solicitud/tipo-solicitud/ver/{idmonitoreo_tipo}          tipoSolicitudVer
+
+### Setup\General\Stakeholder\SetupEvaluacionController (18)
+  POST   /setup/general/stakeholder/evaluacion/categoria/crear                   categoriaCrear
+  GET    /setup/general/stakeholder/evaluacion/categoria/crear-init              categoriaCrearInit
+  POST   /setup/general/stakeholder/evaluacion/categoria/editar                  categoriaEditar
+  DELETE /setup/general/stakeholder/evaluacion/categoria/eliminar/{id}           categoriaEliminar
+  GET    /setup/general/stakeholder/evaluacion/categoria/listar                  categoriaListar
+  POST   /setup/general/stakeholder/evaluacion/categoria/reordenar               categoriaReordenar
+  GET    /setup/general/stakeholder/evaluacion/categoria/ver/{id}                categoriaVer
+  POST   /setup/general/stakeholder/evaluacion/categorizacion/editar             categorizacionEditar
+  GET    /setup/general/stakeholder/evaluacion/categorizacion/editar-init        categorizacionEditarInit
+  GET    /setup/general/stakeholder/evaluacion/categorizacion/matriz             categorizacionVariables
+  POST   /setup/general/stakeholder/evaluacion/categorizacion/variables          categorizacionVariables
+  GET    /setup/general/stakeholder/evaluacion/init                              setupInit
+  POST   /setup/general/stakeholder/evaluacion/variable/crear                    variableCrear
+  GET    /setup/general/stakeholder/evaluacion/variable/crear-init               variableCrearInit
+  POST   /setup/general/stakeholder/evaluacion/variable/editar                   variableEditar
+  DELETE /setup/general/stakeholder/evaluacion/variable/eliminar/{id}            variableEliminar
+  GET    /setup/general/stakeholder/evaluacion/variable/listar                   variableListar
+  GET    /setup/general/stakeholder/evaluacion/variable/ver/{id}                 variableVer
+
+### Setup\General\Stakeholder\StakeholderDuplicadosController (2)
+  GET    /setup/general/stakeholder/duplicados                                   stakeholderDuplicadosListar
+  POST   /setup/general/stakeholder/duplicados/excluir                           stakeholderDuplicadosExcluir
+
+### Setup\General\Stakeholder\TipoOrganizacionController (6)
+  POST   /setup/general/stakeholder/tipo-organizacion/crear                      tipoOrganizacionCrear
+  POST   /setup/general/stakeholder/tipo-organizacion/editar                     tipoOrganizacionEditar
+  DELETE /setup/general/stakeholder/tipo-organizacion/eliminar/{idorganizacion_tipo} tipoOrganizacionEliminar
+  GET    /setup/general/stakeholder/tipo-organizacion/listar                     tipoOrganizacionListar
+  POST   /setup/general/stakeholder/tipo-organizacion/reordenar                  tipoOrganizacionReordenar
+  GET    /setup/general/stakeholder/tipo-organizacion/ver/{idorganizacion_tipo}  tipoOrganizacionVer
+
+### Setup\General\Stakeholder\TipoStakeholderController (4)
+  POST   /setup/general/stakeholder/tipo-sh/editar                               tipoShEditar
+  GET    /setup/general/stakeholder/tipo-sh/listar                               tipoShListar
+  POST   /setup/general/stakeholder/tipo-sh/reordenar                            tipoShReordenar
+  GET    /setup/general/stakeholder/tipo-sh/ver/{idpersona_tipo}                 tipoShVer
+
+### Setup\General\Stakeholder\UbigeoNivelController (3)
+  POST   /setup/general/stakeholder/ubigeo-nivel/editar                          ubigeoNivelEditar
+  GET    /setup/general/stakeholder/ubigeo-nivel/listar                          ubigeoNivelListar
+  GET    /setup/general/stakeholder/ubigeo-nivel/ver/{idnivel}                   ubigeoNivelVer
+
+### Setup\TagController (8)
+  GET    /dropdown/tag                                                           tagDropdown
+  POST   /setup/tag/crear                                                        tagCrear
+  POST   /setup/tag/editar                                                       tagEditar
+  DELETE /setup/tag/eliminar/{idtag}                                             tagEliminar
+  GET    /setup/tag/exportar                                                     tagExportar
+  GET    /setup/tag/listar                                                       tagListar
+  POST   /setup/tag/merge                                                        tagMerge
+  GET    /setup/tag/ver/{idtag}                                                  tagVer
+
+### Setup\UbigeoController (10)
+  GET    /dropdown/ubigeo-general                                                ubigeoGeneralDropdown
+  GET    /dropdown/ubigeo-hijos                                                  ubigeoHijosDropdown
+  GET    /dropdown/ubigeo-padres                                                 ubigeoPadresDropdown
+  GET    /dropdown/ubigeo-retrospectivo                                          ubigeoRetrospectivoDropdown
+  POST   /setup/ubigeo/crear                                                     ubigeoCrear
+  POST   /setup/ubigeo/editar                                                    ubigeoEditar
+  DELETE /setup/ubigeo/eliminar/{idubigeo}                                       ubigeoEliminar
+  GET    /setup/ubigeo/init                                                      init
+  GET    /setup/ubigeo/listar                                                    ubigeoListar
+  GET    /setup/ubigeo/ver/{idubigeo}                                            ubigeoVer
+
+### Setup\UsuarioController (7)
+  POST   /setup/usuario/crear                                                    usuarioCrear
+  POST   /setup/usuario/editar                                                   usuarioEditar
+  DELETE /setup/usuario/eliminar/{idusuario}                                     usuarioEliminar
+  GET    /setup/usuario/listar                                                   usuarioListar
+  POST   /setup/usuario/password-editar                                          passwordEditar
+  POST   /setup/usuario/rol-editar                                               usuariosRolEditar
+  GET    /setup/usuario/ver/{idusuario}                                          usuarioVer
+
+### Solicitud\SolicitudAprobadoController (5)
+  POST   /solicitud/aprobado/crear                                               aprobadoCrear
+  GET    /solicitud/aprobado/crear-init                                          aprobadoCrearInit
+  POST   /solicitud/aprobado/editar                                              aprobadoEditar
+  DELETE /solicitud/aprobado/eliminar/{idaprobado}                               aprobadoEliminar
+  GET    /solicitud/aprobado/ver/{idaprobado}                                    aprobadoVer
+
+### Solicitud\SolicitudCerradoController (5)
+  POST   /solicitud/cerrado/crear                                                cerradoCrear
+  GET    /solicitud/cerrado/crear-init                                           cerradoCrearInit
+  POST   /solicitud/cerrado/editar                                               cerradoEditar
+  DELETE /solicitud/cerrado/eliminar/{idcerrado}                                 cerradoEliminar
+  GET    /solicitud/cerrado/ver/{idcerrado}                                      cerradoVer
+
+### Solicitud\SolicitudController (16)
+  GET    /solicitud/archivo-exportar                                             solicitudArchivoExportar
+  POST   /solicitud/crear                                                        solicitudCrear
+  GET    /solicitud/crear-init                                                   SolicitudCrearInit
+  POST   /solicitud/editar                                                       solicitudEditar
+  DELETE /solicitud/eliminar/{idmonitoreo}                                       solicitudEliminar
+  GET    /solicitud/exportar                                                     solicitudExportar
+  POST   /solicitud/exportar/iniciar                                             solicitudExportarIniciar
+  GET    /solicitud/exportar/{exportId}/download                                 solicitudExportarDownload
+  GET    /solicitud/exportar/{exportId}/status                                   solicitudExportarStatus
+  GET    /solicitud/informe                                                      solicitudInforme
+  GET    /solicitud/listar                                                       solicitudListar
+  GET    /solicitud/listar-init                                                  solicitudListarInit
+  GET    /solicitud/listar-mapa                                                  solicitudListar
+  GET    /solicitud/proceso/{idmonitoreo}                                        solicitudProceso
+  POST   /solicitud/qc                                                           solicitudQc
+  GET    /solicitud/ver/{idmonitoreo}                                            solicitudVer
+
+### Solicitud\SolicitudEvaluacionController (4)
+  POST   /solicitud/evaluacion/crear                                             evaluacionCrear
+  POST   /solicitud/evaluacion/editar                                            evaluacionEditar
+  DELETE /solicitud/evaluacion/eliminar/{idevaluacion}                           evaluacionEliminar
+  GET    /solicitud/evaluacion/ver/{idevaluacion}                                evaluacionVer
+
+### Solicitud\SolicitudPropuestaController (4)
+  POST   /solicitud/propuesta/crear                                              propuestaCrear
+  POST   /solicitud/propuesta/editar                                             propuestaEditar
+  DELETE /solicitud/propuesta/eliminar/{idpropuesta}                             propuestaEliminar
+  GET    /solicitud/propuesta/ver/{idpropuesta}                                  propuestaVer
+
+### Solicitud\SolicitudRevisionController (4)
+  POST   /solicitud/revision/crear                                               revisionCrear
+  POST   /solicitud/revision/editar                                              revisionEditar
+  DELETE /solicitud/revision/eliminar/{idrevision}                               revisionEliminar
+  GET    /solicitud/revision/ver/{idrevision}                                    revisionVer
+
+### Stakeholder\StakeholderController (21)
+  GET    /dropdown/stakeholder                                                   stakeholderDropdown
+  GET    /dropdown/stakeholder-natural                                           stakeholderNaturalDropdown
+  GET    /dropdown/stakeholder-organizacion                                      stakeholderOrganizacionDropdown
+  POST   /stakeholder/crear                                                      stakeholderCrear
+  GET    /stakeholder/crear-init                                                 stakeholderCrearInit
+  POST   /stakeholder/documentos-adjuntos                                        stakeholderAdjuntos
+  POST   /stakeholder/editar                                                     stakeholderEditar
+  POST   /stakeholder/editar-tags                                                stakeholderEditarTags
+  DELETE /stakeholder/eliminar/{idsh}                                            stakeholderEliminar
+  GET    /stakeholder/exportar                                                   stakeholderExportar
+  POST   /stakeholder/exportar/iniciar                                           stakeholderExportarIniciar
+  GET    /stakeholder/exportar/{exportId}/download                               stakeholderExportarDownload
+  GET    /stakeholder/exportar/{exportId}/status                                 stakeholderExportarStatus
+  GET    /stakeholder/ficha-mapa/{idsh}                                          stakeholderFichaMapa
+  GET    /stakeholder/ficha/{idsh}                                               stakeholderFicha
+  GET    /stakeholder/informe                                                    stakeholderInforme
+  GET    /stakeholder/listar                                                     stakeholderListar
+  GET    /stakeholder/listar-init                                                stakeholderListarInit
+  GET    /stakeholder/listar-mapa                                                stakeholderListar
+  POST   /stakeholder/merge                                                      stakeholderMerge
+  GET    /stakeholder/ver/{idsh}                                                 stakeholderVer
+
+### Stakeholder\StakeholderEvaluacionController (9)
+  GET    /stakeholder/evaluacion                                                 init
+  POST   /stakeholder/evaluacion/crear                                           evaluacionCrear
+  POST   /stakeholder/evaluacion/editar                                          evaluacionEditar
+  DELETE /stakeholder/evaluacion/eliminar/{idsh_dimension}                       evaluacionEliminar
+  GET    /stakeholder/evaluacion/exportar                                        evaluacionExportar
+  POST   /stakeholder/evaluacion/exportar/iniciar                                evaluacionExportarIniciar
+  GET    /stakeholder/evaluacion/exportar/{exportId}/download                    evaluacionExportarDownload
+  GET    /stakeholder/evaluacion/exportar/{exportId}/status                      evaluacionExportarStatus
+  GET    /stakeholder/evaluacion/listar                                          evaluacionListar

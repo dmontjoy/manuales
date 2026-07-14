@@ -1,0 +1,283 @@
+CONTROLADORES EN DISCO: 85 | ENRUTADOS: 82
+
+CONTROLADORES NO ENRUTADOS (sin rutas): ['Compromiso\\EntregableProcesoController', 'Compromisox\\CompromisoxProcesoController', 'Controller']
+
+=== MAPA CONTROLADOR -> SERVICIOS ===
+
+Auth\AuthController
+  services: Auth\AuthService, General\MailerService, Oauth\Google\GoogleOauthService, Oauth\OauthService, Oauth\Outlook\OutlookOauthService
+  helpers : DelfosEncryption, JwtCookie
+
+Auth\RecoverController
+  services: Auth\RecoverService, General\MailerService
+
+Boletin\BoletinController
+  services: Boletin\BoletinService
+  helpers : AWS\S3
+
+Bug\BugController
+  services: Bug\BugListarService, Bug\BugService, General\MailerService
+  helpers : AWS\S3, DelfosEncryption, UtilitariosS3
+
+Compromiso\CompromisoController
+  services: Compromiso\CompromisoExportacionService, Compromiso\CompromisoListarService, Compromiso\CompromisoService, Compromiso\Entregable\EntregableService, Export\AsyncExport, Perfil\PerfilService, Setup\General\CompromisoEntregable\CategoriaCompromisoService, Setup\General\CompromisoEntregable\FuenteService, Setup\General\SetupGeneralService, Stakeholder\StakeholderService
+  helpers : AWS\S3, DelfosEncryption, UtilitariosS3
+
+Compromiso\EntregableAjusteController
+  services: Compromiso\Ajuste\EntregableAjusteService
+
+Compromiso\EntregableCanceladoController
+  services: Compromiso\Cancelado\EntregableCanceladoService
+
+Compromiso\EntregableController
+  services: Compromiso\CompromisoExportacionService, Compromiso\Entregable\EntregableListarService, Compromiso\Entregable\EntregableService, General\GeneralService, General\MailerService, Perfil\PerfilService, Setup\General\Stakeholder\UbigeoNivelService
+  helpers : DelfosEncryption, Utilitarios, UtilitariosS3
+
+Compromiso\EntregableCumplimientoController
+  services: Compromiso\Cumplimiento\EntregableCumplimientoService, General\GeneralService, Setup\General\SetupGeneralService
+
+Compromiso\EntregableImplementacionController
+  services: Compromiso\Implementacion\EntregableImplementacionService
+
+Compromisox\CompromisoxCancelarController
+  services: Compromisox\Cancelar\CompromisoxCancelarService, Setup\General\SetupGeneralService
+
+Compromisox\CompromisoxCompletoController
+  services: Compromisox\Completo\CompromisoxCompletoService, Setup\General\SetupGeneralService
+
+Compromisox\CompromisoxController
+  services: Compromisox\CompromisoxExportacionService, Compromisox\CompromisoxListarService, Compromisox\CompromisoxService, General\MailerService, Perfil\PerfilService, Setup\General\Compromisox\CategoriaCompromisoService, Setup\General\Compromisox\FuenteService, Setup\General\SetupGeneralService, Stakeholder\StakeholderService
+  helpers : AWS\S3, DelfosEncryption, Pdf, Utilitarios, UtilitariosS3
+
+Compromisox\CompromisoxImplementarController
+  services: Compromisox\Implementar\CompromisoxImplementarService
+
+Compromisox\CompromisoxRedefinirController
+  services: Compromisox\Redefinir\CompromisoxRedefinirService, Setup\General\SetupGeneralService
+
+GeneradorArchivos\GeneradorArchivosController
+  services: GeneradorArchivos\GeneradorArchivosService, GeneradorArchivos\GeneradorProcesadorService, General\MailerService
+  helpers : AWS\S3, DelfosEncryption
+
+General\GeneralController
+  services: General\GeneralService, Setup\General\SetupGeneralService
+
+IaChat\IaChatController
+  services: IaChat\IaChatService, Interaccion\InteraccionListarService, Reclamo\ReclamoListarService, Setup\General\PromptDelfosIa\PromptDelfosIaService, Stakeholder\StakeholderListarService
+
+Importacion\ImportacionShController
+  services: Importacion\ImportacionService, Importacion\ImportacionShService, Setup\General\Stakeholder\TipoStakeholderService, Setup\UbigeoService, Stakeholder\StakeholderEvaluacionService, Stakeholder\StakeholderService
+  helpers : ExcelWriter, Pdf, Utilitarios
+
+Interaccion\InteraccionComentarioController
+  services: Interaccion\Comentario\InteraccionComentarioService
+  helpers : DelfosEncryption, UtilitariosS3
+
+Interaccion\InteraccionController
+  services: Export\AsyncExport, General\MailerService, Interaccion\InteraccionExportacionService, Interaccion\InteraccionListarService, Interaccion\InteraccionService, Perfil\PerfilService, Setup\General\Interaccion\DuracionService, Setup\General\Interaccion\PrioridadService, Setup\General\Interaccion\TipoInteraccionService, Setup\General\PromptDelfosIa\PromptDelfosIaService, Setup\General\SetupGeneralService, Setup\General\Stakeholder\UbigeoNivelService, Setup\TagService, Setup\Usuario\RelacionistaService, Stakeholder\StakeholderService
+  helpers : AWS\S3, DelfosEncryption, UtilitariosS3
+
+Mapa\MapaController
+  services: Interaccion\InteraccionListarService, Mapa\MapaConfigService, Mapa\MapaFileService, Mapa\MapaService, Mapa\Providers\GoogleGeocodingService, Mapa\Providers\OpenStreetService, Reclamo\ReclamoListarService, Setup\General\SetupGeneralService, Stakeholder\StakeholderListarService
+  helpers : DelfosEncryption
+
+Mapa\MapaDibujoController
+  services: Mapa\MapaService
+
+Oauth\OauthController
+  services: Oauth\Google\GoogleOauthService, Oauth\OauthService, Oauth\OauthUsuarioService, Oauth\Outlook\OutlookOauthService
+  helpers : JwtCookie
+
+Perfil\PerfilController
+  services: Oauth\OauthUsuarioService, Perfil\PerfilService, Setup\General\SetupGeneralService
+  helpers : JwtCookie
+
+Perfil\PerfilNotificacionController
+  services: Perfil\PerfilNotificacionService
+
+Perfil\PerfilSesionController
+  services: Perfil\PerfilSesionService
+
+Predio\PredioCodigoController
+  services: Predio\PredioCodigoService, Predio\PredioService
+
+Predio\PredioController
+  services: Perfil\PerfilService, Predio\PredioExportacionService, Predio\PredioListarService, Predio\PredioService, Setup\General\Predio\CondicionPropiedadService, Setup\General\Predio\ParentescoService, Setup\General\Predio\UsoPredioService, Setup\General\SetupGeneralService
+  helpers : DelfosEncryption, Utilitarios
+
+Predio\PredioStakeholderController
+  services: Stakeholder\StakeholderPredioService
+  helpers : DelfosEncryption
+
+Reclamo\ReclamoApelacionController
+  services: Reclamo\Apelacion\ReclamoApelacionService
+
+Reclamo\ReclamoCerradoController
+  services: Reclamo\Cerrado\ReclamoCerradoService, Setup\General\Reclamo\TipoReclamoService
+
+Reclamo\ReclamoController
+  services: Export\AsyncExport, General\GeneralService, General\MailerService, Perfil\PerfilService, Reclamo\ReclamoExportacionService, Reclamo\ReclamoListarService, Reclamo\ReclamoService, Setup\General\Reclamo\ReclamoCanalService, Setup\General\Reclamo\TipoReclamoService, Setup\General\SetupGeneralService, Setup\General\Stakeholder\UbigeoNivelService, Setup\TagService, Stakeholder\StakeholderService
+  helpers : AWS\S3, DelfosEncryption, Pdf, Utilitarios, UtilitariosS3
+
+Reclamo\ReclamoEvaluacionController
+  services: Reclamo\Evaluacion\ReclamoEvaluacionService
+
+Reclamo\ReclamoPropuestaController
+  services: Reclamo\Propuesta\ReclamoPropuestaService
+
+Reclamo\ReclamoRespuestaController
+  services: General\GeneralService, Reclamo\ReclamoService, Reclamo\Respuesta\ReclamoRespuestaService, Setup\General\SetupGeneralService
+
+Relacionista\RelacionistaController
+  services: Setup\Usuario\RelacionistaService
+  helpers : Utilitarios
+
+Reportes\DashboardCompromisoController
+  services: Compromiso\CompromisoListarService, Reportes\DashboardCompromisoService, Setup\General\Stakeholder\TipoStakeholderService, Setup\General\Stakeholder\UbigeoNivelService
+  helpers : ExcelWriter
+
+Reportes\DashboardCompromisoEntregableController
+  services: Compromiso\Entregable\EntregableListarService, Reportes\DashboardCompromisoEntregableService, Setup\General\Stakeholder\TipoStakeholderService, Setup\General\Stakeholder\UbigeoNivelService
+  helpers : ExcelWriter
+
+Reportes\DashboardCompromisoxController
+  services: Reportes\DashboardCompromisoxService, Reportes\ReporteService, Setup\General\Compromisox\CategoriaCompromisoService, Setup\General\Stakeholder\UbigeoNivelService, Setup\UbigeoService
+
+Reportes\DashboardInicioController
+  services: Reportes\DashboardInicioService
+  helpers : DelfosEncryption
+
+Reportes\DashboardInteraccionController
+  services: Interaccion\InteraccionListarService, Reportes\DashboardInteraccionService, Setup\General\Stakeholder\TipoStakeholderService, Setup\General\Stakeholder\UbigeoNivelService
+  helpers : ExcelWriter
+
+Reportes\DashboardReclamoController
+  services: Reclamo\ReclamoListarService, Reportes\DashboardReclamoService, Setup\General\Stakeholder\TipoStakeholderService, Setup\General\Stakeholder\UbigeoNivelService
+  helpers : ExcelWriter
+
+Reportes\DashboardSolicitudController
+  services: Reportes\DashboardSolicitudService, Setup\General\Stakeholder\TipoStakeholderService, Setup\General\Stakeholder\UbigeoNivelService, Solicitud\SolicitudListarService
+  helpers : ExcelWriter
+
+Reportes\DashboardStakeholderController
+  services: Reportes\DashboardStakeholderFiltradoService, Reportes\DashboardStakeholderService, Setup\General\Stakeholder\UbigeoNivelService, Stakeholder\StakeholderListarService
+  helpers : ExcelWriter
+
+Reportes\DashboardStakeholderDescripcionController
+  services: Reportes\DashboardStakeholderDescripcionService, Setup\UbigeoService
+
+Reportes\DashboardStakeholderEvaluacionController
+  services: Reportes\DashboardStakeholderEvaluacionService, Stakeholder\StakeholderListarService
+  helpers : ExcelWriter
+
+Reportes\ReporteController
+  services: Reportes\ReporteService, Setup\UbigeoService
+  helpers : Utilitarios
+
+Setup\General\CompromisoEntregable\CategoriaCompromisoController
+  services: Setup\General\CompromisoEntregable\CategoriaCompromisoService
+
+Setup\General\CompromisoEntregable\FuenteController
+  services: Setup\General\CompromisoEntregable\FuenteService
+
+Setup\General\Compromiso\CategoriaCompromisoController
+  services: Setup\General\Compromisox\CategoriaCompromisoService
+
+Setup\General\Compromiso\FuenteController
+  services: Setup\General\Compromisox\FuenteService
+
+Setup\General\GeneralController
+  services: Setup\General\Mapa\MapaService, Setup\General\SetupGeneralArchivoCnfService, Setup\General\SetupGeneralService, Setup\General\Stakeholder\Evaluacion\SetupEvaluacionCategoriaService, Setup\General\Stakeholder\Evaluacion\SetupEvaluacionCategorizacionService, Setup\General\Stakeholder\Evaluacion\SetupEvaluacionVariablesService
+  helpers : DelfosEncryption, UtilitariosImagen
+
+Setup\General\Interaccion\DuracionController
+  services: Setup\General\Interaccion\DuracionService
+
+Setup\General\Interaccion\PrioridadController
+  services: Setup\General\Interaccion\PrioridadService
+
+Setup\General\Interaccion\TipoInteraccionController
+  services: Setup\General\Interaccion\TipoInteraccionService
+
+Setup\General\Mapa\MapaController
+  services: Setup\General\Mapa\MapaService
+
+Setup\General\ModuloController
+  services: Setup\General\ModuloService
+
+Setup\General\Predio\CondicionPropiedadController
+  services: Setup\General\Predio\CondicionPropiedadService
+
+Setup\General\Predio\ParentescoController
+  services: Setup\General\Predio\ParentescoService
+
+Setup\General\Predio\UsoPredioController
+  services: Setup\General\Predio\UsoPredioService
+
+Setup\General\PromptDelfosIa\PromptDelfosIaController
+  services: IaChat\IaChatService, Setup\General\PromptDelfosIa\PromptDelfosIaService
+
+Setup\General\Reclamo\ReclamoCanalController
+  services: Setup\General\Reclamo\ReclamoCanalService
+
+Setup\General\Reclamo\TipoReclamoController
+  services: Setup\General\Reclamo\TipoReclamoService
+
+Setup\General\Solicitud\MonitoreoCanalController
+  services: Setup\General\Solicitud\MonitoreoCanalService
+
+Setup\General\Solicitud\TipoSolicitudController
+  services: Setup\General\Solicitud\TipoSolicitudService
+
+Setup\General\Stakeholder\SetupEvaluacionController
+  services: Setup\General\Stakeholder\Evaluacion\SetupEvaluacionCategoriaService, Setup\General\Stakeholder\Evaluacion\SetupEvaluacionCategorizacionService, Setup\General\Stakeholder\Evaluacion\SetupEvaluacionVariablesService, Stakeholder\StakeholderEvaluacionService
+
+Setup\General\Stakeholder\StakeholderDuplicadosController
+  services: Setup\General\Stakeholder\StakeholderDuplicadosService, Stakeholder\StakeholderListarService
+
+Setup\General\Stakeholder\TipoOrganizacionController
+  services: Setup\General\Stakeholder\TipoOrganizacionService
+
+Setup\General\Stakeholder\TipoStakeholderController
+  services: Setup\General\Stakeholder\TipoStakeholderService
+
+Setup\General\Stakeholder\UbigeoNivelController
+  services: Setup\General\Stakeholder\UbigeoNivelService
+
+Setup\TagController
+  services: Setup\TagService
+  helpers : ExcelWriter, Utilitarios
+
+Setup\UbigeoController
+  services: Setup\UbigeoService
+
+Setup\UsuarioController
+  services: General\MailerService, Setup\General\SetupGeneralService, Setup\Usuario\UsuarioService
+  helpers : DelfosEncryption
+
+Solicitud\SolicitudAprobadoController
+  services: General\GeneralService, Setup\General\SetupGeneralService, Solicitud\Aprobado\SolicitudAprobadoService
+
+Solicitud\SolicitudCerradoController
+  services: General\GeneralService, Setup\General\SetupGeneralService, Setup\General\Solicitud\TipoSolicitudService, Solicitud\Cerrado\SolicitudCerradoService
+
+Solicitud\SolicitudController
+  services: Export\AsyncExport, General\GeneralService, General\MailerService, Perfil\PerfilService, Setup\General\SetupGeneralService, Setup\General\Solicitud\MonitoreoCanalService, Setup\General\Solicitud\TipoSolicitudService, Setup\General\Stakeholder\UbigeoNivelService, Solicitud\SolicitudExportacionService, Solicitud\SolicitudListarService, Solicitud\SolicitudService, Stakeholder\StakeholderService
+  helpers : AWS\S3, DelfosEncryption, Pdf, Utilitarios, UtilitariosS3
+
+Solicitud\SolicitudEvaluacionController
+  services: Solicitud\Evaluacion\SolicitudEvaluacionService
+
+Solicitud\SolicitudPropuestaController
+  services: Solicitud\Propuesta\SolicitudPropuestaService
+
+Solicitud\SolicitudRevisionController
+  services: Solicitud\Revision\SolicitudRevisionService
+
+Stakeholder\StakeholderController
+  services: Compromiso\CompromisoListarService, Compromisox\CompromisoxListarService, Export\AsyncExport, GeneradorArchivos\GeneradorProcesadorService, Interaccion\InteraccionListarService, Mapa\MapaService, Perfil\PerfilService, Predio\PredioListarService, Reclamo\ReclamoListarService, Setup\General\Predio\CondicionPropiedadService, Setup\General\Predio\ParentescoService, Setup\General\Predio\UsoPredioService, Setup\General\SetupGeneralService, Setup\General\Stakeholder\StakeholderDuplicadosService, Setup\General\Stakeholder\TipoOrganizacionService, Setup\General\Stakeholder\TipoStakeholderService, Setup\General\Stakeholder\UbigeoNivelService, Setup\TagService, Setup\UbigeoService, Solicitud\SolicitudListarService, Stakeholder\StakeholderExportacionService, Stakeholder\StakeholderListarService, Stakeholder\StakeholderService
+  helpers : AWS\S3, DelfosEncryption, Pdf, Utilitarios
+
+Stakeholder\StakeholderEvaluacionController
+  services: Export\AsyncExport, Perfil\PerfilService, Stakeholder\StakeholderEvaluacionListarService, Stakeholder\StakeholderEvaluacionService, Stakeholder\StakeholderExportacionService, Stakeholder\StakeholderListarService
+  helpers : DelfosEncryption
