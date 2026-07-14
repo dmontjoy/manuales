@@ -597,9 +597,82 @@
     <div class="table-wrap"><table>
       <tr><th>Grupo</th><th>Nº</th><th>Explicación</th></tr>
       <tr><td>Exportación asíncrona</td><td>18</td><td><strong>Falso positivo</strong>: se construyen dinámicamente en <code>exportacion-asincrona.adapter.ts</code> (<code>${config.basePath}/${exportId}/status</code>). Sí se usan.</td></tr>
-      <tr><td>Gráficos de dashboards</td><td>~20</td><td>La pestaña <em>Dashboard</em> la sirve <strong>Power BI</strong>. Los servicios Angular sólo llaman a <code>init-dashboard</code>. <strong>Son huérfanos de hecho.</strong></td></tr>
-      <tr><td>Catálogos y varios</td><td>~11</td><td><code>/dropdown/moneda</code>, <code>/setup/general/modulo/listar</code>, <code>/predio/ver-codigo/{codigo}</code>… Algunos son de Predios (módulo apagado); otros, candidatos reales a limpieza.</td></tr>
+      <tr><td>Gráficos de dashboards</td><td>17</td><td>La pestaña <em>Dashboard</em> la sirve <strong>Power BI</strong>. Los servicios Angular sólo llaman a <code>init-dashboard</code>. <strong>Son huérfanos de hecho.</strong></td></tr>
+      <tr><td>Catálogos y varios</td><td>14</td><td>Sin consumidor. 2 se explican por módulos apagados (Predios, IA) y 1 por descarga directa del navegador → <strong>11 candidatos netos a limpieza</strong>.</td></tr>
     </table></div>
+
+    <h4 style="margin:22px 0 8px;font-weight:600">Los 49, uno por uno</h4>
+
+    <p><strong>Grupo A — Exportación asíncrona (18).</strong> <span class="v v-post" style="background:#dcfce7;color:#15803d">FALSO POSITIVO · sí se usan</span><br>
+    Se construyen dinámicamente en <code>exportacion-asincrona.adapter.ts</code>, por eso no aparecen como literales.</p>
+    <div class="table-wrap"><table>
+      <tr><th>Método</th><th>Ruta</th></tr>
+      <tr><td><span class="v v-post">POST</span></td><td><code>/compromiso/exportar/iniciar</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/compromiso/exportar/{exportId}/status</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/compromiso/exportar/{exportId}/download</code></td></tr>
+      <tr><td><span class="v v-post">POST</span></td><td><code>/interaccion/exportar/iniciar</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/interaccion/exportar/{exportId}/status</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/interaccion/exportar/{exportId}/download</code></td></tr>
+      <tr><td><span class="v v-post">POST</span></td><td><code>/reclamo/exportar/iniciar</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reclamo/exportar/{exportId}/status</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reclamo/exportar/{exportId}/download</code></td></tr>
+      <tr><td><span class="v v-post">POST</span></td><td><code>/solicitud/exportar/iniciar</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/solicitud/exportar/{exportId}/status</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/solicitud/exportar/{exportId}/download</code></td></tr>
+      <tr><td><span class="v v-post">POST</span></td><td><code>/stakeholder/exportar/iniciar</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/stakeholder/exportar/{exportId}/status</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/stakeholder/exportar/{exportId}/download</code></td></tr>
+      <tr><td><span class="v v-post">POST</span></td><td><code>/stakeholder/evaluacion/exportar/iniciar</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/stakeholder/evaluacion/exportar/{exportId}/status</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/stakeholder/evaluacion/exportar/{exportId}/download</code></td></tr>
+    </table></div>
+
+    <p style="margin-top:24px"><strong>Grupo B — Gráficos de dashboards (17).</strong> <span class="v v-del">HUÉRFANOS DE HECHO</span><br>
+    Los sirve Power BI; los servicios Angular sólo llaman a <code>init-dashboard</code>. Nadie los invoca.</p>
+    <div class="table-wrap"><table>
+      <tr><th>Método</th><th>Ruta</th></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/interaccion/stakeholder-categoria</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/interaccion/stakeholder-evaluado</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/interaccion/stakeholder-genero</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/reclamo/stakeholder-categoria</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/reclamo/stakeholder-evaluado</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/solicitud/stakeholder-categoria</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/solicitud/stakeholder-evaluado</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/compromisox/nuevo</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/compromisox/abierto</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/compromisox/cerrado</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/compromisox/performance</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/stakeholder/descripcion/total</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/stakeholder/descripcion/etiqueta</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/stakeholder/descripcion/importancia</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/stakeholder/descripcion/poder-interes</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/stakeholder/descripcion/relacionista</code></td></tr>
+      <tr><td><span class="v v-get">GET</span></td><td><code>/reportes/stakeholder/descripcion/ubigeo</code></td></tr>
+    </table></div>
+    <div class="callout callout-info"><span class="callout-icon">ℹ️</span>
+      <div>Sobre <code>descripcion/*</code>: el servicio <code>reporte-stakeholder-descripcion.service.ts</code> <strong>existe</strong> y tiene métodos para estos gráficos, pero el único que llega a hacer la petición es <code>init-dashboard</code>. Los seis endpoints de detalle quedan sin invocar.</div></div>
+
+    <p style="margin-top:24px"><strong>Grupo C — Catálogos y varios (14).</strong> <span class="v" style="background:#fef3c7;color:#b45309">REVISAR</span></p>
+    <div class="table-wrap"><table>
+      <tr><th>Ruta</th><th>Observación</th></tr>
+      <tr><td><code>/setup/general/modulo/listar</code></td><td>La pantalla de Módulos pinta los checkboxes desde <code>setup/general/init</code>, no desde aquí.</td></tr>
+      <tr><td><code>/setup/general/archivo-configuracion</code></td><td>Sin consumidor.</td></tr>
+      <tr><td><code>/setup/general/delfos-ia/modulos</code></td><td>Sin consumidor (módulo IA inaccesible).</td></tr>
+      <tr><td><code>/setup/general/stakeholder/evaluacion/variable/listar</code></td><td>Sin consumidor.</td></tr>
+      <tr><td><code>/setup/general/stakeholder/evaluacion/categoria/listar</code></td><td>Sin consumidor.</td></tr>
+      <tr><td><code>/setup/general/stakeholder/evaluacion/categorizacion/matriz</code></td><td>Sin consumidor.</td></tr>
+      <tr><td><code>/setup/general/reclamo/tipo-reclamo/ver/{id}</code></td><td>El <code>ver/{id}</code> del catálogo no se usa: la edición trabaja con el objeto ya cargado del <code>listar</code>.</td></tr>
+      <tr><td><code>/setup/general/solicitud/canal/ver/{id}</code></td><td>Igual que el anterior.</td></tr>
+      <tr><td><code>/dropdown/moneda</code></td><td>Selector de moneda: no lo pide ningún formulario.</td></tr>
+      <tr><td><code>/dropdown/stakeholder-natural</code></td><td>Se usa el dropdown genérico <code>/dropdown/stakeholder</code>.</td></tr>
+      <tr><td><code>/compromisox/listar-mapa</code></td><td>Compromisox no tiene vista de mapa cableada (el resto de módulos sí).</td></tr>
+      <tr><td><code>/predio/ver-codigo/{codigo}</code></td><td>Módulo Predios <strong>desactivado</strong>.</td></tr>
+      <tr><td><code>/ia-chat/conversacion/detalle/{id?}</code></td><td>Módulo IA <strong>inaccesible</strong>.</td></tr>
+      <tr><td><code>/reportes/reclamo/descargar</code></td><td>Lo dispara el generador de archivos por redirección directa del navegador, no vía servicio Angular.</td></tr>
+    </table></div>
+
+    <div class="callout callout-tip"><span class="callout-icon">✅</span>
+      <div><strong>Resumen accionable:</strong> de los 49 — <strong>18 son falsos positivos</strong> (funcionan), <strong>17 son huérfanos</strong> por el cambio a Power BI y <strong>14 requieren revisión</strong>, de los cuales 2 se explican por módulos apagados y 1 por descarga directa → <strong>11 candidatos netos a limpieza</strong>.</div></div>
 
     <h3>4. Tres controladores sin ninguna ruta (código muerto)</h3>
     <p><code>Compromiso\EntregableProcesoController</code> y <code>Compromisox\CompromisoxProcesoController</code> existen en disco pero <strong>ninguna ruta los apunta</strong>: la línea de tiempo la sirven <code>EntregableController@entregableProceso</code> y <code>CompromisoxController@compromisoProceso</code>. (El tercero, <code>Controller</code>, es la clase base de Laravel.) Candidatos a borrarse.</p>

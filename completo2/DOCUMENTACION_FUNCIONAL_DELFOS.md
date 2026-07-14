@@ -313,6 +313,78 @@ De las 544 rutas, **495 tienen un consumidor identificado** en Angular y **49 no
 | Gráficos de dashboards | ~20 (`/reportes/*/grafico*`, `descripcion/*`, `compromisox/*`) | La pestaña *Dashboard* la sirve **Power BI**, no estos endpoints. Los servicios Angular sólo llaman a `init-dashboard`. **Son endpoints huérfanos de hecho.** |
 | Catálogos y varios | ~11 (`/dropdown/moneda`, `/setup/general/modulo/listar`, `.../evaluacion/variable/listar`, `/predio/ver-codigo/{codigo}`…) | Sin consumidor. Algunos pertenecen a Predios (módulo apagado); otros son candidatos reales a limpieza. |
 
+#### Los 49, uno por uno
+
+**Grupo A — Exportación asíncrona (18). Veredicto: FALSO POSITIVO, sí se usan.**
+Se construyen dinámicamente en `shared/components/modal/interfaces/exportacion-asincrona.adapter.ts` (`${config.basePath}/${exportId}/status`), por eso no aparecen como literales en el análisis estático.
+
+| Método | Ruta |
+|---|---|
+| POST | `/compromiso/exportar/iniciar` |
+| GET | `/compromiso/exportar/{exportId}/status` |
+| GET | `/compromiso/exportar/{exportId}/download` |
+| POST | `/interaccion/exportar/iniciar` |
+| GET | `/interaccion/exportar/{exportId}/status` |
+| GET | `/interaccion/exportar/{exportId}/download` |
+| POST | `/reclamo/exportar/iniciar` |
+| GET | `/reclamo/exportar/{exportId}/status` |
+| GET | `/reclamo/exportar/{exportId}/download` |
+| POST | `/solicitud/exportar/iniciar` |
+| GET | `/solicitud/exportar/{exportId}/status` |
+| GET | `/solicitud/exportar/{exportId}/download` |
+| POST | `/stakeholder/exportar/iniciar` |
+| GET | `/stakeholder/exportar/{exportId}/status` |
+| GET | `/stakeholder/exportar/{exportId}/download` |
+| POST | `/stakeholder/evaluacion/exportar/iniciar` |
+| GET | `/stakeholder/evaluacion/exportar/{exportId}/status` |
+| GET | `/stakeholder/evaluacion/exportar/{exportId}/download` |
+
+**Grupo B — Gráficos de dashboards (17). Veredicto: HUÉRFANOS DE HECHO.**
+Los sirve Power BI en la pestaña *Dashboard*; los servicios Angular de reportes sólo llaman a `init-dashboard`. Nadie los invoca.
+
+| Método | Ruta |
+|---|---|
+| GET | `/reportes/interaccion/stakeholder-categoria` |
+| GET | `/reportes/interaccion/stakeholder-evaluado` |
+| GET | `/reportes/interaccion/stakeholder-genero` |
+| GET | `/reportes/reclamo/stakeholder-categoria` |
+| GET | `/reportes/reclamo/stakeholder-evaluado` |
+| GET | `/reportes/solicitud/stakeholder-categoria` |
+| GET | `/reportes/solicitud/stakeholder-evaluado` |
+| GET | `/reportes/compromisox/nuevo` |
+| GET | `/reportes/compromisox/abierto` |
+| GET | `/reportes/compromisox/cerrado` |
+| GET | `/reportes/compromisox/performance` |
+| GET | `/reportes/stakeholder/descripcion/total` |
+| GET | `/reportes/stakeholder/descripcion/etiqueta` |
+| GET | `/reportes/stakeholder/descripcion/importancia` |
+| GET | `/reportes/stakeholder/descripcion/poder-interes` |
+| GET | `/reportes/stakeholder/descripcion/relacionista` |
+| GET | `/reportes/stakeholder/descripcion/ubigeo` |
+
+> Nota sobre `descripcion/*`: el servicio `reporte-stakeholder-descripcion.service.ts` **existe** y tiene métodos para estos gráficos, pero el único que llega a hacer la petición es `init-dashboard`. Los seis endpoints de detalle quedan sin invocar.
+
+**Grupo C — Catálogos y varios (14). Veredicto: REVISAR (candidatos a limpieza).**
+
+| Método | Ruta | Observación |
+|---|---|---|
+| GET | `/setup/general/modulo/listar` | La pantalla de Módulos pinta los checkboxes desde `setup/general/init`, no desde aquí. |
+| GET | `/setup/general/archivo-configuracion` | Sin consumidor. |
+| GET | `/setup/general/delfos-ia/modulos` | Sin consumidor (módulo IA inaccesible). |
+| GET | `/setup/general/stakeholder/evaluacion/variable/listar` | Sin consumidor. |
+| GET | `/setup/general/stakeholder/evaluacion/categoria/listar` | Sin consumidor. |
+| GET | `/setup/general/stakeholder/evaluacion/categorizacion/matriz` | Sin consumidor. |
+| GET | `/setup/general/reclamo/tipo-reclamo/ver/{idreclamo_tipo}` | El `ver/{id}` del catálogo no se usa (la edición trabaja con el objeto ya cargado del `listar`). |
+| GET | `/setup/general/solicitud/canal/ver/{idmonitoreo_canal}` | Igual que el anterior. |
+| GET | `/dropdown/moneda` | Selector de moneda: no lo pide ningún formulario. |
+| GET | `/dropdown/stakeholder-natural` | Se usa el dropdown genérico `/dropdown/stakeholder`. |
+| GET | `/compromisox/listar-mapa` | Compromisox no tiene vista de mapa cableada (el resto de módulos sí). |
+| GET | `/predio/ver-codigo/{codigo}` | Módulo Predios **desactivado**. |
+| GET | `/ia-chat/conversacion/detalle/{idia_conversacion?}` | Módulo IA **inaccesible**. |
+| GET | `/reportes/reclamo/descargar` | Lo dispara el generador de archivos por redirección directa del navegador, no vía servicio Angular (ver §4.5). |
+
+**Resumen accionable:** de los 49, **18 son falsos positivos** (funcionan), **17 son huérfanos por el cambio a Power BI** y **14 requieren revisión** — de los cuales 2 se explican por módulos apagados (Predios, IA) y 1 por descarga directa del navegador, dejando **11 candidatos netos a limpieza**.
+
 ### 4.4 Tres controladores sin ninguna ruta (código muerto)
 
 `Compromiso\EntregableProcesoController` y `Compromisox\CompromisoxProcesoController` existen en disco pero **ninguna ruta los apunta**: la línea de tiempo la sirven `EntregableController@entregableProceso` y `CompromisoxController@compromisoProceso`. (El tercero, `Controller`, es la clase base de Laravel.) Son candidatos a borrarse.
